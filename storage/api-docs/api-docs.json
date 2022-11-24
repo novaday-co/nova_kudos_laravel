@@ -6,14 +6,14 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/v1/register": {
+        "/api/v1/login-register": {
             "post": {
                 "tags": [
-                    "Register"
+                    "Login/Register"
                 ],
-                "summary": "register new user",
-                "description": "register new user",
-                "operationId": "store new Reigster",
+                "summary": "login and register",
+                "description": "login and register",
+                "operationId": "login and register",
                 "parameters": [
                     {
                         "name": "Accept",
@@ -55,8 +55,8 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "create success"
+                    "200": {
+                        "description": "success"
                     },
                     "422": {
                         "description": "error"
