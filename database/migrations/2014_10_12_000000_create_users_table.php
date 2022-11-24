@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('mobile', 64)->nullable()->unique();
             $table->string('first_name', 255)->nullable();
             $table->string('last_name', 255)->nullable();
+            $table->string('avatar', 255)->nullable();
             $table->string('otp_code')->nullable();
             $table->string('token', 255)->nullable();
             $table->dateTime('expiration_token')->nullable();
