@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('userable', function (Blueprint $table) {
+        Schema::create('viewers', function (Blueprint $table) {
             $table->id();
-            $table->integer('userable_id');
-            $table->string('userable_type');
+            $table->integer('viewerable_id');
+            $table->string('viewerable_type');
             $table->timestamps();
             $table->softDeletes();
         });
