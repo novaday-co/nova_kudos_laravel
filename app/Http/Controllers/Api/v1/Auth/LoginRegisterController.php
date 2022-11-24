@@ -17,11 +17,11 @@ class LoginRegisterController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/api/v1/register",
-     *      operationId="store new Reigster",
-     *      tags={"Register"},
-     *      summary="register new user",
-     *      description="register new user",
+     *      path="/api/v1/login-register",
+     *      operationId="login and register",
+     *      tags={"Login/Register"},
+     *      summary="login and register",
+     *      description="login and register",
      *      security={{ "apiAuth": {}},},
      *      @OA\Parameter(
      *          name="Accept",
@@ -52,8 +52,8 @@ class LoginRegisterController extends Controller
      *           ),
      *       ),
      *      @OA\Response(
-     *          response=201,
-     *          description="create success",
+     *          response=200,
+     *          description="success",
      *       ),
      *     @OA\Response(
      *          response=422,
@@ -62,24 +62,36 @@ class LoginRegisterController extends Controller
      * )
      */
 
-    public function register(LoginRegisterRequest $request)
+    public function login(LoginRegisterRequest $request)
     {
         $attributes = $request->validated();
         try
         {
+            $user = User::where('mobile', $attributes->mobile)->first();
             $otpCode = mt_rand(100000, 999999);
             $token =Hash::make('SDFAGSfgjskdgj@cfgfh!!!kj&&');
-            $user = User::create([
-                'mobile' => $request->mobile,
-                'otp_code' => $otpCode,
-                'token' => $token,
-            ]);
+            // login user
+            if ($user) {
+                $user->update([
+                   'otp_code' => $otpCode,
+                   'token' => $token,
+                ]);
+            } else {
+                // register user
+                $user = User::create([
+                    'mobile' => $attributes->mobile,
+                    'otp_code' => $otpCode,
+                    'token' => $token,
+                ]);
+            }
+            // send sms
             $smsService = new SmsService();
             $smsService->setReceptor($request->mobile);
-            $smsService->setMessage("otp_code :  $otpCode");
+            $smsService->setMessage("Login Code :  $otpCode");
             $messageService = new MessageService($smsService);
             $messageService->send();
-            return new UserResource($user);
+
+            return response(['token' => $token], 200);
         } catch (\Exception $e)
         {
             return response(['errors' => $e->getMessage()], 422);
