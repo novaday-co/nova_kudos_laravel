@@ -135,6 +135,15 @@ class AuthController extends Controller
      *              type="string"
      *          )
      *      ),
+     *     @OA\Parameter(
+     *     name="token",
+     *     description="token login",
+     *     required=true,
+     *     in="path",
+     *     @OA\Schema(
+     *     type="string"
+     *        )
+     *     ),
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
@@ -176,6 +185,93 @@ class AuthController extends Controller
                 Auth::login($user);
                 return response(['message' => 'login success']);
             }
+        } catch (\Exception $e)
+        {
+            return response(['errors' => $e->getMessage()], 422);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/resend-otp/{token}",
+     *      operationId="resend otp",
+     *      tags={"Resend Otp"},
+     *      summary="Resend Otp",
+     *      description="Resend Otp",
+     *      security={{ "apiAuth": {}},},
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *     name="token",
+     *     description="token login",
+     *     required=true,
+     *     in="path",
+     *     @OA\Schema(
+     *     type="string"
+     *        )
+     *     ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"otp"},
+     *                  @OA\Property(property="otp", type="text", format="text", example="878787"),
+     *               ),
+     *           ),
+     *       ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="validation error",
+     *      ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="error",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
+
+    public function resendOtp($token)
+    {
+        try
+        {
+            $user = User::where('token', $token)->firstOrFail();
+            $otpCode = mt_rand(100000, 999999);
+            $new_token = Str::random(15);
+            $user->update([
+                'otp_code' => $otpCode,
+                'token' => $new_token,
+            ]);
+            // send sms
+            $smsService = new SmsService();
+            $smsService->setReceptor($user->mobile);
+            $smsService->setMessage("Login Code :  $otpCode");
+            $messageService = new MessageService($smsService);
+            $messageService->send();
         } catch (\Exception $e)
         {
             return response(['errors' => $e->getMessage()], 422);

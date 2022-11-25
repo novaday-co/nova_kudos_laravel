@@ -75,7 +75,7 @@
                 ]
             }
         },
-        "/api/v1/check-otp": {
+        "/api/v1/check-otp/{token}": {
             "post": {
                 "tags": [
                     "Login Confirm"
@@ -101,6 +101,15 @@
                             "type": "string"
                         },
                         "example": "application/json"
+                    },
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token login",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "requestBody": {
@@ -116,11 +125,84 @@
                                         "type": "text",
                                         "format": "text",
                                         "example": "878787"
-                                    },
-                                    "token": {
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/resend-otp/{token}": {
+            "post": {
+                "tags": [
+                    "Resend Otp"
+                ],
+                "summary": "Resend Otp",
+                "description": "Resend Otp",
+                "operationId": "resend otp",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "token login",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "otp"
+                                ],
+                                "properties": {
+                                    "otp": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "dsfjksgj"
+                                        "example": "878787"
                                     }
                                 },
                                 "type": "object"
