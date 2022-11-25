@@ -142,7 +142,6 @@ class AuthController extends Controller
      *              @OA\Schema(
      *                  required={"otp"},
      *                  @OA\Property(property="otp", type="text", format="text", example="878787"),
-     *                  @OA\Property(property="token", type="text", format="text", example="dsfjksgj")
      *               ),
      *           ),
      *       ),
