@@ -58,8 +58,11 @@
                     "200": {
                         "description": "success"
                     },
-                    "422": {
-                        "description": "error"
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "500": {
+                        "description": "server error"
                     }
                 },
                 "security": [

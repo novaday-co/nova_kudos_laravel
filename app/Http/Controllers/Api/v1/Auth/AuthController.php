@@ -4,16 +4,14 @@ namespace App\Http\Controllers\Api\v1\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\v1\Auth\LoginRegisterRequest;
-use App\Http\Resources\UserResource;
 use App\Http\Services\Message\MessageService;
 use App\Http\Services\Message\Sms\SmsService;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class LoginRegisterController extends Controller
+class AuthController extends Controller
 {
     /**
      * @OA\Post(
@@ -56,37 +54,48 @@ class LoginRegisterController extends Controller
      *          description="success",
      *       ),
      *     @OA\Response(
+     *          response=401,
+     *          description="validation error",
+     *      ),
+     *     @OA\Response(
      *          response=422,
      *          description="error",
      *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
      * )
      */
 
     public function login(LoginRegisterRequest $request)
     {
-        $attributes = $request->validated();
         try
         {
-            $user = User::where('mobile', $attributes->mobile)->first();
+            // validation
+            $attributes = $request->validated();
+            // find user
+            $user = User::where('mobile', $attributes['mobile'])->first();
+            // generation
             $otpCode = mt_rand(100000, 999999);
-            $token =Hash::make('SDFAGSfgjskdgj@cfgfh!!!kj&&');
+            $token = Hash::make('DCDCojncd@cdjn%!!ghnjrgtn&&');
             // login user
             if ($user) {
                 $user->update([
                    'otp_code' => $otpCode,
-                   'token' => $token,
+                    'token' => $token,
                 ]);
             } else {
                 // register user
                 $user = User::create([
-                    'mobile' => $attributes->mobile,
+                    'mobile' => $attributes['mobile'],
                     'otp_code' => $otpCode,
                     'token' => $token,
                 ]);
             }
             // send sms
             $smsService = new SmsService();
-            $smsService->setReceptor($request->mobile);
+            $smsService->setReceptor($user->mobile);
             $smsService->setMessage("Login Code :  $otpCode");
             $messageService = new MessageService($smsService);
             $messageService->send();
