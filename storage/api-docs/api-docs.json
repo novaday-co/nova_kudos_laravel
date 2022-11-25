@@ -61,6 +61,83 @@
                     "401": {
                         "description": "validation error"
                     },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/check-otp": {
+            "post": {
+                "tags": [
+                    "Login Confirm"
+                ],
+                "summary": "Login Confirm",
+                "description": "Login Confirm",
+                "operationId": "login confirm",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "otp"
+                                ],
+                                "properties": {
+                                    "otp": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "878787"
+                                    },
+                                    "token": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "dsfjksgj"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
                     "500": {
                         "description": "server error"
                     }
