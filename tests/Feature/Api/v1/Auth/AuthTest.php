@@ -17,13 +17,20 @@ class AuthTest extends TestCase
        $this->assertDatabaseHas('users', ['mobile' => '09354068701']);
    }
 
-   public function test_user_can_confirm_otp()
+   public function test_user_can_confirm_otp_and_login()
    {
        $user = User::where('mobile', '09354068701')->firstOrFail();
        $this->postJson(route('v1.authentication.check.otp', $user->token), [
            'otp_code' => '842547'
        ])->assertOk();
        $this->assertDatabaseHas('users', ['otp_code' => '842547']);
+   }
 
+   public function test_invalid_otp_can_login()
+   {
+       $user = User::where('mobile', '09354068701')->firstOrFail();
+       $this->postJson(route('v1.authentication.check.otp', $user->token), [
+           'otp_code' => '129345'
+       ])->assertUnauthorized();
    }
 }
