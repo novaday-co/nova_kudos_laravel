@@ -227,16 +227,6 @@ class AuthController extends Controller
      *     type="string"
      *        )
      *     ),
-     *      @OA\RequestBody(
-     *          required=true,
-     *          @OA\MediaType(
-     *              mediaType="multipart/form-data",
-     *              @OA\Schema(
-     *                  required={"otp"},
-     *                  @OA\Property(property="otp", type="text", format="text", example="878787"),
-     *               ),
-     *           ),
-     *       ),
      *      @OA\Response(
      *          response=200,
      *          description="success",

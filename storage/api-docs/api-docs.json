@@ -190,26 +190,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "otp"
-                                ],
-                                "properties": {
-                                    "otp": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "878787"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "success"
