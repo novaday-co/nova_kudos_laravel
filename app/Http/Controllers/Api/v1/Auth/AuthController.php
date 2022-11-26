@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api\v1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\v1\Auth\LoginRegisterRequest;
 use App\Http\Requests\v1\Auth\OtpRequest;
+use App\Http\Resources\UserResource;
 use App\Http\Services\Message\MessageService;
 use App\Http\Services\Message\Sms\SmsService;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -75,33 +77,26 @@ class AuthController extends Controller
         {
             // validation
             $attributes = $request->validated();
-            // find user
-            $user = User::where('mobile', $attributes['mobile'])->first();
+
             // generation
             $otpCode = mt_rand(100000, 999999);
-            $token = Str::random(15);
-            // login user
-            if ($user) {
-                $user->update([
-                   'otp_code' => $otpCode,
-                    'token' => $token,
-                ]);
-            } else {
-                // register user
-                $user = User::create([
-                    'mobile' => $attributes['mobile'],
-                    'otp_code' => $otpCode,
-                    'token' => $token,
-                ]);
-            }
+
+            // update or create user
+            $user = User::updateOrCreate([
+                'mobile' => $attributes['mobile'],
+            ],[
+                'otp_code' => $otpCode,
+                'expiration_otp' => Carbon::now()->addMinutes(10),
+            ]);
+
             // send sms
             $smsService = new SmsService();
             $smsService->setReceptor($user->mobile);
-            $smsService->setMessage("Login Code :  $otpCode");
+            $smsService->setOtpCode($otpCode);
             $messageService = new MessageService($smsService);
             $messageService->send();
 
-            return response(['token' => $token], 200);
+            return response(['message' => 'otp code sent..'], 200);
         } catch (\Exception $e)
         {
             return response(['errors' => $e->getMessage()], 422);
@@ -172,101 +167,20 @@ class AuthController extends Controller
      * )
      */
 
-    public function checkOtp(OtpRequest $request, $token)
+    public function checkOtp(OtpRequest $request)
     {
         // validation
         $attributes = $request->validated();
         try
         {
-            $user = User::where('token', $token)->firstOrFail();
-            // otp check
-            if ($user->otp_code == $attributes['otp_code'])
-            {
+          $user = User::where('mobile', $attributes['mobile'])->where('otp_code', $attributes['otp_code'])
+              ->where('expiration_otp', ">=", Carbon::now())->firstOrFail();
                 $user->update(['activation_date' => Carbon::now()]);
-                Auth::login($user);
-                return response(['message' => 'login success']);
-            }
+                $user->token =  $user->createToken('api token')->plainTextToken;
+                return new UserResource($user);
         } catch (\Exception $e)
         {
-            return response(['errors' => $e->getMessage()], 422);
+            return response(['errors' => $e->getMessage()], 500);
         }
     }
-
-    /**
-     * @OA\Post(
-     *      path="/api/v1/resend-otp/{token}",
-     *      operationId="resend otp",
-     *      tags={"resend otp"},
-     *      summary="resend otp",
-     *      description="resend otp",
-     *      security={{ "apiAuth": {}},},
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *     @OA\Parameter(
-     *     name="token",
-     *     description="token login",
-     *     required=true,
-     *     in="path",
-     *     @OA\Schema(
-     *     type="string"
-     *        )
-     *     ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
-     *      ),
-     *     @OA\Response(
-     *          response=422,
-     *          description="error",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
-
-    public function resendOtp($token)
-    {
-        try
-        {
-            $user = User::where('token', $token)->firstOrFail();
-            $otpCode = mt_rand(100000, 999999);
-            $new_token = Str::random(15);
-            $user->update([
-                'otp_code' => $otpCode,
-                'token' => $new_token,
-            ]);
-            // send sms
-            $smsService = new SmsService();
-            $smsService->setReceptor($user->mobile);
-            $smsService->setMessage("Login Code :  $otpCode");
-            $messageService = new MessageService($smsService);
-            $messageService->send();
-        } catch (\Exception $e)
-        {
-            return response(['errors' => $e->getMessage()], 422);
-        }
-    }
-
 }

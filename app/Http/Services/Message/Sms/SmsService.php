@@ -8,12 +8,13 @@ use Kavenegar\KavenegarApi;
 class SmsService implements MessageInterface
 {
     private string $receptor;
-    private string $message;
+    private string $otp_code;
+    private string $template = 'verify';
 
     public function fire()
     {
-        $kavenegarSystem = new KavenegarApi(env('KAVENEGAR_API_KEY'));
-        $kavenegarSystem->Send(env('KAVENEGAR_SENDER_SMS'), $this->receptor, $this->message);
+        $kavenegar = new KavenegarApi(env('KAVENEGAR_API_KEY'));
+        $kavenegar->VerifyLookup($this->receptor, $this->otp_code, null, null, $this->template);
     }
 
     public function getReceptor(): string
@@ -26,14 +27,14 @@ class SmsService implements MessageInterface
         $this->receptor = $receptor;
     }
 
-    public function getMessage(): string
+    public function getOtpCode(): string
     {
-        return $this->message;
+        return $this->otp_code;
     }
 
-    public function setMessage(string $message)
+    public function setOtpCode(string $otp_code)
     {
-        $this->message = $message;
+        $this->otp_code = $otp_code;
     }
 }
 

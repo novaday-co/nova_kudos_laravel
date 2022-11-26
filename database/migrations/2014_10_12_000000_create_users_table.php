@@ -20,8 +20,7 @@ return new class extends Migration
             $table->string('last_name', 255)->nullable();
             $table->string('avatar', 255)->nullable();
             $table->string('otp_code')->nullable();
-            $table->string('token', 255)->nullable();
-            $table->dateTime('expiration_token')->nullable();
+            $table->dateTime('expiration_otp')->nullable();
             $table->dateTime('activation_date')->nullable();
             $table->timestamps();
             $table->softDeletes();

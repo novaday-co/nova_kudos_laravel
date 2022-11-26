@@ -24,7 +24,7 @@ class LoginRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => ['required', 'string', 'min:11', 'max:64', 'unique:users,mobile', 'regex:/^[a-zA-Z0-9_.@\+]*$/']
+            'mobile' => ['required', 'string', 'min:11', 'max:64', 'regex:/^[a-zA-Z0-9_.@\+]*$/']
         ];
     }
 }
