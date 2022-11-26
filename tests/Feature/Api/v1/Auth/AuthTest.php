@@ -33,4 +33,10 @@ class AuthTest extends TestCase
            'otp_code' => '129345'
        ])->assertUnauthorized();
    }
+
+   public function test_user_can_get_new_otp_code()
+   {
+        $user = User::where('mobile', '09354068701')->firstOrFail();
+        $this->postJson(route('v1.authentication.resend.otp', $user->token))->assertOk();
+   }
 }
