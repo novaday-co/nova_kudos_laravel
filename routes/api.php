@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1')->name('authentication.')->group(function (){
+Route::prefix('v1')->name('v1.authentication.')->group(function (){
     // login & register route
     Route::post('login-register', [AuthController::class, 'login'])->name('login');
     Route::post('check-otp/{token}', [AuthController::class, 'checkOtp'])->name('check.otp');

@@ -10,7 +10,6 @@ use App\Http\Services\Message\Sms\SmsService;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -19,9 +18,9 @@ class AuthController extends Controller
      * @OA\Post(
      *      path="/api/v1/login-register",
      *      operationId="login and register",
-     *      tags={"Login/Register"},
-     *      summary="login and register",
-     *      description="login and register",
+     *      tags={"login register"},
+     *      summary="login register",
+     *      description="login register",
      *      security={{ "apiAuth": {}},},
      *      @OA\Parameter(
      *          name="Accept",
@@ -112,10 +111,10 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *      path="/api/v1/check-otp/{token}",
-     *      operationId="login confirm",
-     *      tags={"Login Confirm"},
-     *      summary="Login Confirm",
-     *      description="Login Confirm",
+     *      operationId="check otp",
+     *      tags={"check otp"},
+     *      summary="check otp",
+     *      description="check otp",
      *      security={{ "apiAuth": {}},},
      *      @OA\Parameter(
      *          name="Accept",
@@ -175,10 +174,12 @@ class AuthController extends Controller
 
     public function checkOtp(OtpRequest $request, $token)
     {
+        // validation
         $attributes = $request->validated();
         try
         {
             $user = User::where('token', $token)->firstOrFail();
+            // otp check
             if ($user->otp_code == $attributes['otp_code'])
             {
                 $user->update(['activation_date' => Carbon::now()]);
@@ -195,9 +196,9 @@ class AuthController extends Controller
      * @OA\Post(
      *      path="/api/v1/resend-otp/{token}",
      *      operationId="resend otp",
-     *      tags={"Resend Otp"},
-     *      summary="Resend Otp",
-     *      description="Resend Otp",
+     *      tags={"resend otp"},
+     *      summary="resend otp",
+     *      description="resend otp",
      *      security={{ "apiAuth": {}},},
      *      @OA\Parameter(
      *          name="Accept",

@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\OpenApi(
  *     @OA\Info(
  *         version="1.0",
- *         title="Nove Kudos",
+ *         title="Nova Kudos",
  *         description="Demo Nova Kudos Api",
  *     )
  * )

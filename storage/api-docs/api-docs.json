@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Nove Kudos",
+        "title": "Nova Kudos",
         "description": "Demo Nova Kudos Api",
         "version": "1.0"
     },
@@ -9,10 +9,10 @@
         "/api/v1/login-register": {
             "post": {
                 "tags": [
-                    "Login/Register"
+                    "login register"
                 ],
-                "summary": "login and register",
-                "description": "login and register",
+                "summary": "login register",
+                "description": "login register",
                 "operationId": "login and register",
                 "parameters": [
                     {
@@ -78,11 +78,11 @@
         "/api/v1/check-otp/{token}": {
             "post": {
                 "tags": [
-                    "Login Confirm"
+                    "check otp"
                 ],
-                "summary": "Login Confirm",
-                "description": "Login Confirm",
-                "operationId": "login confirm",
+                "summary": "check otp",
+                "description": "check otp",
+                "operationId": "check otp",
                 "parameters": [
                     {
                         "name": "Accept",
@@ -156,10 +156,10 @@
         "/api/v1/resend-otp/{token}": {
             "post": {
                 "tags": [
-                    "Resend Otp"
+                    "resend otp"
                 ],
-                "summary": "Resend Otp",
-                "description": "Resend Otp",
+                "summary": "resend otp",
+                "description": "resend otp",
                 "operationId": "resend otp",
                 "parameters": [
                     {
