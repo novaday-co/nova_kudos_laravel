@@ -22,6 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->name('v1.authentication.')->group(function (){
     // login & register route
     Route::post('login-register', [AuthController::class, 'login'])->name('login');
-    Route::post('check-otp/{token}', [AuthController::class, 'checkOtp'])->name('check.otp');
-    Route::post('resend-otp/{token}', [AuthController::class, 'resendOtp'])->name('resend.otp');
+    Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check.otp');
 });
