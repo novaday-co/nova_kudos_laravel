@@ -105,7 +105,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/v1/check-otp/{token}",
+     *      path="/api/v1/check-otp",
      *      operationId="check otp",
      *      tags={"check otp"},
      *      summary="check otp",
