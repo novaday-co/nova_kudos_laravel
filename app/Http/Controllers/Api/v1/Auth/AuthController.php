@@ -17,7 +17,7 @@ class AuthController extends Controller
      * @OA\Post(
      *      path="/api/v1/login-register",
      *      operationId="login and register",
-     *      tags={"login register"},
+     *      tags={"otp system"},
      *      summary="login register",
      *      description="login register",
      *      security={{ "apiAuth": {}},},
@@ -104,7 +104,7 @@ class AuthController extends Controller
      * @OA\Post(
      *      path="/api/v1/check-otp",
      *      operationId="check otp",
-     *      tags={"check otp"},
+     *      tags={"otp system"},
      *      summary="check otp",
      *      description="check otp",
      *      security={{ "apiAuth": {}},},

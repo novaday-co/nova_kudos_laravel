@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
+            $table->string('avatar', 255)->nullable();
             $table->dateTime('activation_date')->nullable();
             $table->timestamps();
             $table->softDeletes();

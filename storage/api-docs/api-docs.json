@@ -56,7 +56,7 @@
             },
             "post": {
                 "tags": [
-                    "store user"
+                    "admin/users"
                 ],
                 "summary": "store new user",
                 "description": "store new user",
@@ -139,7 +139,7 @@
         "/api/v1/admin/users/{user}": {
             "put": {
                 "tags": [
-                    "update user"
+                    "admin/users"
                 ],
                 "summary": "update user",
                 "description": "update user",
@@ -228,7 +228,7 @@
             },
             "delete": {
                 "tags": [
-                    "delete user"
+                    "admin/users"
                 ],
                 "summary": "delete user",
                 "description": "delete user",
@@ -279,7 +279,7 @@
         "/api/v1/login-register": {
             "post": {
                 "tags": [
-                    "login register"
+                    "otp system"
                 ],
                 "summary": "login register",
                 "description": "login register",
@@ -348,7 +348,7 @@
         "/api/v1/check-otp": {
             "post": {
                 "tags": [
-                    "check otp"
+                    "otp system"
                 ],
                 "summary": "check otp",
                 "description": "check otp",

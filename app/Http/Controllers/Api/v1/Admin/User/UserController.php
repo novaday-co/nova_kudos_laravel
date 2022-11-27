@@ -66,7 +66,7 @@ class UserController extends Controller
      * @OA\Post(
      *      path="/api/v1/admin/users",
      *      operationId="store new user",
-     *      tags={"store user"},
+     *      tags={"admin/users"},
      *      summary="store new user",
      *      description="store new user",
      *      security={{ "apiAuth": {}},},
@@ -151,7 +151,7 @@ class UserController extends Controller
      * @OA\Put(
      *      path="/api/v1/admin/users/{user}",
      *      operationId="update user",
-     *      tags={"update user"},
+     *      tags={"admin/users"},
      *      summary="update user",
      *      description="update user",
      *      security={{ "apiAuth": {}},},
@@ -246,7 +246,7 @@ class UserController extends Controller
      * @OA\Delete(
      *      path="/api/v1/admin/users/{user}",
      *      operationId="delete user",
-     *      tags={"delete user"},
+     *      tags={"adminusers"},
      *      summary="delete user",
      *      description="delete user",
      *      security={{ "apiAuth": {}},},
