@@ -6,244 +6,6 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/v1/admin/permissions": {
-            "get": {
-                "tags": [
-                    "permissions"
-                ],
-                "summary": "permissions",
-                "description": "permissions",
-                "operationId": "get all permissions",
-                "parameters": [
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "401": {
-                        "description": "unauthenticated"
-                    },
-                    "403": {
-                        "description": "forbidden"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "store permission"
-                ],
-                "summary": "store permission",
-                "description": "store permission",
-                "operationId": "store permission",
-                "parameters": [
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "name"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "admin"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "401": {
-                        "description": "unauthenticated"
-                    },
-                    "403": {
-                        "description": "forbidden"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/admin/permission/update/{permisssion}": {
-            "put": {
-                "tags": [
-                    "update permission"
-                ],
-                "summary": "update permission",
-                "description": "update permission",
-                "operationId": "update permission",
-                "parameters": [
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "name"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "admin"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "401": {
-                        "description": "unauthenticated"
-                    },
-                    "403": {
-                        "description": "forbidden"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/admin/permission/delete/{permisssion}": {
-            "delete": {
-                "tags": [
-                    "delete permission"
-                ],
-                "summary": "delete permission",
-                "description": "delete permission",
-                "operationId": "delete permission",
-                "parameters": [
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "401": {
-                        "description": "unauthenticated"
-                    },
-                    "403": {
-                        "description": "forbidden"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
-            }
-        },
         "/api/v1/login-register": {
             "post": {
                 "tags": [
@@ -313,7 +75,7 @@
                 ]
             }
         },
-        "/api/v1/check-otp/{token}": {
+        "/api/v1/check-otp": {
             "post": {
                 "tags": [
                     "check otp"
@@ -339,15 +101,6 @@
                             "type": "string"
                         },
                         "example": "application/json"
-                    },
-                    {
-                        "name": "token",
-                        "in": "path",
-                        "description": "token login",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "requestBody": {
@@ -355,10 +108,12 @@
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "required": [
-                                    "otp"
-                                ],
                                 "properties": {
+                                    "mobile": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "09354069701"
+                                    },
                                     "otp": {
                                         "type": "text",
                                         "format": "text",
@@ -370,64 +125,6 @@
                         }
                     }
                 },
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "401": {
-                        "description": "validation error"
-                    },
-                    "422": {
-                        "description": "error"
-                    },
-                    "500": {
-                        "description": "server error"
-                    }
-                },
-                "security": [
-                    {
-                        "apiAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/resend-otp/{token}": {
-            "post": {
-                "tags": [
-                    "resend otp"
-                ],
-                "summary": "resend otp",
-                "description": "resend otp",
-                "operationId": "resend otp",
-                "parameters": [
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "token",
-                        "in": "path",
-                        "description": "token login",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "success"

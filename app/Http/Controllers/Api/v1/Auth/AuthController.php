@@ -10,9 +10,6 @@ use App\Http\Services\Message\MessageService;
 use App\Http\Services\Message\Sms\SmsService;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -129,21 +126,12 @@ class AuthController extends Controller
      *              type="string"
      *          )
      *      ),
-     *     @OA\Parameter(
-     *     name="token",
-     *     description="token login",
-     *     required=true,
-     *     in="path",
-     *     @OA\Schema(
-     *     type="string"
-     *        )
-     *     ),
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"otp"},
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09354069701"),
      *                  @OA\Property(property="otp", type="text", format="text", example="878787"),
      *               ),
      *           ),
@@ -169,18 +157,18 @@ class AuthController extends Controller
 
     public function checkOtp(OtpRequest $request)
     {
-        // validation
-        $attributes = $request->validated();
-        try
-        {
+       try
+       {
+           // validation
+           $attributes = $request->validated();
           $user = User::where('mobile', $attributes['mobile'])->where('otp_code', $attributes['otp_code'])
               ->where('expiration_otp', ">=", Carbon::now())->firstOrFail();
                 $user->update(['activation_date' => Carbon::now()]);
                 $user->token =  $user->createToken('api token')->plainTextToken;
                 return new UserResource($user);
-        } catch (\Exception $e)
+         } catch (\Exception $e)
         {
-            return response(['errors' => $e->getMessage()], 500);
+           return response(['errors' => $e->getMessage()], 500);
         }
     }
 }
