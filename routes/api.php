@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v1\Admin\Group\GroupController;
 use App\Http\Controllers\Api\v1\Admin\User\UserController;
 use App\Http\Controllers\Api\v1\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -33,6 +34,14 @@ Route::prefix('v1')->name('v1.authentication.')->group(function (){
             Route::post('store', [UserController::class, 'store'])->name('store');
             Route::put('update/{user}', [UserController::class, 'update'])->name('update');
             Route::delete('delete/{user}', [UserController::class, 'destroy'])->name('destroy');
+        });
+        // group routes
+        Route::prefix('groups')->name('group.')->group(function (){
+            Route::get('all', [GroupController::class, 'index'])->name('all');
+            Route::post('store', [GroupController::class, 'store'])->name('store');
+            Route::put('update/{group}', [GroupController::class, 'update'])->name('update');
+            Route::delete('delete/{group}', [GroupController::class, 'destroy'])->name('destroy');
+            Route::post('add/user/{user}/to/group/{group}', [GroupController::class, 'addUser'])->name('add.user');
         });
         // final admin routes
     });
