@@ -24,3 +24,4 @@ Route::prefix('v1')->name('v1.authentication.')->group(function (){
     Route::post('login-register', [AuthController::class, 'login'])->name('login');
     Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check.otp');
 });
+
