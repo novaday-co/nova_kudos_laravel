@@ -287,6 +287,54 @@ class GroupController extends Controller
             return response('group deleted..', 200);
         }
 
+    /**
+     * @OA\Post (
+     *      path="/api/v1/admin/add/user/{user}/to/group/{group}",
+     *      operationId="add user to group",
+     *      tags={"groups"},
+     *      summary="add user to group",
+     *      description="add user to group",
+     *      security={{ "apiAuth": {}},},
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *       ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="success",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
         public function addUser(User $user, Group $group)
         {
             try {
