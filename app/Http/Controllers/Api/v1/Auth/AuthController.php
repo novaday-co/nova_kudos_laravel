@@ -96,7 +96,7 @@ class AuthController extends Controller
             return response(['message' => 'otp code sent..'], 200);
         } catch (\Exception $e)
         {
-            return response(['errors' => $e->getMessage()], 422);
+            return response(['errors' => $e->getMessage()], 400);
         }
     }
 
@@ -131,8 +131,10 @@ class AuthController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  @OA\Property(property="mobile", type="text", format="text", example="09354069701"),
-     *                  @OA\Property(property="otp", type="text", format="text", example="878787"),
+     *                  required={"mobile"},
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09124068701"),
+     *                  required={"otp_code"},
+     *                  @OA\Property(property="otp_code", type="text", format="text", example="091234"),
      *               ),
      *           ),
      *       ),
@@ -141,12 +143,12 @@ class AuthController extends Controller
      *          description="success",
      *       ),
      *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
+     *          response=400,
+     *          description="request error",
      *      ),
      *     @OA\Response(
-     *          response=422,
-     *          description="error",
+     *          response=401,
+     *          description="validation error",
      *       ),
      *     @OA\Response(
      *          response=500,

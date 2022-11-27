@@ -658,16 +658,19 @@
                     "content": {
                         "multipart/form-data": {
                             "schema": {
+                                "required": [
+                                    "otp_code"
+                                ],
                                 "properties": {
                                     "mobile": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "09354069701"
+                                        "example": "09124068701"
                                     },
-                                    "otp": {
+                                    "otp_code": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "878787"
+                                        "example": "091234"
                                     }
                                 },
                                 "type": "object"
@@ -679,11 +682,11 @@
                     "200": {
                         "description": "success"
                     },
+                    "400": {
+                        "description": "request error"
+                    },
                     "401": {
                         "description": "validation error"
-                    },
-                    "422": {
-                        "description": "error"
                     },
                     "500": {
                         "description": "server error"
