@@ -11,6 +11,7 @@ class Group extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $with = ['users'];
     protected $fillable = ['name', 'avatar', 'activation_date'];
 
     public function users(): BelongsToMany

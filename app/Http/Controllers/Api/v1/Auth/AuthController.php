@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\v1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\v1\Auth\LoginRegisterRequest;
 use App\Http\Requests\v1\Auth\OtpRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\Auth\UserResource;
 use App\Http\Services\Message\MessageService;
 use App\Http\Services\Message\Sms\SmsService;
 use App\Models\User;
@@ -168,7 +168,7 @@ class AuthController extends Controller
                 return new UserResource($user);
          } catch (\Exception $e)
         {
-           return response(['errors' => $e->getMessage()], 500);
+           return response(['errors' => $e->getMessage()], 400);
         }
     }
 }

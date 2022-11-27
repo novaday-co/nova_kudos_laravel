@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\v1\Admin\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\v1\Admin\UpdateUserRequest;
 use App\Http\Requests\v1\Admin\User\UserRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\Auth\UserResource;
 use App\Http\Services\Image\ImageService;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ class UserController extends Controller
      * @OA\Get (
      *      path="/api/v1/admin/users",
      *      operationId="get all users",
-     *      tags={"admin/users"},
+     *      tags={"admin"},
      *      summary="get all users",
      *      description="get all users",
      *      security={{ "apiAuth": {}},},
@@ -66,7 +66,7 @@ class UserController extends Controller
      * @OA\Post(
      *      path="/api/v1/admin/users",
      *      operationId="store new user",
-     *      tags={"admin/users"},
+     *      tags={"admin"},
      *      summary="store new user",
      *      description="store new user",
      *      security={{ "apiAuth": {}},},
@@ -93,9 +93,9 @@ class UserController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"first_name"},
      *                  @OA\Property(property="first_name", type="text", format="text", example="yasin"),
      *                  @OA\Property(property="last_name", type="text", format="text", example="baghban"),
+     *                   required={"mobile"},
      *                  @OA\Property(property="mobile", type="text", format="text", example="091010101010"),
      *                  @OA\Property(property="avatar", type="file", format="text"),
      *               ),
@@ -151,7 +151,7 @@ class UserController extends Controller
      * @OA\Put(
      *      path="/api/v1/admin/users/{user}",
      *      operationId="update user",
-     *      tags={"admin/users"},
+     *      tags={"admin"},
      *      summary="update user",
      *      description="update user",
      *      security={{ "apiAuth": {}},},
@@ -232,21 +232,22 @@ class UserController extends Controller
                     return response('error uploading photo ', 400);
                 $attrs['avatar'] = $result;
             }
-            // user create
+            // user update
             $user = User::update($attrs);
-            return new UserResource($user);
+            DB::commit();
         } catch (\Exception $e)
         {
             DB::rollBack();
             return response(['errors' => $e->getMessage()], 400);
         }
+        return new UserResource($user);
     }
 
     /**
      * @OA\Delete(
      *      path="/api/v1/admin/users/{user}",
      *      operationId="delete user",
-     *      tags={"adminusers"},
+     *      tags={"admin"},
      *      summary="delete user",
      *      description="delete user",
      *      security={{ "apiAuth": {}},},
@@ -289,7 +290,15 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        $user->forceDelete();
-        return response('user deleted', 200);
+        try {
+            DB::beginTransaction();
+            $user->forceDelete();
+            DB::commit();
+        } catch (\Exception $e)
+        {
+            DB::rollBack();
+            return response(['error: ' => $e->getMessage()], 400);
+        }
+        return response('group deleted..', 200);
     }
 }

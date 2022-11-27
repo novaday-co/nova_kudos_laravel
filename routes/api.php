@@ -25,3 +25,4 @@ Route::prefix('v1')->name('v1.authentication.')->group(function (){
     Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check.otp');
 });
 
+Route::post('add/user/{user}/to-group/{group}', [\App\Http\Controllers\Api\v1\Admin\Group\GroupController::class, 'addUser']);

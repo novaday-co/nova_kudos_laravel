@@ -6,10 +6,236 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/v1/admin/groups": {
+            "get": {
+                "tags": [
+                    "groups"
+                ],
+                "summary": "get all groups",
+                "description": "get all groups",
+                "operationId": "get all groups",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "groups"
+                ],
+                "summary": "store new groups",
+                "description": "store new groups",
+                "operationId": "store new groups",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/groups/{group}": {
+            "put": {
+                "tags": [
+                    "groups"
+                ],
+                "summary": "update group",
+                "description": "update group",
+                "operationId": "update group",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "yasin"
+                                    },
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "groups"
+                ],
+                "summary": "delete group",
+                "description": "delete group",
+                "operationId": "delete group",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/admin/users": {
             "get": {
                 "tags": [
-                    "admin/users"
+                    "admin"
                 ],
                 "summary": "get all users",
                 "description": "get all users",
@@ -56,7 +282,7 @@
             },
             "post": {
                 "tags": [
-                    "admin/users"
+                    "admin"
                 ],
                 "summary": "store new user",
                 "description": "store new user",
@@ -87,7 +313,7 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "first_name"
+                                    "mobile"
                                 ],
                                 "properties": {
                                     "first_name": {
@@ -139,7 +365,7 @@
         "/api/v1/admin/users/{user}": {
             "put": {
                 "tags": [
-                    "admin/users"
+                    "admin"
                 ],
                 "summary": "update user",
                 "description": "update user",
@@ -228,7 +454,7 @@
             },
             "delete": {
                 "tags": [
-                    "admin/users"
+                    "admin"
                 ],
                 "summary": "delete user",
                 "description": "delete user",
