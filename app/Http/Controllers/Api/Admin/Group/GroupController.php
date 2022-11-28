@@ -60,7 +60,7 @@ class GroupController extends Controller
     public function index()
     {
         $groups = Group::latest()->paginate(15);
-        return new GroupResource($groups);
+        return GroupResource::collection($groups);
     }
 
     /**
@@ -89,6 +89,17 @@ class GroupController extends Controller
      *              type="string"
      *          )
      *      ),
+     *     @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  @OA\Property(property="name", type="text", format="text", example="yasin"),
+     *                   required={"name"},
+     *                  @OA\Property(property="avatar", type="file", format="text"),
+     *               ),
+     *           ),
+     *       ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
@@ -124,7 +135,7 @@ class GroupController extends Controller
                 $attrs['avatar'] = $result;
             }
             //create user
-            $group = User::create($attrs);
+            $group = Group::create($attrs);
             DB::commit();
         } catch (\Exception $e)
         {
@@ -218,7 +229,7 @@ class GroupController extends Controller
                     $attrs['avatar'] = $result;
                 }
                 // group update
-                $group = User::update($attrs);
+                $group->update($attrs);
                 DB::commit();
             } catch (\Exception $e)
             {
@@ -230,7 +241,7 @@ class GroupController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/api/admin/groups/delelte/{group}",
+     *      path="/api/admin/groups/delete/{group}",
      *      operationId="delete group",
      *      tags={"groups"},
      *      summary="delete group",

@@ -83,6 +83,30 @@
                         "example": "application/json"
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "yasin"
+                                    },
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "success"
@@ -185,7 +209,7 @@
                 ]
             }
         },
-        "/api/admin/groups/delelte/{group}": {
+        "/api/admin/groups/delete/{group}": {
             "delete": {
                 "tags": [
                     "groups"
