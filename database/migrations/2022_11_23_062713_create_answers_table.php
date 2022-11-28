@@ -20,8 +20,7 @@ return new class extends Migration
 
             $table->foreignId('question_id');
             $table->foreign('question_id')->references('id')->on('questions')->onUpdate('cascade')->onDelete('cascade');
-
-            $table->tinyInteger('confirm_poll')->nullable();
+            
             $table->timestamps();
             $table->softDeletes();
         });
