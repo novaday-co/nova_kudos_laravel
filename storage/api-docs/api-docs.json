@@ -6,7 +6,7 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/v1/admin/groups": {
+        "/api/admin/groups/all": {
             "get": {
                 "tags": [
                     "groups"
@@ -53,7 +53,9 @@
                         "sanctum": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/admin/groups/store": {
             "post": {
                 "tags": [
                     "groups"
@@ -102,7 +104,7 @@
                 ]
             }
         },
-        "/api/v1/admin/groups/{group}": {
+        "/api/admin/groups/update/{group}": {
             "put": {
                 "tags": [
                     "groups"
@@ -181,7 +183,9 @@
                         "sanctum": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/admin/groups/delelte/{group}": {
             "delete": {
                 "tags": [
                     "groups"
@@ -232,7 +236,7 @@
                 ]
             }
         },
-        "/api/v1/admin/add/user/{user}/to/group/{group}": {
+        "/api/admin/groups/add/user/{user}/to/group/{group}": {
             "post": {
                 "tags": [
                     "groups"
@@ -286,7 +290,7 @@
                 ]
             }
         },
-        "/api/v1/admin/users/all": {
+        "/api/admin/users/all": {
             "get": {
                 "tags": [
                     "users"
@@ -335,7 +339,7 @@
                 ]
             }
         },
-        "/api/v1/admin/users": {
+        "/api/admin/users/store": {
             "post": {
                 "tags": [
                     "users"
@@ -418,7 +422,7 @@
                 ]
             }
         },
-        "/api/v1/admin/users/{user}": {
+        "/api/admin/users/update/{user}": {
             "put": {
                 "tags": [
                     "users"
@@ -507,7 +511,9 @@
                         "sanctum": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/admin/users/delete/{user}": {
             "delete": {
                 "tags": [
                     "users"
@@ -558,7 +564,7 @@
                 ]
             }
         },
-        "/api/v1/login-register": {
+        "/api/authentication/login-register": {
             "post": {
                 "tags": [
                     "otp system"
@@ -627,7 +633,7 @@
                 ]
             }
         },
-        "/api/v1/check-otp": {
+        "/api/authentication/check-otp": {
             "post": {
                 "tags": [
                     "otp system"

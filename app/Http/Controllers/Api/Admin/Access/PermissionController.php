@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Admin\Access;
+namespace App\Http\Controllers\Api\Admin\Access;
 
 use App\Http\Controllers\Controller;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Auth;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\v1\Auth\LoginRegisterRequest;
-use App\Http\Requests\v1\Auth\OtpRequest;
+use App\Http\Requests\Auth\LoginRegisterRequest;
+use App\Http\Requests\Auth\OtpRequest;
 use App\Http\Resources\Auth\UserResource;
 use App\Http\Services\Message\MessageService;
 use App\Http\Services\Message\Sms\SmsService;
@@ -15,7 +15,7 @@ class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/api/v1/login-register",
+     *      path="/api/authentication/login-register",
      *      operationId="login and register",
      *      tags={"otp system"},
      *      summary="login register",
@@ -102,7 +102,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/v1/check-otp",
+     *      path="/api/authentication/check-otp",
      *      operationId="check otp",
      *      tags={"otp system"},
      *      summary="check otp",

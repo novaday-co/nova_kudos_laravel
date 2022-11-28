@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\v1\Admin\Group\GroupController;
-use App\Http\Controllers\Api\v1\Admin\User\UserController;
-use App\Http\Controllers\Api\v1\Auth\AuthController;
+use App\Http\Controllers\Api\Admin\Group\GroupController;
+use App\Http\Controllers\Api\Admin\User\UserController;
+use App\Http\Controllers\Api\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,13 +21,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1')->name('v1.authentication.')->group(function (){
+Route::prefix('authentication')->name('authentication.')->group(function (){
     // login & register route
     Route::post('login-register', [AuthController::class, 'login'])->name('login');
     Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check.otp');
+});
 
     // admin routes
-    Route::prefix('admin')->middleware('auth:sanctum')->name('v1.authentication.admin.')->group(function (){
+    Route::prefix('admin')->middleware('auth:sanctum')->name('admin.')->group(function (){
         // user routes
         Route::prefix('users')->name('user.')->group(function (){
             Route::get('all', [UserController::class, 'index'])->name('all');
@@ -45,5 +46,4 @@ Route::prefix('v1')->name('v1.authentication.')->group(function (){
         });
         // final admin routes
     });
-});
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\v1\Admin\Group;
+namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateGroupRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,9 @@ class UpdateGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['sometimes', 'required', 'string'],
+            'mobile' => ['required', 'string', 'min:11', 'max:64', 'unique:users,mobile', 'regex:/^[a-zA-Z0-9_.@\+]*$/'],
+            'first_name' => ['required', 'string', 'min:3', 'max:255'],
+            'last_name' => ['sometimes', 'required', 'string', 'min:3', 'max:255'],
             'avatar' => ['sometimes', 'required', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp']
         ];
     }

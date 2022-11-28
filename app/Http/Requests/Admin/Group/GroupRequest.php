@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\v1\Auth;
+namespace App\Http\Requests\Admin\Group;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRegisterRequest extends FormRequest
+class GroupRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class LoginRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => ['required', 'string', 'min:11', 'max:64', 'regex:/^[a-zA-Z0-9_.@\+]*$/']
+            'name' => ['required', 'string'],
+            'avatar' => ['sometimes', 'required', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp']
         ];
     }
 }

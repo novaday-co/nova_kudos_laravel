@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Admin\Group;
+namespace App\Http\Controllers\Api\Admin\Group;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\v1\Admin\Group\GroupRequest;
-use App\Http\Requests\v1\Admin\Group\UpdateGroupRequest;
+use App\Http\Requests\Admin\Group\GroupRequest;
+use App\Http\Requests\Admin\Group\UpdateGroupRequest;
 use App\Http\Resources\Admin\GroupResource;
 use App\Http\Services\Image\ImageService;
 use App\Models\Group;
@@ -15,7 +15,7 @@ class GroupController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/v1/admin/groups",
+     *      path="/api/admin/groups/all",
      *      operationId="get all groups",
      *      tags={"groups"},
      *      summary="get all groups",
@@ -65,7 +65,7 @@ class GroupController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/api/v1/admin/groups",
+     *      path="/api/admin/groups/store",
      *      operationId="store new groups",
      *      tags={"groups"},
      *      summary="store new groups",
@@ -136,7 +136,7 @@ class GroupController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/api/v1/admin/groups/{group}",
+     *      path="/api/admin/groups/update/{group}",
      *      operationId="update group",
      *      tags={"groups"},
      *      summary="update group",
@@ -230,7 +230,7 @@ class GroupController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/admin/groups/{group}",
+     *      path="/api/admin/groups/delelte/{group}",
      *      operationId="delete group",
      *      tags={"groups"},
      *      summary="delete group",
@@ -289,7 +289,7 @@ class GroupController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/api/v1/admin/add/user/{user}/to/group/{group}",
+     *      path="/api/admin/groups/add/user/{user}/to/group/{group}",
      *      operationId="add user to group",
      *      tags={"groups"},
      *      summary="add user to group",

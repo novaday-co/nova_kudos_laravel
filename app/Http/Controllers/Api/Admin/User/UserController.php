@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Admin\User;
+namespace App\Http\Controllers\Api\Admin\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\v1\Admin\User\UpdateUserRequest;
-use App\Http\Requests\v1\Admin\User\UserRequest;
+use App\Http\Requests\Admin\User\UpdateUserRequest;
+use App\Http\Requests\Admin\User\UserRequest;
 use App\Http\Resources\Admin\UserResource;
 use App\Http\Services\Image\ImageService;
 use App\Models\User;
@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/v1/admin/users/all",
+     *      path="/api/admin/users/all",
      *      operationId="get all users",
      *      tags={"users"},
      *      summary="get all users",
@@ -64,7 +64,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/v1/admin/users",
+     *      path="/api/admin/users/store",
      *      operationId="store new user",
      *      tags={"users"},
      *      summary="store new user",
@@ -149,7 +149,7 @@ class UserController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/api/v1/admin/users/{user}",
+     *      path="/api/admin/users/update/{user}",
      *      operationId="update user",
      *      tags={"users"},
      *      summary="update user",
@@ -245,7 +245,7 @@ class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/admin/users/{user}",
+     *      path="/api/admin/users/delete/{user}",
      *      operationId="delete user",
      *      tags={"users"},
      *      summary="delete user",
