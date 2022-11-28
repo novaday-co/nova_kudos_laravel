@@ -50,7 +50,7 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
             },
@@ -97,7 +97,7 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
             }
@@ -178,7 +178,7 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
             },
@@ -227,7 +227,7 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
             }
@@ -281,15 +281,15 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
             }
         },
-        "/api/v1/admin/users": {
+        "/api/v1/admin/users/all": {
             "get": {
                 "tags": [
-                    "admin"
+                    "users"
                 ],
                 "summary": "get all users",
                 "description": "get all users",
@@ -330,13 +330,15 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/v1/admin/users": {
             "post": {
                 "tags": [
-                    "admin"
+                    "users"
                 ],
                 "summary": "store new user",
                 "description": "store new user",
@@ -411,7 +413,7 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
             }
@@ -419,7 +421,7 @@
         "/api/v1/admin/users/{user}": {
             "put": {
                 "tags": [
-                    "admin"
+                    "users"
                 ],
                 "summary": "update user",
                 "description": "update user",
@@ -502,13 +504,13 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
             },
             "delete": {
                 "tags": [
-                    "admin"
+                    "users"
                 ],
                 "summary": "delete user",
                 "description": "delete user",
@@ -551,7 +553,7 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
             }
@@ -697,6 +699,16 @@
                         "apiAuth": []
                     }
                 ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "description": "Laravel Sanctum token authentication",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\v1\Admin\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\v1\Admin\UpdateUserRequest;
+use App\Http\Requests\v1\Admin\User\UpdateUserRequest;
 use App\Http\Requests\v1\Admin\User\UserRequest;
-use App\Http\Resources\Auth\UserResource;
+use App\Http\Resources\Admin\UserResource;
 use App\Http\Services\Image\ImageService;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -14,12 +14,12 @@ class UserController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/v1/admin/users",
+     *      path="/api/v1/admin/users/all",
      *      operationId="get all users",
-     *      tags={"admin"},
+     *      tags={"users"},
      *      summary="get all users",
      *      description="get all users",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -66,10 +66,10 @@ class UserController extends Controller
      * @OA\Post(
      *      path="/api/v1/admin/users",
      *      operationId="store new user",
-     *      tags={"admin"},
+     *      tags={"users"},
      *      summary="store new user",
      *      description="store new user",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -151,10 +151,10 @@ class UserController extends Controller
      * @OA\Put(
      *      path="/api/v1/admin/users/{user}",
      *      operationId="update user",
-     *      tags={"admin"},
+     *      tags={"users"},
      *      summary="update user",
      *      description="update user",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
      *          name="id",
      *          in="path",
@@ -233,7 +233,7 @@ class UserController extends Controller
                 $attrs['avatar'] = $result;
             }
             // user update
-            $user = User::update($attrs);
+            $user = $user->update($attrs);
             DB::commit();
         } catch (\Exception $e)
         {
@@ -247,10 +247,10 @@ class UserController extends Controller
      * @OA\Delete(
      *      path="/api/v1/admin/users/{user}",
      *      operationId="delete user",
-     *      tags={"admin"},
+     *      tags={"users"},
      *      summary="delete user",
      *      description="delete user",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
      *          name="id",
      *          in="path",

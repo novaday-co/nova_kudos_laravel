@@ -29,6 +29,8 @@ class User extends Authenticatable
         'activation_date',
     ];
 
+    protected $with = ['groups'];
+
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'group_users', 'user_id', 'group_id');

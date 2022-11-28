@@ -20,7 +20,7 @@ class GroupController extends Controller
      *      tags={"groups"},
      *      summary="get all groups",
      *      description="get all groups",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -70,7 +70,7 @@ class GroupController extends Controller
      *      tags={"groups"},
      *      summary="store new groups",
      *      description="store new groups",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -141,7 +141,7 @@ class GroupController extends Controller
      *      tags={"groups"},
      *      summary="update group",
      *      description="update group",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
      *          name="id",
      *          in="path",
@@ -235,7 +235,7 @@ class GroupController extends Controller
      *      tags={"groups"},
      *      summary="delete group",
      *      description="delete group",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
      *          name="id",
      *          in="path",
@@ -294,7 +294,7 @@ class GroupController extends Controller
      *      tags={"groups"},
      *      summary="add user to group",
      *      description="add user to group",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
      *          name="id",
      *          in="path",
