@@ -32,7 +32,8 @@ class AnswerController extends Controller
             DB::commit();
         } catch (\Exception $exception)
         {
-            return response(['errro' => $exception->getMessage()], 400);
+            DB::rollBack();
+            return response(['error' => $exception->getMessage()], 400);
         }
         return new AnswerResource($answer);
     }
