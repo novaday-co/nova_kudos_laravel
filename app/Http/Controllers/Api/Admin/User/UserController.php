@@ -148,7 +148,7 @@ class UserController extends Controller
     }
 
     /**
-     * @OA\Put(
+     * @OA\Put (
      *      path="/api/admin/users/update/{user}",
      *      operationId="update user",
      *      tags={"users"},
@@ -189,7 +189,7 @@ class UserController extends Controller
      *                  required={"first_name"},
      *                  @OA\Property(property="first_name", type="text", format="text", example="yasin"),
      *                  @OA\Property(property="last_name", type="text", format="text", example="baghban"),
-     *                  @OA\Property(property="mobile", type="text", format="text", example="091010101010"),
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09354068701"),
      *                  @OA\Property(property="avatar", type="text", format="text"),
      *               ),
      *           ),

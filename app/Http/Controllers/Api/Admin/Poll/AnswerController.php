@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Api\Admin\Poll;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Poll\AnswerRequest;
 use App\Http\Resources\Admin\AnswerResource;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AnswerController extends Controller
@@ -23,18 +21,19 @@ class AnswerController extends Controller
     {
         try
         {
-            DB::beginTransaction();
-            // insert answer
-            $answer = new Answer();
-            $answer->user_id = $user->id;
-            $answer->question_id = $question->id;
-            $answer->save();
-            DB::commit();
+            $answer = Answer::query()->create([
+                'user_id' => $user->id,
+                'question_id' => $question->id
+            ]);
+            return new AnswerResource($answer);
         } catch (\Exception $exception)
         {
-            DB::rollBack();
             return response(['error' => $exception->getMessage()], 400);
         }
-        return new AnswerResource($answer);
+    }
+
+    public function votes()
+    {
+
     }
 }
