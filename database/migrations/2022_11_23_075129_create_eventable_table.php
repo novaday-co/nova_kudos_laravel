@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('viewers', function (Blueprint $table) {
+        Schema::create('eventable', function (Blueprint $table) {
             $table->id();
-            $table->integer('viewerable_id');
-            $table->string('viewerable_type');
+            $table->integer('eventable_id');
+            $table->string('eventable_type');
             $table->timestamps();
             $table->softDeletes();
         });
