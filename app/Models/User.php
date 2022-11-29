@@ -30,7 +30,7 @@ class User extends Authenticatable
         'activation_date',
     ];
 
-    protected $with = ['groups'];
+    protected $with = ['groups', 'questions'];
 
     public function groups(): BelongsToMany
     {
@@ -40,6 +40,11 @@ class User extends Authenticatable
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class);
+    }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class);
     }
 
 }

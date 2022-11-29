@@ -363,7 +363,7 @@
                 ]
             }
         },
-        "/api/admin/polls/store": {
+        "/api/admin/polls/group/{group}/user/{user}/store": {
             "post": {
                 "tags": [
                     "polls"
@@ -372,6 +372,22 @@
                 "description": "store new poll",
                 "operationId": "store new poll",
                 "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
                     {
                         "name": "Accept",
                         "in": "header",

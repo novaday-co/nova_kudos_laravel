@@ -17,7 +17,6 @@ class QuestionResource extends JsonResource
         return [
             'title' => $this->title,
             'author' => UserResource::make($this->whenLoaded('user')),
-            'group' => GroupResource::make($this->whenLoaded('group')),
         ];
     }
 }

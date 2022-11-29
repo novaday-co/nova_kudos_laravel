@@ -47,6 +47,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         // final admin routes
     });
 
-    Route::post('group/{group}/user/{user}/questions/store', [\App\Http\Controllers\Api\Admin\Poll\QuestionController::class, 'store']);
+    Route::post('user/{user}/group/{group}/questions/store', [\App\Http\Controllers\Api\Admin\Poll\QuestionController::class, 'store']);
     Route::post('answer/user/{user}/question/{question}', [\App\Http\Controllers\Api\Admin\Poll\AnswerController::class, 'answer']);
     Route::get('answer/all', [\App\Http\Controllers\Api\Admin\Poll\AnswerController::class, 'index']);
+Route::get('questions/all', [\App\Http\Controllers\Api\Admin\Poll\QuestionController::class, 'index']);

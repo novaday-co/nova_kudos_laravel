@@ -11,8 +11,8 @@ class Question extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'user_id', 'group_id'];
-    protected $with = ['user', 'group', 'answers'];
+    protected $fillable = ['title', 'user_id'];
+    protected $with = ['user'];
 
     public function answers(): HasMany
     {
@@ -22,10 +22,5 @@ class Question extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function group(): BelongsTo
-    {
-        return $this->belongsTo(Group::class);
     }
 }

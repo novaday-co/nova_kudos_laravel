@@ -15,11 +15,17 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->foreignId('from_id')->nullable();
+            $table->foreign('from_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->foreignId('to_id')->nullable();
+            $table->foreign('to_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 
             $table->foreignId('gift_id')->nullable();
             $table->foreign('gift_id')->references('id')->on('gift_cards')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->tinyInteger('type')->default(0)->comment('0 => gift, 1 => birth day, 2 => event');
 
             $table->foreignId('product_id')->nullable();
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');

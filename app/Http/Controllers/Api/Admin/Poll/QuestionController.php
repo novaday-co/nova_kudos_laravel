@@ -65,12 +65,28 @@ class QuestionController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/api/admin/polls/store",
+     *      path="/api/admin/polls/group/{group}/user/{user}/store",
      *      operationId="store new poll",
      *      tags={"polls"},
      *      summary="store new poll",
      *      description="store new poll",
      *      security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -117,20 +133,14 @@ class QuestionController extends Controller
      *      ),
      * )
      */
-    public function store(QuestionRequest $request, Group $group, User $user)
+    public function store(QuestionRequest $request, User $user)
     {
-        try {
-            // validation
             $attrs = $request->validated();
             $question = Question::query()->create([
-                'title' => $attrs->title,
+                'title' => $attrs->tilte,
                 'user_id' => $user->id,
-                'group_id' => $group->id,
             ]);
             return new QuestionResource($question);
-        } catch (\Exception $e) {
-            return response(['error' => $e->getMessage()], 400);
-        }
     }
 
     /**

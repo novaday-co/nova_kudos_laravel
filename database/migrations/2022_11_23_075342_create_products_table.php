@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('price');
+            $table->integer('coin');
             $table->integer('amount');
             $table->dateTime('expiration_date')->nullable();
             $table->tinyInteger('status')->default(0)->comment('0 => inactive, 1 => active');

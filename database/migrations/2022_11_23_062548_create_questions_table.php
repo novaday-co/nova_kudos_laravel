@@ -17,12 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255);
 
-            $table->foreignId('user_id')->index();
+            $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-
-            $table->foreignId('group_id')->index();
-            $table->foreign('group_id')->references('id')->on('groups')->onUpdate('cascade')->onDelete('cascade');
-
+            $table->tinyInteger('type')->default(0)->comment('0 => poll, 1 => event');
             $table->timestamps();
             $table->softDeletes();
         });

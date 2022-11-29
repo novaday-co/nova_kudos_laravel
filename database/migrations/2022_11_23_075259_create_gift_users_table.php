@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('gift_id');
             $table->foreign('gift_id')->references('id')->on('gift_cards')->onUpdate('cascade')->onDelete('cascade');
 
-            $table->text('message');
+            $table->text('message')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

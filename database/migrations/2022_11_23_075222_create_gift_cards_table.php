@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255)->nullable();
             $table->string('picture', 255)->nullable();
-            $table->integer('price');
+            $table->integer('coin');
             $table->dateTime('expiration_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
