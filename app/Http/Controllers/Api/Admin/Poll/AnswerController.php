@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\DB;
 
 class AnswerController extends Controller
 {
+    public function index()
+    {
+        $answers = Answer::latest()->paginate(15);
+        return AnswerResource::collection($answers);
+    }
+
     public function answer(User $user, Question $question)
     {
         try

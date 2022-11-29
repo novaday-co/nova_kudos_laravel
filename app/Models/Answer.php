@@ -11,6 +11,7 @@ class Answer extends Model
     use HasFactory;
 
     protected $fillable = ['user_id', 'question_id'];
+    protected $with = ['question', 'user'];
 
     public function question(): BelongsTo
     {
