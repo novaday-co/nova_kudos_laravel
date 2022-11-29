@@ -46,4 +46,4 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         });
         // final admin routes
     });
-
+    
