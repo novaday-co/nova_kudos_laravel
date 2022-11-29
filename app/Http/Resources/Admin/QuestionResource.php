@@ -15,7 +15,9 @@ class QuestionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'title' => $this->title
+            'title' => $this->title,
+            'author' => UserResource::make($this->whenLoaded('user')),
+            'group' => GroupResource::make($this->whenLoaded('group')),
         ];
     }
 }

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Admin\Poll;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Poll\QuestionRequest;
 use App\Http\Resources\Admin\QuestionResource;
+use App\Models\Group;
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -115,17 +117,20 @@ class QuestionController extends Controller
      *      ),
      * )
      */
-    public function store(QuestionRequest $request)
+    public function store(QuestionRequest $request, Group $group, User $user)
     {
         try {
-            DB::beginTransaction();
-            $question = Question::create($request->validated());
-            DB::commit();
+            // validation
+            $attrs = $request->validated();
+            $question = Question::query()->create([
+                'title' => $attrs->title,
+                'user_id' => $user->id,
+                'group_id' => $group->id,
+            ]);
+            return new QuestionResource($question);
         } catch (\Exception $e) {
-            DB::rollBack();
-            return response('error', 400);
+            return response(['error' => $e->getMessage()], 400);
         }
-        return new QuestionResource($question);
     }
 
     /**
@@ -193,14 +198,11 @@ class QuestionController extends Controller
     public function update(QuestionRequest $request, Question $question)
     {
         try {
-            DB::beginTransaction();
             $question->update($request->validated());
-            DB::commit();
+            return new QuestionResource($question);
         } catch (\Exception $e) {
-            DB::rollBack();
             return response('error', 400);
         }
-        return new QuestionResource($question);
     }
 
     /**
@@ -250,13 +252,10 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         try {
-            DB::beginTransaction();
             $question->forceDelete();
-            DB::commit();
+            return response('question deleted', 200);
         } catch (\Exception $e) {
-            DB::rollBack();
             return response('error', 400);
         }
-        return response('question deleted', 200);
     }
 }
