@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('participants', function (Blueprint $table) {
+        Schema::create('question_viewers', function (Blueprint $table) {
             $table->id();
-            $table->integer('participant_id');
-            $table->string('participant_type');
+            $table->foreignId('question_id');
+            $table->foreign('question_id')->references('id')->on('questions')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('participantable_id');
+            $table->string('participantable_type');
             $table->timestamps();
             $table->softDeletes();
         });

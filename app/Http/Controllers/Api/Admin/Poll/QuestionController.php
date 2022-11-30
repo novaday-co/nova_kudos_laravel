@@ -135,12 +135,44 @@ class QuestionController extends Controller
      */
     public function store(QuestionRequest $request, User $user)
     {
+        try
+        {
             $attrs = $request->validated();
             $question = Question::query()->create([
-                'title' => $attrs->tilte,
+                'title' => $attrs['title'],
                 'user_id' => $user->id,
             ]);
             return new QuestionResource($question);
+        } catch (\Exception $exception) {
+            return response(['error:' => $exception->getMessage()], 400);
+        }
+
+    }
+
+    public function userType(Question $question, User $user)
+    {
+        try
+        {
+            $user->questionTypes()->attach($question);
+            return response('added', 200);
+        } catch (\Exception $exception)
+        {
+            return response(['error:' => $exception->getMessage()], 400);
+        }
+
+    }
+
+    public function groupType(Question $question, Group $group)
+    {
+        try
+        {
+            $group->questionTypes()->attach($question);
+            return response('added', 200);
+        } catch (\Exception $exception)
+        {
+            return response(['error:' => $exception->getMessage()], 400);
+        }
+
     }
 
     /**
