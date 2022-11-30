@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('eventable', function (Blueprint $table) {
+        Schema::create('participants', function (Blueprint $table) {
             $table->id();
-            $table->integer('eventable_id');
-            $table->string('eventable_type');
+            $table->integer('participant_id');
+            $table->string('participant_type');
             $table->timestamps();
             $table->softDeletes();
         });
