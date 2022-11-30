@@ -47,9 +47,9 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         // final admin routes
     });
 
-    Route::post('user/{user}/questions/store', [\App\Http\Controllers\Api\Admin\Poll\QuestionController::class, 'store']);
-    Route::post('user/{user}/create/question/for/group/{group}', [\App\Http\Controllers\Api\Admin\Poll\QuestionController::class, 'groupQuestion']);
-    Route::post('question/{question}/for/users/{user}', [\App\Http\Controllers\Api\Admin\Poll\QuestionController::class, 'userQuestionType']);
-    Route::post('answer/user/{user}/question/{question}', [\App\Http\Controllers\Api\Admin\Poll\AnswerController::class, 'answer']);
-    Route::get('answer/all', [\App\Http\Controllers\Api\Admin\Poll\AnswerController::class, 'index']);
-Route::get('questions/all', [\App\Http\Controllers\Api\Admin\Poll\QuestionController::class, 'index']);
+    Route::post('user/{user}/questions/store', [\App\Http\Controllers\Api\Admin\PollEvents\QuestionController::class, 'store']);
+    Route::post('user/{user}/create/question/for/group/{group}', [\App\Http\Controllers\Api\Admin\PollEvents\QuestionController::class, 'groupQuestion']);
+    Route::post('question/{question}/for/users/{user}', [\App\Http\Controllers\Api\Admin\PollEvents\QuestionController::class, 'userQuestionType']);
+    Route::post('answer/user/{user}/question/{question}', [\App\Http\Controllers\Api\Admin\PollEvents\AnswerController::class, 'answer']);
+    Route::get('answer/all', [\App\Http\Controllers\Api\Admin\PollEvents\AnswerController::class, 'index']);
+Route::get('questions/all', [\App\Http\Controllers\Api\Admin\PollEvents\QuestionController::class, 'index']);

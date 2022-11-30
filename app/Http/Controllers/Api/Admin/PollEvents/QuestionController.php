@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin\Poll;
+namespace App\Http\Controllers\Api\Admin\PollEvents;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Poll\QuestionRequest;

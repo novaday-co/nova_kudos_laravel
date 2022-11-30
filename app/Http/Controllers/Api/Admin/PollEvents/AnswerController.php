@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin\Poll;
+namespace App\Http\Controllers\Api\Admin\PollEvents;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Admin\AnswerResource;
@@ -30,10 +30,5 @@ class AnswerController extends Controller
         {
             return response(['error' => $exception->getMessage()], 400);
         }
-    }
-
-    public function votes()
-    {
-
     }
 }
