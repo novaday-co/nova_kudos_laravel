@@ -54,9 +54,19 @@ class User extends Authenticatable
         return $this->morphToMany(Question::class, 'question_viewer');
     }
 
+    public function eventTypes()
+    {
+        return $this->morphToMany(Event::class, 'event_viewer');
+    }
+
     public function votes()
     {
         return $this->hasMany(Vote::class);
+    }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'participate_events', 'user_id', 'event_id');
     }
 
 }

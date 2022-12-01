@@ -16,9 +16,14 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->text('description')->nullable();
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->tinyInteger('type')->default(0)->comment('0 => users, 1 => groups');
+            $table->integer('price');
+            $table->string('avatar', 255)->nullable();
             $table->dateTime('expiration_date')->nullable();
+            $table->tinyInteger('status')->default(0)->comment('0 => inactive, 1 => active');
             $table->timestamps();
             $table->softDeletes();
         });

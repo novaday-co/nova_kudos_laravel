@@ -31,4 +31,14 @@ class Group extends Model
     {
         return $this->morphToMany(Question::class, 'question_viewer');
     }
+
+    public function eventTypes()
+    {
+        return $this->morphToMany(Event::class, 'event_viewer');
+    }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }
