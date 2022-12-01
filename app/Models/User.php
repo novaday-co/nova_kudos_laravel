@@ -49,7 +49,7 @@ class User extends Authenticatable
         return $this->hasMany(Question::class);
     }
 
-    public function questionTypes(): MorphToMany
+    public function questionTypes()
     {
         return $this->morphToMany(Question::class, 'question_viewer');
     }

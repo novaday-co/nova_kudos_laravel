@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('question_id');
             $table->foreign('question_id')->references('id')->on('questions')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('participantable_id');
-            $table->string('participantable_type');
+            $table->integer('question_viewer_id')->nullable();
+            $table->string('question_viewer_type')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

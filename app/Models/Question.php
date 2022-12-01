@@ -12,8 +12,8 @@ class Question extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'user_id'];
-    protected $with = ['user'];
+    protected $guarded = [];
+
 
     public function answers(): HasMany
     {
@@ -25,12 +25,12 @@ class Question extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function userType()
+    public function users()
     {
         return $this->morphedByMany(User::class, 'question_viewer');
     }
 
-    public function groupType()
+    public function groups()
     {
         return $this->morphedByMany(Group::class, 'question_viewer');
     }

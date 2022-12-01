@@ -27,7 +27,7 @@ class Group extends Model
         return $this->hasMany(Question::class);
     }
 
-    public function questionTypes(): MorphToMany
+    public function questionTypes()
     {
         return $this->morphToMany(Question::class, 'question_viewer');
     }
