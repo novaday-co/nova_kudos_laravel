@@ -4,7 +4,7 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AnswerResource extends JsonResource
+class VoteResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +15,9 @@ class AnswerResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'user' => $this->user->mobile,
+            'answer' => AnswerResource::make($this->whenLoaded('answer')),
             'question' => QuestionResource::make($this->whenLoaded('question')),
-            'answer' => UserResource::make($this->whenLoaded('user')),
         ];
     }
 }

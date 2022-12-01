@@ -54,4 +54,9 @@ class User extends Authenticatable
         return $this->morphToMany(Question::class, 'question_viewer');
     }
 
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
 }
