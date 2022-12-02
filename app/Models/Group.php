@@ -39,6 +39,6 @@ class Group extends Model
 
     public function events()
     {
-        return $this->hasMany(Event::class);
+        return $this->belongsToMany(Group::class, 'participate_group_events', 'group_id', 'event_id');
     }
 }

@@ -18,7 +18,7 @@ class Event extends Model
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsToMany(Group::class, 'participate_group_events', 'event_id', 'group_id');
     }
 
     public function userType()

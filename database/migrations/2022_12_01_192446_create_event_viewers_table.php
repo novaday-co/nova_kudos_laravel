@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('event_viewers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('event_id');
-            $table->foreign('event_id')->references('id')->on('questions')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('event_id')->references('id')->on('events')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('event_viewer_id')->nullable();
             $table->string('event_viewer_type')->nullable();
             $table->timestamps();

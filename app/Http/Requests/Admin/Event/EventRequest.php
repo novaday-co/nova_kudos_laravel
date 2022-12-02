@@ -13,7 +13,7 @@ class EventRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class EventRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => ['required', 'string'],
+            'description' => ['sometimes', 'string'],
+            'price' => ['required', 'integer'],
+            'avatar' => ['sometimes', 'required', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
+            'expiration_date' => ['sometimes']
         ];
     }
 }

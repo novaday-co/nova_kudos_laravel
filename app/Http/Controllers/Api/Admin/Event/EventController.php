@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Event\EventRequest;
 use App\Http\Requests\Admin\Event\UpdateEventRequest;
 use App\Http\Resources\Admin\EventResource;
 use App\Http\Services\Image\ImageService;
+use App\Http\Services\Image\ImageUploader;
 use App\Models\Event;
 use App\Models\Group;
 use App\Models\Question;
@@ -29,8 +30,8 @@ class EventController extends Controller
             $attrs = $request->validated();
             // check request for upload image
             if ($request->hasFile('avatar')) {
-                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'events');
-                $result = $imageService->save($request->file('avatar'));
+               $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'events');
+               $result = $imageService->save($request->file('avatar'));
                 // check upload
                 if ($result === false)
                     return response('error uploading photo ', 400);
@@ -54,8 +55,8 @@ class EventController extends Controller
             // check request for upload image
             if ($request->hasFile('avatar')) {
                 // check image exists or not
-                if (!empty($user->avatar))
-                    $imageService->deleteImage($user->avatar);
+                if (!empty($event->avatar))
+                    $imageService->deleteImage($event->avatar);
                 $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'events');
                 $result = $imageService->save($request->file('avatar'));
                 // check upload
@@ -63,7 +64,7 @@ class EventController extends Controller
                     return response('error uploading photo ', 400);
                 $attrs['avatar'] = $result;
             }
-            $event = Event::query()->update($attrs->only(['title', 'description', 'price', 'avatar', 'expiration_date']));
+            $event = Event::query()->update($attrs);
             return new EventResource($event);
         }catch (\Exception $exception)
         {
@@ -100,7 +101,7 @@ class EventController extends Controller
         }
     }
 
-    public function ParticipateUser(Event $event, User $user)
+    public function participateUser(Event $event, User $user)
     {
         try {
             $event->users()->attach($user);
@@ -111,10 +112,10 @@ class EventController extends Controller
         }
     }
 
-    public function ParticipateGroup(Event $event, Group $group)
+    public function participateGroup(Event $event, Group $group)
     {
         try {
-            $event->users()->attach($group);
+            $event->groups()->attach($group);
             return response('added', 200);
         } catch (\Exception $exception)
         {

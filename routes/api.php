@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\Event\EventController;
 use App\Http\Controllers\Api\Admin\Group\GroupController;
 use App\Http\Controllers\Api\Admin\Poll\AnswerController;
 use App\Http\Controllers\Api\Admin\Poll\QuestionController;
@@ -68,6 +69,17 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
                Route::post('users/{user}/answers/{answer}/questions/{question}', [VoteController::class, 'voteQuestion'])->name('store');
             });
             // the end of poll routes
+            // events routes
+            Route::prefix('events')->name('event.')->group(function (){
+                Route::get('all', [EventController::class, 'index'])->name('all');
+                Route::post('users/{user}/store', [EventController::class, 'store'])->name('store');
+                Route::put('update/{event}', [EventController::class, 'update'])->name('update');
+                Route::delete('delete/{event}', [EventController::class, 'destroy'])->name('destroy');
+                Route::post('{event}/type/users/{user}', [EventController::class, 'userType'])->name('user.type');
+                Route::post('{event}/type/groups/{group}', [EventController::class, 'groupType'])->name('group.type');
+                Route::post('{event}/join/users/{user}', [EventController::class, 'participateUser']);
+                Route::post('{event}/join/groups/{group}', [EventController::class, 'participateGroup']);
+            });
         });
         // final admin routes
     });
