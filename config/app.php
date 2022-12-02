@@ -183,6 +183,11 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
+         * Custom Service Providers
+         */
+        App\Providers\ImageUploaderProvider::class,
+
+        /*
          * Package Service Providers...
          */
         Spatie\Permission\PermissionServiceProvider::class,
@@ -214,6 +219,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Kavenegar' => Kavenegar\Laravel\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'ImageUploader' => App\Http\Services\Image\ImageUploaderFacade::class,
     ])->toArray(),
 
 ];

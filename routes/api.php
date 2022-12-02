@@ -83,3 +83,5 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         });
         // final admin routes
     });
+
+    Route::post('events/users/{user}', [EventController::class, 'store']);
