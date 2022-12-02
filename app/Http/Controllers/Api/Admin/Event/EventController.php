@@ -100,10 +100,21 @@ class EventController extends Controller
         }
     }
 
-        public function ParticipateUser(Event $event, User $user)
+    public function ParticipateUser(Event $event, User $user)
     {
         try {
             $event->users()->attach($user);
+            return response('added', 200);
+        } catch (\Exception $exception)
+        {
+            return response(['error:' => $exception->getMessage()], 400);
+        }
+    }
+
+    public function ParticipateGroup(Event $event, Group $group)
+    {
+        try {
+            $event->users()->attach($group);
             return response('added', 200);
         } catch (\Exception $exception)
         {

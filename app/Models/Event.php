@@ -13,7 +13,7 @@ class Event extends Model
 
     public function users()
     {
-        return $this->belongsToMany(Event::class, 'participate_events', 'event_id', 'user_id');
+        return $this->belongsToMany(Event::class, 'participate_user_events', 'event_id', 'user_id');
     }
 
     public function groups()
