@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('coin');
             $table->integer('amount');
+            $table->string('picture', 255)->nullable();
             $table->dateTime('expiration_date')->nullable();
             $table->tinyInteger('status')->default(0)->comment('0 => inactive, 1 => active');
             $table->timestamps();
