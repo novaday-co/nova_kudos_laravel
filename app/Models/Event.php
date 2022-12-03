@@ -15,12 +15,6 @@ class Event extends Model
     {
         return $this->belongsToMany(Event::class, 'participate_user_events', 'event_id', 'user_id');
     }
-
-    public function groups()
-    {
-        return $this->belongsToMany(Group::class, 'participate_group_events', 'event_id', 'group_id');
-    }
-
     public function userType()
     {
         return $this->morphedByMany(User::class, 'event_viewer');

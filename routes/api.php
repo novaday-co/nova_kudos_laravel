@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
 Route::prefix('authentication')->name('authentication.')->group(function (){
     // login & register route
@@ -46,7 +46,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::post('store', [GroupController::class, 'store'])->name('store');
             Route::put('update/{group}', [GroupController::class, 'update'])->name('update');
             Route::delete('delete/{group}', [GroupController::class, 'destroy'])->name('destroy');
-            Route::post('add/user/{user}/to/group/{group}', [GroupController::class, 'addUser'])->name('add.user');
+           // Route::post('users/{user}/groups/{group}', [GroupController::class, 'addUser'])->name('add.user');
         });
         // poll routes
         Route::prefix('polls')->name('poll.')->group(function (){
@@ -85,4 +85,4 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     });
 
     Route::post('events/users/{user}', [EventController::class, 'store']);
-    Route::post('add/users/{user}/to/groups/{group}', [GroupController::class, 'addUser']);
+    Route::post('users/{user}/groups/{group}', [GroupController::class, 'addUser']);

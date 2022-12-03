@@ -32,7 +32,7 @@ class User extends Authenticatable
         'activation_date',
     ];
 
-    protected $with = ['groups', 'questions'];
+    //protected $with = ['groups', 'questions'];
 
     public function groups(): BelongsToMany
     {

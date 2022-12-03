@@ -14,7 +14,7 @@ class Group extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $with = ['users'];
+    // protected $with = ['users'];
     protected $fillable = ['name', 'avatar', 'activation_date'];
 
     public function users(): BelongsToMany
@@ -30,10 +30,5 @@ class Group extends Model
     public function eventTypes()
     {
         return $this->morphToMany(Event::class, 'event_viewer');
-    }
-
-    public function events()
-    {
-        return $this->belongsToMany(Group::class, 'participate_group_events', 'group_id', 'event_id');
     }
 }

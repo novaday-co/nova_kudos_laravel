@@ -138,7 +138,7 @@
                 "operationId": "update group",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "group",
                         "in": "path",
                         "required": true,
                         "schema": {

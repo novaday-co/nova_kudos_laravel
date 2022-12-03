@@ -290,15 +290,15 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        try {
-            DB::beginTransaction();
-            $user->forceDelete();
-            DB::commit();
-        } catch (\Exception $e)
-        {
-            DB::rollBack();
-            return response(['error: ' => $e->getMessage()], 400);
-        }
-        return response('group deleted..', 200);
+//        try {
+//            DB::beginTransaction();
+//            $user->forceDelete();
+//            DB::commit();
+//        } catch (\Exception $e)
+//        {
+//            DB::rollBack();
+//            return response(['error: ' => $e->getMessage()], 400);
+//        }
+//        return response('group deleted..', 200);
     }
 }

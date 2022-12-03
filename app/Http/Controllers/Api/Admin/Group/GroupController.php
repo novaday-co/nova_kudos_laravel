@@ -154,7 +154,7 @@ class GroupController extends Controller
      *      description="update group",
      *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
-     *          name="id",
+     *          name="group",
      *          in="path",
      *          required=true,
      *          @OA\Schema(
