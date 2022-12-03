@@ -24,7 +24,9 @@ class QuestionRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string', 'min:2', 'max:255']
+            'title' => ['required', 'string', 'min:2', 'max:255'],
+            'type' => ['required', 'integer'],
+            'expiration_date' => ['sometimes', 'date', 'after:today'],
         ];
     }
 }

@@ -26,7 +26,7 @@ class GiftCardRequest extends FormRequest
         return [
             'title' => ['required', 'string'],
             'picture' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
-            'expiration_date' => ['sometimes']
+            'expiration_date' => ['sometimes', 'date', 'after:today']
         ];
     }
 }

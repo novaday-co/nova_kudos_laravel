@@ -28,7 +28,7 @@ class EventRequest extends FormRequest
             'description' => ['sometimes', 'string'],
             'price' => ['required', 'integer'],
             'avatar' => ['sometimes', 'required', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
-            'expiration_date' => ['sometimes']
+            'expiration_date' => ['sometimes', 'date', 'after:date']
         ];
     }
 }

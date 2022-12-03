@@ -28,7 +28,7 @@ class ProductRequest extends FormRequest
             'coin' => ['required', 'integer'],
             'amount' => ['required', 'integer'],
             'picture' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
-            'expiration_date' => ['sometimes'],
+            'expiration_date' => ['sometimes', 'date', 'after:today'],
         ];
     }
 }
