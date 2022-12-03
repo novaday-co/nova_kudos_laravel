@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Api\Admin\GiftCard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\GiftCard\GiftCardRequest;
 use App\Http\Requests\Admin\GiftCard\UpdateGiftCardRequest;
-use App\Http\Resources\Admin\GiftCard\GiftCardResource;
+use App\Http\Resources\Admin\GiftCardResource;
 use App\Http\Services\Image\ImageService;
 use App\Models\GiftCard;
-use Illuminate\Http\Request;
 
 class GiftCardController extends Controller
 {

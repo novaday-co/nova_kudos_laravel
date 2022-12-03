@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Api\Admin\Product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\GiftCard\UpdateGiftCardRequest;
 use App\Http\Requests\Admin\Product\ProductRequest;
 use App\Http\Requests\Admin\Product\UpdateProductRequest;
-use App\Http\Resources\Admin\Product\ProductResource;
+use App\Http\Resources\Admin\ProductResource;
 use App\Http\Services\Image\ImageService;
 use App\Models\Product;
 

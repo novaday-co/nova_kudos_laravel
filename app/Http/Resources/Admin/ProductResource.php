@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Admin\GiftCard;
+namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GiftCardResource extends JsonResource
+class ProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +15,10 @@ class GiftCardResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'title' => $this->title,
-            'picture' => $this->picture,
+            'name' => $this->name,
             'coin' => $this->coin,
+            'amount' => $this->amount,
+            'picture' => $this->picture,
             'expiration_date' => $this->expiration_date,
         ];
     }

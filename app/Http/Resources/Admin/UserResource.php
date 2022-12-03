@@ -18,6 +18,7 @@ class UserResource extends JsonResource
             'mobile' => $this->mobile,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'job_title' => $this->job_title,
             'avatar' => $this->avatar,
         ];
     }
