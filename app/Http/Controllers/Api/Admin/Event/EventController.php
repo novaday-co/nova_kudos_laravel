@@ -111,15 +111,4 @@ class EventController extends Controller
             return response(['error:' => $exception->getMessage()], 400);
         }
     }
-
-    public function participateGroup(Event $event, Group $group)
-    {
-        try {
-            $event->groups()->attach($group);
-            return response('added', 200);
-        } catch (\Exception $exception)
-        {
-            return response(['error:' => $exception->getMessage()], 400);
-        }
-    }
 }
