@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Api\Admin\Event\EventController;
-use App\Http\Controllers\Api\Admin\Group\GroupController;
-use App\Http\Controllers\Api\Admin\Poll\AnswerController;
-use App\Http\Controllers\Api\Admin\Poll\QuestionController;
-use App\Http\Controllers\Api\Admin\Poll\VoteController;
-use App\Http\Controllers\Api\Admin\User\UserController;
+use App\Http\Controllers\Api\App\Group\GroupController;
+use App\Http\Controllers\Api\App\Poll\AnswerController;
+use App\Http\Controllers\Api\App\Poll\QuestionController;
+use App\Http\Controllers\Api\App\Poll\VoteController;
+use App\Http\Controllers\Api\App\User\UserController;
+use App\Http\Controllers\Api\App\Event\EventController;
+use App\Http\Controllers\Api\App\Medal\MedalController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

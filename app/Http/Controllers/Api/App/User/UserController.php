@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin\Group;
+namespace App\Http\Controllers\Api\App\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Group\GroupRequest;
-use App\Http\Requests\Admin\Group\UpdateGroupRequest;
-use App\Http\Resources\Admin\GroupResource;
+use App\Http\Requests\Admin\User\UpdateUserRequest;
+use App\Http\Requests\Admin\User\UserRequest;
+use App\Http\Resources\Admin\UserResource;
 use App\Http\Services\Image\ImageService;
-use App\Models\Group;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-class GroupController extends Controller
+class UserController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/admin/groups/all",
-     *      operationId="get all groups",
-     *      tags={"groups"},
-     *      summary="get all groups",
-     *      description="get all groups",
+     *      path="/api/admin/users/all",
+     *      operationId="get all users",
+     *      tags={"users"},
+     *      summary="get all users",
+     *      description="get all users",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="Accept",
@@ -59,17 +58,17 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $groups = Group::query()->latest()->paginate(15);
-        return GroupResource::collection($groups);
+        $users = User::latest()->paginate(15);
+        return UserResource::collection($users);
     }
 
     /**
-     * @OA\Post (
-     *      path="/api/admin/groups/store",
-     *      operationId="store new groups",
-     *      tags={"groups"},
-     *      summary="store new groups",
-     *      description="store new groups",
+     * @OA\Post(
+     *      path="/api/admin/users/store",
+     *      operationId="store new user",
+     *      tags={"users"},
+     *      summary="store new user",
+     *      description="store new user",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="Accept",
@@ -89,13 +88,15 @@ class GroupController extends Controller
      *              type="string"
      *          )
      *      ),
-     *     @OA\RequestBody(
+     *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  @OA\Property(property="name", type="text", format="text", example="yasin"),
-     *                   required={"name"},
+     *                  @OA\Property(property="first_name", type="text", format="text", example="yasin"),
+     *                  @OA\Property(property="last_name", type="text", format="text", example="baghban"),
+     *                   required={"mobile"},
+     *                  @OA\Property(property="mobile", type="text", format="text", example="091010101010"),
      *                  @OA\Property(property="avatar", type="file", format="text"),
      *               ),
      *           ),
@@ -109,7 +110,7 @@ class GroupController extends Controller
      *          description="validation error",
      *      ),
      *     @OA\Response(
-     *          response=422,
+     *          response=400,
      *          description="error",
      *       ),
      *     @OA\Response(
@@ -118,16 +119,17 @@ class GroupController extends Controller
      *      ),
      * )
      */
-    public function store(GroupRequest $request, ImageService $imageService)
+
+    public function store(UserRequest $request, ImageService $imageService)
     {
         try
         {
-            DB::beginTransaction();
-            // validation
+           DB::beginTransaction();
+           // validation
             $attrs = $request->validated();
             // check request for upload image
             if ($request->hasFile('avatar')) {
-                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'groups');
+                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'users');
                 $result = $imageService->save($request->file('avatar'));
                 // check upload
                 if ($result === false)
@@ -135,26 +137,26 @@ class GroupController extends Controller
                 $attrs['avatar'] = $result;
             }
             //create user
-            $group = Group::create($attrs);
-            DB::commit();
+           $user = User::create($attrs);
+           DB::commit();
         } catch (\Exception $e)
         {
             DB::rollBack();
             return response(['errors: ' => $e->getMessage()], 400);
         }
-        return new GroupResource($group);
-        }
+        return new UserResource($user);
+    }
 
     /**
-     * @OA\Put(
-     *      path="/api/admin/groups/update/{group}",
-     *      operationId="update group",
-     *      tags={"groups"},
-     *      summary="update group",
-     *      description="update group",
+     * @OA\Put (
+     *      path="/api/admin/users/update/{user}",
+     *      operationId="update user",
+     *      tags={"users"},
+     *      summary="update user",
+     *      description="update user",
      *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
-     *          name="group",
+     *          name="id",
      *          in="path",
      *          required=true,
      *          @OA\Schema(
@@ -184,9 +186,11 @@ class GroupController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"name"},
-     *                  @OA\Property(property="name", type="text", format="text", example="yasin"),
-     *                  @OA\Property(property="avatar", type="file", format="text"),
+     *                  required={"first_name"},
+     *                  @OA\Property(property="first_name", type="text", format="text", example="yasin"),
+     *                  @OA\Property(property="last_name", type="text", format="text", example="baghban"),
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09354068701"),
+     *                  @OA\Property(property="avatar", type="text", format="text"),
      *               ),
      *           ),
      *       ),
@@ -209,43 +213,43 @@ class GroupController extends Controller
      * )
      */
 
-        public function update(UpdateGroupRequest $request, ImageService $imageService, Group $group)
+    public function update(UpdateUserRequest $request, User $user, ImageService $imageService)
+    {
+        try
         {
-            try
-            {
-                DB::beginTransaction();
-                // validation
-                $attrs = $request->validated();
-                // check request for upload image
-                if ($request->hasFile('avatar')) {
-                    // check image exists or not
-                    if (!empty($group->avatar))
-                        $imageService->deleteImage($group->avatar);
-                    $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'users');
-                    $result = $imageService->save($request->file('avatar'));
-                    // check upload
-                    if ($result === false)
-                        return response('error uploading photo ', 400);
-                    $attrs['avatar'] = $result;
-                }
-                // group update
-                $group->update($attrs);
-                DB::commit();
-            } catch (\Exception $e)
-            {
-                DB::rollBack();
-                return response(['errors' => $e->getMessage()], 400);
+            DB::beginTransaction();
+            // validation
+            $attrs = $request->validated();
+            // check request for upload image
+            if ($request->hasFile('avatar')) {
+                // check image exists or not
+                if (!empty($user->avatar))
+                    $imageService->deleteImage($user->avatar);
+                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'users');
+                $result = $imageService->save($request->file('avatar'));
+                // check upload
+                if ($result === false)
+                    return response('error uploading photo ', 400);
+                $attrs['avatar'] = $result;
             }
-            return new GroupResource($group);
+            // user update
+            $user = $user->update($attrs);
+            DB::commit();
+        } catch (\Exception $e)
+        {
+            DB::rollBack();
+            return response(['errors' => $e->getMessage()], 400);
         }
+        return new UserResource($user);
+    }
 
     /**
      * @OA\Delete(
-     *      path="/api/admin/groups/delete/{group}",
-     *      operationId="delete group",
-     *      tags={"groups"},
-     *      summary="delete group",
-     *      description="delete group",
+     *      path="/api/admin/users/delete/{user}",
+     *      operationId="delete user",
+     *      tags={"users"},
+     *      summary="delete user",
+     *      description="delete user",
      *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
      *          name="id",
@@ -284,77 +288,17 @@ class GroupController extends Controller
      * )
      */
 
-        public function destroy(Group $group)
-        {
-            try {
-                DB::beginTransaction();
-                $group->forceDelete();
-                DB::commit();
-            } catch (\Exception $e)
-            {
-                DB::rollBack();
-                return response(['error: ' => $e->getMessage()], 400);
-            }
-            return response('group deleted..', 200);
-        }
-
-    /**
-     * @OA\Post (
-     *      path="/api/admin/groups/add/user/{user}/to/group/{group}",
-     *      operationId="add user to group",
-     *      tags={"groups"},
-     *      summary="add user to group",
-     *      description="add user to group",
-     *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *          name="id",
-     *          in="path",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
-        public function addUser(User $user, Group $group)
-        {
-            try {
-                // Group::find($group)->users()->attach($user);
-                $group->users()->attach($user);
-            } catch (\Exception $exception) {
-                return response('error', 400);
-            }
-            return response('user added', 200);
-        }
-
+    public function destroy(User $user)
+    {
+//        try {
+//            DB::beginTransaction();
+//            $user->forceDelete();
+//            DB::commit();
+//        } catch (\Exception $e)
+//        {
+//            DB::rollBack();
+//            return response(['error: ' => $e->getMessage()], 400);
+//        }
+//        return response('group deleted..', 200);
     }
+}

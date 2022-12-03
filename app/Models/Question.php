@@ -34,4 +34,9 @@ class Question extends Model
     {
         return $this->morphedByMany(Group::class, 'question_viewer');
     }
+
+    public function medals()
+    {
+        return $this->hasMany(Medal::class);
+    }
 }

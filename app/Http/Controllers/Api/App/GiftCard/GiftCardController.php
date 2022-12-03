@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin\GiftCard;
+namespace App\Http\Controllers\Api\App\GiftCard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\GiftCard\GiftCardRequest;
