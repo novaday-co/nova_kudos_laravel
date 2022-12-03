@@ -14,6 +14,11 @@ class GiftCardResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'title' => $this->title,
+            'picture' => $this->picture,
+            'coin' => $this->coin,
+            'expiration_date' => $this->expiration_date,
+        ];
     }
 }
