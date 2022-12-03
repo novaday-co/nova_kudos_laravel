@@ -14,17 +14,12 @@ class Group extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $with = ['users', 'questions'];
+    protected $with = ['users'];
     protected $fillable = ['name', 'avatar', 'activation_date'];
 
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'group_users', 'group_id', 'user_id');
-    }
-
-    public function questions(): HasMany
-    {
-        return $this->hasMany(Question::class);
     }
 
     public function questionTypes()

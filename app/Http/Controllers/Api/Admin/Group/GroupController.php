@@ -59,7 +59,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $groups = Group::latest()->paginate(15);
+        $groups = Group::query()->latest()->paginate(15);
         return GroupResource::collection($groups);
     }
 
@@ -349,14 +349,12 @@ class GroupController extends Controller
         public function addUser(User $user, Group $group)
         {
             try {
-                DB::beginTransaction();
                 // Group::find($group)->users()->attach($user);
                 $group->users()->attach($user);
-                DB::commit();
             } catch (\Exception $exception) {
-                DB::rollBack();
                 return response('error', 400);
             }
             return response('user added', 200);
         }
+
     }

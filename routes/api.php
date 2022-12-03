@@ -85,3 +85,4 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     });
 
     Route::post('events/users/{user}', [EventController::class, 'store']);
+    Route::post('add/users/{user}/to/groups/{group}', [GroupController::class, 'addUser']);
