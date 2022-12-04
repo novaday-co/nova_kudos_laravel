@@ -27,7 +27,8 @@ class ProfileRequest extends FormRequest
             'mobile' => ['sometimes', 'required', 'string', 'min:11', 'max:64', 'unique:users,mobile', 'regex:/^[a-zA-Z0-9_.@\+]*$/'],
             'first_name' => ['sometimes', 'required', 'string', 'min:3'],
             'last_name' => ['sometimes', 'required', 'string', 'min:3'],
-            'avatar' => ['sometimes', 'required', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp']
+            'job_title' => ['sometimes', 'required', 'string'],
+            'avatar' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp']
         ];
     }
 }
