@@ -11,7 +11,6 @@ class Vote extends Model
     use HasFactory;
 
     protected $guarded = [];
-    protected $with = ['user', 'answer', 'question'];
 
     public function user(): BelongsTo
     {

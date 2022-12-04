@@ -16,7 +16,8 @@ class QuestionResource extends JsonResource
     {
         return [
             'title' => $this->title,
-            'author' => UserResource::make($this->whenLoaded('user')),
+            'expiration_date' => $this->expiration_date,
+            'author' => UserResource::make($this->user),
         ];
     }
 }

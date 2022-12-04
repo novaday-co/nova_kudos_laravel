@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\App\Group\GroupController;
+use App\Http\Controllers\Api\App\Home\HomeController;
 use App\Http\Controllers\Api\App\Poll\AnswerController;
 use App\Http\Controllers\Api\App\Poll\QuestionController;
 use App\Http\Controllers\Api\App\Poll\VoteController;
@@ -33,7 +34,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
 });
 
     // admin routes
-    Route::prefix('admin')->middleware('auth:sanctum')->name('admin.')->group(function (){
+    Route::prefix('app')->middleware('auth:sanctum')->name('app.')->group(function (){
         // user routes
         Route::prefix('users')->name('user.')->group(function (){
             Route::get('all', [UserController::class, 'index'])->name('all');
@@ -82,7 +83,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
                 Route::post('{event}/join/groups/{group}', [EventController::class, 'participateGroup']);
             });
         });
-        // final admin routes
+        // final app routes
     });
 
     // Route::post('events/users/{user}', [EventController::class, 'store']);
@@ -91,3 +92,8 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     // Route::put('update/medals/{medal}', [MedalController::class, 'update']);
         Route::post('medals/{medal}/questions/{question}', [MedalController::class, 'medalQuestion']);
         Route::post('medals/{medal}/users/{user}/questions/{question}', [MedalController::class, 'medalUser']);
+
+        Route::get('questions/users/{user}', [HomeController::class, 'questions']);
+        Route::get('answers/questions/{question}', [HomeController::class, 'answerQuestions']);
+        Route::post('questions/{question}/users/{user}', [QuestionController::class, 'userType'])->name('type.user');
+        Route::get('questions/{question}/votes', [HomeController::class, 'countOfVotes']);

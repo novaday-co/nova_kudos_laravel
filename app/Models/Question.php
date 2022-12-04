@@ -39,4 +39,9 @@ class Question extends Model
     {
         return $this->belongsToMany(Medal::class, 'medal_questions', 'question_id', 'medal_id');
     }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
 }

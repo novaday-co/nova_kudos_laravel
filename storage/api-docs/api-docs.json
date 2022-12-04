@@ -314,6 +314,76 @@
                 ]
             }
         },
+        "/questions/users/{user}": {
+            "get": {
+                "tags": [
+                    "Home"
+                ],
+                "summary": "get all questions for user",
+                "description": "get all questions for user",
+                "operationId": "get all questions for user",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/companies"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "401": {
+                        "description": "not authenticate"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/admin/polls/all": {
             "get": {
                 "tags": [
