@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('title', 255);
             $table->string('icon', 255)->nullable();
             $table->integer('score')->nullable();
+
             $table->foreignId('question_id');
             $table->foreign('question_id')->references('id')->on('questions')->onUpdate('cascade')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
