@@ -13,11 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('medals', function (Blueprint $table) {
+        Schema::create('medal_questions', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->string('icon', 255)->nullable();
-            $table->integer('score')->nullable();
+
+            $table->foreignId('question_id');
+            $table->foreign('question_id')->references('id')->on('questions')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->foreignId('medal_id');
+            $table->foreign('medal_id')->references('id')->on('medals')->onUpdate('cascade')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('medals');
+        Schema::dropIfExists('medal_questions');
     }
 };

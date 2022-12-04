@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\MedalResource;
 use App\Http\Services\Image\ImageService;
 use App\Models\Medal;
 use App\Models\Question;
+use App\Models\User;
 
 class MedalController extends Controller
 {
@@ -18,7 +19,7 @@ class MedalController extends Controller
         return new MedalResource($medals);
     }
 
-    public function store(MedalRequest $request, Question $question, ImageService $imageService)
+    public function store(MedalRequest $request, ImageService $imageService)
     {
         $attrs = $request->validated();
         if ($request->hasFile('icon'))
@@ -29,7 +30,6 @@ class MedalController extends Controller
                 return response('error uploading icon', 400);
             $attrs['icon'] = $result;
         }
-        $attrs['question_id'] = $question->id;
         $medal = Medal::query()->create($attrs);
         return new MedalResource($medal);
     }
@@ -52,6 +52,28 @@ class MedalController extends Controller
         } catch (\Exception $e)
         {
             return response(['error' => $e->getMessage()], 400);
+        }
+    }
+
+    public function medalQuestion(Medal $medal, Question $question)
+    {
+        try {
+            $question->medals()->save($medal);
+            return response('added success', 200);
+        } catch (\Exception $e)
+        {
+            return response('bad request', 400);
+        }
+    }
+
+    public function medalUser(Medal $medal, User $user)
+    {
+        try {
+            $user->medals()->save($medal);
+            return response('added success', 200);
+        } catch (\Exception $e)
+        {
+            return response('bad request', 400);
         }
     }
 }

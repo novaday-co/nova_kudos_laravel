@@ -87,5 +87,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
 
     // Route::post('events/users/{user}', [EventController::class, 'store']);
     // Route::post('users/{user}/groups/{group}', [GroupController::class, 'addUser']);
-    // Route::post('medals/questions/{question}', [MedalController::class, 'storeMedal']);
+    Route::post('medals/store', [MedalController::class, 'store']);
     // Route::put('update/medals/{medal}', [MedalController::class, 'update']);
+        Route::post('medals/{medal}/questions/{question}', [MedalController::class, 'medalQuestion']);
+        Route::post('medals/{medal}/users/{user}/questions/{question}', [MedalController::class, 'medalUser']);

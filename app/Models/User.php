@@ -71,7 +71,7 @@ class User extends Authenticatable
 
     public function medals()
     {
-        return $this->hasMany(Medal::class);
+        return $this->belongsToMany(Medal::class, 'medal_users', 'user_id', 'medal_id');
     }
 
 }
