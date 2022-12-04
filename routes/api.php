@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\App\GiftCard\SendGiftCardController;
 use App\Http\Controllers\Api\App\Group\GroupController;
 use App\Http\Controllers\Api\App\Home\HomeController;
 use App\Http\Controllers\Api\App\Poll\AnswerController;
@@ -97,3 +98,4 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         Route::get('answers/questions/{question}', [HomeController::class, 'answerQuestions']);
         Route::post('questions/{question}/users/{user}', [QuestionController::class, 'userType'])->name('type.user');
         Route::get('questions/{question}/votes', [HomeController::class, 'countOfVotes']);
+        Route::post('users/{from_id}/users/{to_id}/gifts/{gift_id}', [SendGiftCardController::class, 'sendTo']);

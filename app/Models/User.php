@@ -74,4 +74,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Medal::class, 'medal_users', 'user_id', 'medal_id');
     }
 
+    public function gifts()
+    {
+        return $this->hasMany(GiftUser::class);
+    }
+
 }
