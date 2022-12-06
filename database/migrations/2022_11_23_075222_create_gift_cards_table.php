@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('title', 255);
             $table->string('picture', 255)->nullable();
             $table->integer('coin');
+
+            $table->foreignId('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
+
             $table->dateTime('expiration_date')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -44,4 +44,9 @@ class Question extends Model
     {
         return $this->hasMany(Vote::class);
     }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

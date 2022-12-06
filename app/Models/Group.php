@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -15,7 +16,7 @@ class Group extends Model
     use HasFactory, SoftDeletes;
 
     // protected $with = ['users'];
-    protected $fillable = ['name', 'avatar', 'activation_date'];
+    protected $fillable = ['name', 'avatar', 'activation_date', 'company_id'];
 
     public function users(): BelongsToMany
     {
@@ -30,5 +31,10 @@ class Group extends Model
     public function eventTypes()
     {
         return $this->morphToMany(Event::class, 'event_viewer');
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 }

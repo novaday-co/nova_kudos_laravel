@@ -19,7 +19,10 @@ return new class extends Migration
 
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->tinyInteger('type')->default(0)->comment('0 => user, 1 => group');
+
+            $table->foreignId('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
+
             $table->dateTime('expiration_date')->nullable();
             $table->timestamps();
             $table->softDeletes();

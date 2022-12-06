@@ -18,6 +18,7 @@ class GiftCardResource extends JsonResource
             'title' => $this->title,
             'picture' => $this->picture,
             'coin' => $this->coin,
+            'company' => $this->company_id,
             'expiration_date' => $this->expiration_date,
         ];
     }

@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Group\GroupRequest;
 use App\Http\Requests\Admin\Group\UpdateGroupRequest;
 use App\Http\Resources\Admin\GroupResource;
 use App\Http\Services\Image\ImageService;
+use App\Models\Company;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ class GroupController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/admin/groups/all",
+     *      path="/api/app/groups/all",
      *      operationId="get all groups",
      *      tags={"groups"},
      *      summary="get all groups",
@@ -66,12 +67,20 @@ class GroupController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/api/admin/groups/store",
+     *      path="/api/app/groups/company/{company}",
      *      operationId="store new groups",
      *      tags={"groups"},
      *      summary="store new groups",
      *      description="store new groups",
      *      security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *          name="company",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -119,28 +128,22 @@ class GroupController extends Controller
      *      ),
      * )
      */
-    public function store(GroupRequest $request, ImageService $imageService)
+    public function store(GroupRequest $request, ImageService $imageService, Company $company)
     {
         try
         {
-            DB::beginTransaction();
-            // validation
             $attrs = $request->validated();
-            // check request for upload image
             if ($request->hasFile('avatar')) {
                 $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'groups');
                 $result = $imageService->save($request->file('avatar'));
-                // check upload
                 if ($result === false)
                     return response('error uploading photo ', 400);
                 $attrs['avatar'] = $result;
             }
-            //create user
-            $group = Group::create($attrs);
-            DB::commit();
+            $attrs['company_id'] = $company->id;
+            $group = Group::query()->create($attrs);
         } catch (\Exception $e)
         {
-            DB::rollBack();
             return response(['errors: ' => $e->getMessage()], 400);
         }
         return new GroupResource($group);
@@ -148,7 +151,7 @@ class GroupController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/api/admin/groups/update/{group}",
+     *      path="/api/app/groups/{group}/update",
      *      operationId="update group",
      *      tags={"groups"},
      *      summary="update group",
@@ -214,22 +217,16 @@ class GroupController extends Controller
         {
             try
             {
-                DB::beginTransaction();
-                // validation
                 $attrs = $request->validated();
-                // check request for upload image
                 if ($request->hasFile('avatar')) {
-                    // check image exists or not
                     if (!empty($group->avatar))
                         $imageService->deleteImage($group->avatar);
-                    $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'users');
+                    $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'groups');
                     $result = $imageService->save($request->file('avatar'));
-                    // check upload
                     if ($result === false)
                         return response('error uploading photo ', 400);
                     $attrs['avatar'] = $result;
                 }
-                // group update
                 $group->update($attrs);
                 DB::commit();
             } catch (\Exception $e)
@@ -240,52 +237,7 @@ class GroupController extends Controller
             return new GroupResource($group);
         }
 
-    /**
-     * @OA\Delete(
-     *      path="/api/admin/groups/delete/{group}",
-     *      operationId="delete group",
-     *      tags={"groups"},
-     *      summary="delete group",
-     *      description="delete group",
-     *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *          name="id",
-     *          in="path",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
-
-        public function destroy(Group $group)
+    /*    public function destroy(Group $group)
         {
             try {
                 DB::beginTransaction();
@@ -297,18 +249,26 @@ class GroupController extends Controller
                 return response(['error: ' => $e->getMessage()], 400);
             }
             return response('group deleted..', 200);
-        }
+        }*/
 
     /**
      * @OA\Post (
-     *      path="/api/admin/groups/add/user/{user}/to/group/{group}",
+     *      path="/api/app/add/groups/{group}/users/{user}",
      *      operationId="add user to group",
      *      tags={"groups"},
      *      summary="add user to group",
      *      description="add user to group",
      *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
-     *          name="id",
+     *          name="group",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *        @OA\Parameter(
+     *          name="user",
      *          in="path",
      *          required=true,
      *          @OA\Schema(

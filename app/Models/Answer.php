@@ -10,8 +10,7 @@ class Answer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'question_id'];
-    protected $with = ['question', 'user'];
+    protected $fillable = ['user_id', 'question_id', 'company_id'];
 
     public function question(): BelongsTo
     {
@@ -21,5 +20,10 @@ class Answer extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 }

@@ -6,7 +6,7 @@
         "version": "1.0"
     },
     "paths": {
-        "/superAdmin/companies": {
+        "/superAdmin/companies/all": {
             "get": {
                 "tags": [
                     "companies"
@@ -60,7 +60,9 @@
                         "sanctum": []
                     }
                 ]
-            },
+            }
+        },
+        "/superAdmin/companies/store": {
             "post": {
                 "tags": [
                     "companies"
@@ -140,7 +142,7 @@
                 ]
             }
         },
-        "/superAdmin/companies/{company}": {
+        "/superAdmin/companies/{company}/update": {
             "put": {
                 "tags": [
                     "companies"
@@ -297,7 +299,754 @@
                 ]
             }
         },
-        "/api/admin/groups/all": {
+        "/api/app/events/all": {
+            "get": {
+                "tags": [
+                    "events"
+                ],
+                "summary": "get all events",
+                "description": "get all events",
+                "operationId": "get all events",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/events/all"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/events/companies/{company}": {
+            "post": {
+                "tags": [
+                    "events"
+                ],
+                "summary": "store new event",
+                "description": "store new event",
+                "operationId": "store new event",
+                "parameters": [
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "price"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "yasin"
+                                    },
+                                    "description": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "long text"
+                                    },
+                                    "price": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "23"
+                                    },
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "text"
+                                    },
+                                    "expiration_date": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "23/12/22"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/events/companies/{company}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/events/{event}/update": {
+            "put": {
+                "tags": [
+                    "events"
+                ],
+                "summary": "update event",
+                "description": "update event",
+                "operationId": "update event",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "price"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "yasin"
+                                    },
+                                    "description": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "long text"
+                                    },
+                                    "price": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "23"
+                                    },
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "text"
+                                    },
+                                    "expiration_date": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "23/12/22"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/events/{event}/update"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/events/{event}/users/{user}": {
+            "post": {
+                "tags": [
+                    "events"
+                ],
+                "summary": "add user to view event",
+                "description": "add user to view eventt",
+                "operationId": "add user to view event",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/events/{event}/users/{user}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/events/{event}/groups/{group}": {
+            "post": {
+                "tags": [
+                    "events"
+                ],
+                "summary": "add group to view event",
+                "description": "add group to view eventt",
+                "operationId": "add group to view event",
+                "parameters": [
+                    {
+                        "name": "event",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/events/{event}/groups/{group}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/giftcards/all": {
+            "get": {
+                "tags": [
+                    "giftcards"
+                ],
+                "summary": "get giftcards",
+                "description": "get giftcards",
+                "operationId": "get gift cards",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/giftcards/all"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/giftcards/companies/{company}/store": {
+            "post": {
+                "tags": [
+                    "giftcards"
+                ],
+                "summary": "store new git card",
+                "description": "store new gift card",
+                "operationId": "store new gift card",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "yasin"
+                                    },
+                                    "picture": {
+                                        "type": "file",
+                                        "format": "text"
+                                    },
+                                    "coin": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "123"
+                                    },
+                                    "expiration_date": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12/3/22"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/giftcards/companies/{company}/store"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/giftcards/{giftcard}/update": {
+            "put": {
+                "tags": [
+                    "giftcards"
+                ],
+                "summary": "update giftcard",
+                "description": "update giftcard",
+                "operationId": "update gift card",
+                "parameters": [
+                    {
+                        "name": "giftcard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "yasin"
+                                    },
+                                    "picture": {
+                                        "type": "file",
+                                        "format": "text"
+                                    },
+                                    "coin": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "123"
+                                    },
+                                    "expiration_date": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "12/3/22"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/giftcards/{giftcard}/update"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/giftcards/{giftcard}/companies/{company}/users/{to_user}": {
+            "post": {
+                "tags": [
+                    "giftcards"
+                ],
+                "summary": "send gift card",
+                "description": "send gift card",
+                "operationId": "send gift card",
+                "parameters": [
+                    {
+                        "name": "giftcard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "to_user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "message": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "yasin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/giftcards/companies/{company}/store"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/groups/all": {
             "get": {
                 "tags": [
                     "groups"
@@ -353,7 +1102,7 @@
                 ]
             }
         },
-        "/api/admin/groups/store": {
+        "/api/app/groups/company/{company}": {
             "post": {
                 "tags": [
                     "groups"
@@ -362,6 +1111,14 @@
                 "description": "store new groups",
                 "operationId": "store new groups",
                 "parameters": [
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
                     {
                         "name": "Accept",
                         "in": "header",
@@ -426,7 +1183,7 @@
                 ]
             }
         },
-        "/api/admin/groups/update/{group}": {
+        "/api/app/groups/{group}/update": {
             "put": {
                 "tags": [
                     "groups"
@@ -507,58 +1264,7 @@
                 ]
             }
         },
-        "/api/admin/groups/delete/{group}": {
-            "delete": {
-                "tags": [
-                    "groups"
-                ],
-                "summary": "delete group",
-                "description": "delete group",
-                "operationId": "delete group",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "500": {
-                        "description": "server error"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/admin/groups/add/user/{user}/to/group/{group}": {
+        "/api/app/add/groups/{group}/users/{user}": {
             "post": {
                 "tags": [
                     "groups"
@@ -568,7 +1274,15 @@
                 "operationId": "add user to group",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "group",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "user",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -682,7 +1396,163 @@
                 ]
             }
         },
-        "/api/admin/polls/all": {
+        "/api/app/polls/answers": {
+            "get": {
+                "tags": [
+                    "polls"
+                ],
+                "summary": "get answers",
+                "description": "get answers",
+                "operationId": "get answers",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/polls/answers"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/polls/answers/users/{user}/questions/{question}/companies/{company}": {
+            "post": {
+                "tags": [
+                    "polls"
+                ],
+                "summary": "store new answer",
+                "description": "store new answer",
+                "operationId": "store new answer",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "question",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/polls/answers/users/{user}/questions/{question}/companies/{company}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/polls/question/all": {
             "get": {
                 "tags": [
                     "polls"
@@ -712,7 +1582,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/polls/question/all"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "validation error"
@@ -731,7 +1608,7 @@
                 ]
             }
         },
-        "/api/admin/polls/group/{group}/user/{user}/store": {
+        "/api/app/polls/companies/{company}/store": {
             "post": {
                 "tags": [
                     "polls"
@@ -797,7 +1674,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/polls/companies/{company}/store"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "validation error"
@@ -816,7 +1700,7 @@
                 ]
             }
         },
-        "/api/admin/polls/update/{question}": {
+        "/api/app/polls/questions/{question}/update": {
             "put": {
                 "tags": [
                     "polls"
@@ -826,7 +1710,7 @@
                 "operationId": "update question",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "question",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -874,7 +1758,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/polls/questions/{question}/update"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "validation error"
@@ -893,7 +1784,7 @@
                 ]
             }
         },
-        "/api/admin/polls/delete/{question}": {
+        "/api/app/polls/delete/questions/{question}": {
             "delete": {
                 "tags": [
                     "polls"
@@ -903,7 +1794,7 @@
                 "operationId": "delete question",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "question",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -931,7 +1822,278 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/polls/delete/questions/{question"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/products/all": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "get products",
+                "description": "get products",
+                "operationId": "get products",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/products/all"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/products/companies/{company}": {
+            "post": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "store new product",
+                "description": "store new product",
+                "operationId": "store new product",
+                "parameters": [
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "text"
+                                    },
+                                    "coin": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "text"
+                                    },
+                                    "amount": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "1213"
+                                    },
+                                    "picture": {
+                                        "type": "file",
+                                        "format": "file",
+                                        "example": "text"
+                                    },
+                                    "expiration_date": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/products/companies/{company}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/products/{product}": {
+            "put": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "update product",
+                "description": "update product",
+                "operationId": "update product",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "text"
+                                    },
+                                    "coin": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "text"
+                                    },
+                                    "amount": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "1213"
+                                    },
+                                    "picture": {
+                                        "type": "file",
+                                        "format": "file",
+                                        "example": "text"
+                                    },
+                                    "expiration_date": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/products/{product}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "400": {
+                        "description": "error"
                     },
                     "500": {
                         "description": "server error"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\App\Poll;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Poll\QuestionRequest;
 use App\Http\Resources\Admin\QuestionResource;
+use App\Models\Company;
 use App\Models\Group;
 use App\Models\Question;
 use App\Models\User;
@@ -15,7 +16,7 @@ class QuestionController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/admin/polls/all",
+     *      path="/api/app/polls/question/all",
      *      operationId="get all questions",
      *      tags={"polls"},
      *      summary="get all questions",
@@ -42,6 +43,7 @@ class QuestionController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
+     *          @OA\JsonContent(ref="/api/app/polls/question/all")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -59,13 +61,13 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::latest()->paginate(15);
+        $questions = Question::query()->latest()->paginate(15);
         return QuestionResource::collection($questions);
     }
 
     /**
      * @OA\Post (
-     *      path="/api/admin/polls/group/{group}/user/{user}/store",
+     *      path="/api/app/polls/companies/{company}/store",
      *      operationId="store new poll",
      *      tags={"polls"},
      *      summary="store new poll",
@@ -118,6 +120,7 @@ class QuestionController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
+     *          @OA\JsonContent(ref="/api/app/polls/companies/{company}/store")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -133,14 +136,14 @@ class QuestionController extends Controller
      *      ),
      * )
      */
-    public function store(QuestionRequest $request, User $user)
+    public function store(QuestionRequest $request, Company $company)
     {
         try
         {
             $attrs = $request->validated();
             $question = Question::query()->create([
                 'title' => $attrs['title'],
-                'user_id' => $user->id,
+                'company_id' => $company->id,
             ]);
             return new QuestionResource($question);
         } catch (\Exception $exception) {
@@ -177,14 +180,14 @@ class QuestionController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/api/admin/polls/update/{question}",
+     *      path="/api/app/polls/questions/{question}/update",
      *      operationId="update question",
      *      tags={"polls"},
      *      summary="update question",
      *      description="update question",
      *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
-     *          name="id",
+     *          name="question",
      *          in="path",
      *          required=true,
      *          @OA\Schema(
@@ -222,6 +225,7 @@ class QuestionController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
+     *     @OA\JsonContent(ref="/api/app/polls/questions/{question}/update")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -249,14 +253,14 @@ class QuestionController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/api/admin/polls/delete/{question}",
+     *      path="/api/app/polls/delete/questions/{question}",
      *      operationId="delete question",
      *      tags={"polls"},
      *      summary="delete question",
      *      description="delete question",
      *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
-     *          name="id",
+     *          name="question",
      *          in="path",
      *          required=true,
      *          @OA\Schema(
@@ -284,6 +288,7 @@ class QuestionController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
+     *     @OA\JsonContent(ref="/api/app/polls/delete/questions/{question")
      *       ),
      *     @OA\Response(
      *          response=500,
