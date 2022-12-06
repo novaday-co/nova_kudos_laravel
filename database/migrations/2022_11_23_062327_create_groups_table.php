@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name', 255);
             $table->string('avatar', 255)->nullable();
-            $table->foreignId('owner')->nullable();
-            $table->dateTime('activation_date')->nullable();
+            $table->foreignId('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

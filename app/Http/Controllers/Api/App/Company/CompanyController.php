@@ -22,7 +22,7 @@ class CompanyController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/superAdmin/companies",
+     *      path="/superAdmin/companies/all",
      *      operationId="get all companies",
      *      tags={"companies"},
      *      summary="get all companies",
@@ -73,7 +73,7 @@ class CompanyController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/superAdmin/companies",
+     *      path="/superAdmin/companies/store",
      *      operationId="store new company",
      *      tags={"companies"},
      *      summary="store new company",
@@ -150,7 +150,7 @@ class CompanyController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/superAdmin/companies/{company}",
+     *      path="/superAdmin/companies/{company}/update",
      *      operationId="update company",
      *      tags={"companies"},
      *      summary="update company",

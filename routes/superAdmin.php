@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('companies')->name('company.')->group(function (){
     Route::get('all', [CompanyController::class, 'index'])->name('all');
     Route::post('store', [CompanyController::class, 'store'])->name('store');
-    Route::put('update/{group}', [CompanyController::class, 'update'])->name('update');
-    Route::delete('delete/{group}', [CompanyController::class, 'destroy'])->name('destroy');
-    // Route::post('users/{user}/groups/{group}', [GroupController::class, 'addUser'])->name('add.user');
+    Route::put('{company}/update', [CompanyController::class, 'update'])->name('update');
+    // Route::delete('delete/{group}', [CompanyController::class, 'destroy'])->name('destroy');
+    Route::post('{company}/users/{user}', [CompanyController::class, 'addOwner'])->name('add.owner');
 });
