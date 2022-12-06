@@ -8,13 +8,11 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 /**
- * @OA\OpenApi(
  *     @OA\Info(
  *         version="1.0",
  *         title="Nova Kudos",
  *         description="Demo Nova Kudos Api",
  *     )
- * )
  */
 
 class Controller extends BaseController
