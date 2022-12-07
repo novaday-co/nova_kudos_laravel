@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\SuperAdmin\Company;
+namespace App\Http\Requests\Admin\Company;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CompanyRequest extends FormRequest
+class UpdateCompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class CompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'min:3'],
+            'name' => ['sometimes', 'required', 'string'],
             'avatar' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp']
         ];
     }

@@ -34,6 +34,11 @@ class User extends Authenticatable
 
     //protected $with = ['groups', 'questions'];
 
+    public function companies(): BelongsToMany
+    {
+        return $this->belongsToMany(Company::class, 'company_users', 'user_id', 'company_id');
+    }
+
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'group_users', 'user_id', 'group_id');

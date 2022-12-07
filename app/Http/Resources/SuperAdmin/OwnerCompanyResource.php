@@ -15,8 +15,8 @@ class OwnerCompanyResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'owner' => $this->user_id,
-            'company' => $this->company_id
+            'owner' => $this->user,
+            'company' => $this->company
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\App\Company\CompanyController;
 use App\Http\Controllers\Api\App\GiftCard\SendGiftCardController;
 use App\Http\Controllers\Api\App\Group\GroupController;
 use App\Http\Controllers\Api\App\Home\HomeController;
@@ -85,6 +86,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
                 Route::post('{event}/join/groups/{group}', [EventController::class, 'participateGroup']);
             });
         });
+    });
         // final app routes
 
 
@@ -105,4 +107,4 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         // profile
         Route::get('users/{user}/profile', [ProfileController::class, 'show']);
         Route::put('users/{user}/profile', [ProfileController::class, 'update']);
-    });
+

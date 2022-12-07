@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/admin/users/all",
+     *      path="/api/app/users/all",
      *      operationId="get all users",
      *      tags={"users"},
      *      summary="get all users",
@@ -41,6 +41,7 @@ class UserController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
+     *      @OA\JsonContent(ref="/api/app/users/all")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -119,7 +120,6 @@ class UserController extends Controller
      *      ),
      * )
      */
-
     public function store(UserRequest $request, ImageService $imageService)
     {
         try
@@ -218,21 +218,16 @@ class UserController extends Controller
         try
         {
             DB::beginTransaction();
-            // validation
             $attrs = $request->validated();
-            // check request for upload image
             if ($request->hasFile('avatar')) {
-                // check image exists or not
                 if (!empty($user->avatar))
                     $imageService->deleteImage($user->avatar);
                 $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'users');
                 $result = $imageService->save($request->file('avatar'));
-                // check upload
                 if ($result === false)
                     return response('error uploading photo ', 400);
                 $attrs['avatar'] = $result;
             }
-            // user update
             $user = $user->update($attrs);
             DB::commit();
         } catch (\Exception $e)

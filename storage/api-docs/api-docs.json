@@ -6,15 +6,79 @@
         "version": "1.0"
     },
     "paths": {
-        "/superAdmin/companies/all": {
+        "/admin/companies/lists": {
             "get": {
                 "tags": [
                     "companies"
                 ],
-                "summary": "get all companies",
-                "description": "get all companies",
-                "operationId": "get all companies",
+                "summary": "get company lists",
+                "description": "get company list",
+                "operationId": "get company lists",
                 "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/lists"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/companies/{company}/users": {
+            "get": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "get all users of company",
+                "description": "get all users of company",
+                "operationId": "get all users of company",
+                "parameters": [
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
                     {
                         "name": "Accept",
                         "in": "header",
@@ -62,7 +126,69 @@
                 ]
             }
         },
-        "/superAdmin/companies/store": {
+        "/admin/companies/{company}/owner/get": {
+            "get": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "get owner",
+                "description": "get owner",
+                "operationId": "get owner",
+                "parameters": [
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "description": "company parameter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/{company}/owner/get"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "success"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/companies/store": {
             "post": {
                 "tags": [
                     "companies"
@@ -71,6 +197,14 @@
                 "description": "store new company",
                 "operationId": "store new company",
                 "parameters": [
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
                     {
                         "name": "Accept",
                         "in": "header",
@@ -120,7 +254,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "/superAdmin/companies"
+                                    "$ref": "/admin/companies/store"
                                 }
                             }
                         }
@@ -142,7 +276,7 @@
                 ]
             }
         },
-        "/superAdmin/companies/{company}/update": {
+        "/admin/companies/{company}/update": {
             "put": {
                 "tags": [
                     "companies"
@@ -208,7 +342,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "/superAdmin/companies/{company}"
+                                    "$ref": "/superAdmin/companies/{company}/update"
                                 }
                             }
                         }
@@ -230,7 +364,7 @@
                 ]
             }
         },
-        "/superAdmin/companies/{company}/users/{user}": {
+        "/admin/companies/{company}/owner/users/{user}": {
             "post": {
                 "tags": [
                     "companies"
@@ -242,6 +376,7 @@
                     {
                         "name": "company",
                         "in": "path",
+                        "description": "company parameter",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -250,6 +385,78 @@
                     {
                         "name": "user",
                         "in": "path",
+                        "description": "user parameter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/superAdmin/companies/{company}/users/{user}"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "success"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/companies/{company}/users/{user}": {
+            "post": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "add user to company",
+                "description": "add user to company",
+                "operationId": "add user to company",
+                "parameters": [
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "description": "company parameter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "user parameter",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2106,7 +2313,7 @@
                 ]
             }
         },
-        "/api/admin/users/all": {
+        "/api/app/users/all": {
             "get": {
                 "tags": [
                     "users"
@@ -2136,7 +2343,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/users/all"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "validation error"
@@ -2430,7 +2644,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/authentication/login-register"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "validation error"
@@ -2444,7 +2665,7 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
             }
@@ -2504,7 +2725,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/authentication/check-otp"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "request error"
@@ -2518,7 +2746,7 @@
                 },
                 "security": [
                     {
-                        "apiAuth": []
+                        "sanctum": []
                     }
                 ]
             }
@@ -2527,10 +2755,10 @@
     "components": {
         "securitySchemes": {
             "sanctum": {
-                "type": "apiKey",
-                "description": "Enter token in format (Bearer <token>)",
-                "name": "Authorization",
-                "in": "header"
+                "type": "http",
+                "description": "Laravel Sanctum token authentication",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }

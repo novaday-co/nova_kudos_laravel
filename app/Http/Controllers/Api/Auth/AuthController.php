@@ -20,7 +20,7 @@ class AuthController extends Controller
      *      tags={"otp system"},
      *      summary="login register",
      *      description="login register",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -52,6 +52,7 @@ class AuthController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
+     *          @OA\JsonContent(ref="/api/authentication/login-register")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -72,21 +73,15 @@ class AuthController extends Controller
     {
         try
         {
-            // validation
+
             $attributes = $request->validated();
-
-            // generation
             $otpCode = mt_rand(100000, 999999);
-
-            // update or create user
             $user = User::updateOrCreate([
                 'mobile' => $attributes['mobile'],
             ],[
                 'otp_code' => $otpCode,
                 'expiration_otp' => Carbon::now()->addMinutes(10),
             ]);
-
-            // send sms
             $smsService = new SmsService();
             $smsService->setReceptor($user->mobile);
             $smsService->setOtpCode($otpCode);
@@ -107,7 +102,7 @@ class AuthController extends Controller
      *      tags={"otp system"},
      *      summary="check otp",
      *      description="check otp",
-     *      security={{ "apiAuth": {}},},
+     *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -141,6 +136,7 @@ class AuthController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
+     *     @OA\JsonContent(ref="/api/authentication/check-otp")
      *       ),
      *     @OA\Response(
      *          response=400,
