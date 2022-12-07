@@ -93,7 +93,7 @@ class AuthController extends Controller
             $messageService = new MessageService($smsService);
             $messageService->send();
 
-            return response(['message' => 'otp code sent..'], 200);
+            return response(['message' => 'otp code sent..', 'code' => $otpCode], 200);
         } catch (\Exception $e)
         {
             return response(['errors' => $e->getMessage()], 400);

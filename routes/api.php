@@ -86,7 +86,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             });
         });
         // final app routes
-    });
+
 
     // Route::post('events/users/{user}', [EventController::class, 'store']);
     // Route::post('users/{user}/groups/{group}', [GroupController::class, 'addUser']);
@@ -94,6 +94,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     // Route::put('update/medals/{medal}', [MedalController::class, 'update']);
         Route::post('medals/{medal}/questions/{question}', [MedalController::class, 'medalQuestion']);
         Route::post('medals/{medal}/users/{user}/questions/{question}', [MedalController::class, 'medalUser']);
+
 
         Route::get('questions/users/{user}', [HomeController::class, 'questions']);
         Route::get('answers/questions/{question}', [HomeController::class, 'answerQuestions']);
@@ -104,3 +105,4 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         // profile
         Route::get('users/{user}/profile', [ProfileController::class, 'show']);
         Route::put('users/{user}/profile', [ProfileController::class, 'update']);
+    });

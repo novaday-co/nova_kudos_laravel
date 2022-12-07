@@ -244,6 +244,7 @@ class QuestionController extends Controller
     public function update(QuestionRequest $request, Question $question)
     {
         try {
+            auth()->user();
             $question->update($request->validated());
             return new QuestionResource($question);
         } catch (\Exception $e) {

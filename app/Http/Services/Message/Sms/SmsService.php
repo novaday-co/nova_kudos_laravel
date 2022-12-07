@@ -13,8 +13,13 @@ class SmsService implements MessageInterface
 
     public function fire()
     {
-        $kavenegar = new KavenegarApi(env('KAVENEGAR_API_KEY'));
-        $kavenegar->VerifyLookup($this->receptor, $this->otp_code, null, null, $this->template);
+        try {
+            $kavenegar = new KavenegarApi(env('KAVENEGAR_API_KEY'));
+            $kavenegar->VerifyLookup($this->receptor, $this->otp_code, null, null, $this->template);
+        } catch (\Exception $exception)
+        {
+
+        }
     }
 
     public function getReceptor(): string
