@@ -62,6 +62,70 @@
                 ]
             }
         },
+        "/admin/companies/{company}/groups": {
+            "get": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "get company groups",
+                "description": "get company groups",
+                "operationId": "get company groups",
+                "parameters": [
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/lists"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/companies/{company}/users": {
             "get": {
                 "tags": [
@@ -1322,63 +1386,7 @@
                 ]
             }
         },
-        "/api/app/groups/all": {
-            "get": {
-                "tags": [
-                    "groups"
-                ],
-                "summary": "get all groups",
-                "description": "get all groups",
-                "operationId": "get all groups",
-                "parameters": [
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "/api/admin/groups/all"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "validation error"
-                    },
-                    "422": {
-                        "description": "error"
-                    },
-                    "500": {
-                        "description": "server error"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/app/groups/company/{company}": {
+        "/api/app/groups/companies/{company}": {
             "post": {
                 "tags": [
                     "groups"
@@ -1440,7 +1448,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/groups/companies/{company}"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "validation error"
@@ -1459,7 +1474,7 @@
                 ]
             }
         },
-        "/api/app/groups/{group}/update": {
+        "/api/app/groups/{group}/companies/{company}": {
             "put": {
                 "tags": [
                     "groups"
@@ -1470,6 +1485,14 @@
                 "parameters": [
                     {
                         "name": "group",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "company",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1521,7 +1544,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/groups/{group}/companies/{company}"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "validation error"

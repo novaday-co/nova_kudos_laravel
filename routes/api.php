@@ -47,9 +47,8 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){
-            Route::get('all', [GroupController::class, 'index'])->name('all');
-            Route::post('store', [GroupController::class, 'store'])->name('store');
-            Route::put('update/{group}', [GroupController::class, 'update'])->name('update');
+            Route::post('companies/{company}', [GroupController::class, 'store'])->name('store');
+            Route::put('{group}/companies/{company}', [GroupController::class, 'update'])->name('update');
             Route::delete('delete/{group}', [GroupController::class, 'destroy'])->name('destroy');
            // Route::post('users/{user}/groups/{group}', [GroupController::class, 'addUser'])->name('add.user');
         });

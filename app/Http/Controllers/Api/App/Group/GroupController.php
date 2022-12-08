@@ -14,60 +14,10 @@ use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
-    /**
-     * @OA\Get (
-     *      path="/api/app/groups/all",
-     *      operationId="get all groups",
-     *      tags={"groups"},
-     *      summary="get all groups",
-     *      description="get all groups",
-     *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/api/admin/groups/all")
-     *       ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
-     *      ),
-     *     @OA\Response(
-     *          response=422,
-     *          description="error",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
-    public function index()
-    {
-        $groups = Group::query()->latest()->paginate(15);
-        return GroupResource::collection($groups);
-    }
 
     /**
      * @OA\Post (
-     *      path="/api/app/groups/company/{company}",
+     *      path="/api/app/groups/companies/{company}",
      *      operationId="store new groups",
      *      tags={"groups"},
      *      summary="store new groups",
@@ -113,6 +63,7 @@ class GroupController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
+     *          @OA\JsonContent(ref="/api/app/groups/companies/{company}")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -142,16 +93,16 @@ class GroupController extends Controller
             }
             $attrs['company_id'] = $company->id;
             $group = Group::query()->create($attrs);
+            return new GroupResource($group);
         } catch (\Exception $e)
         {
             return response(['errors: ' => $e->getMessage()], 400);
         }
-        return new GroupResource($group);
         }
 
     /**
      * @OA\Put(
-     *      path="/api/app/groups/{group}/update",
+     *      path="/api/app/groups/{group}/companies/{company}",
      *      operationId="update group",
      *      tags={"groups"},
      *      summary="update group",
@@ -159,6 +110,14 @@ class GroupController extends Controller
      *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
      *          name="group",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="company",
      *          in="path",
      *          required=true,
      *          @OA\Schema(
@@ -197,6 +156,7 @@ class GroupController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
+     *     @OA\JsonContent(ref="/api/app/groups/{group}/companies/{company}")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -213,7 +173,7 @@ class GroupController extends Controller
      * )
      */
 
-        public function update(UpdateGroupRequest $request, ImageService $imageService, Group $group)
+        public function update(UpdateGroupRequest $request, ImageService $imageService, Group $group, Company $company)
         {
             try
             {
@@ -227,14 +187,13 @@ class GroupController extends Controller
                         return response('error uploading photo ', 400);
                     $attrs['avatar'] = $result;
                 }
+                $attrs['company_id'] = $company->id;
                 $group->update($attrs);
-                DB::commit();
+                return GroupResource::make($group);
             } catch (\Exception $e)
             {
-                DB::rollBack();
                 return response(['errors' => $e->getMessage()], 400);
             }
-            return new GroupResource($group);
         }
 
     /*    public function destroy(Group $group)

@@ -79,6 +79,70 @@ class CompanyController extends Controller
 
     /**
      * @OA\Get (
+     *      path="/admin/companies/{company}/groups",
+     *      operationId="get company groups",
+     *      tags={"companies"},
+     *      summary="get company groups",
+     *      description="get company groups",
+     *      security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *          name="company",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="/admin/companies/lists")
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="validation error",
+     *      ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="error",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
+    public function companyGroups(Company $company)
+    {
+        try {
+            $groups = $company->groups;
+            return GroupResource::collection($groups);
+        } catch (\Exception $exception)
+        {
+            return response(['bad request' => $exception->getMessage()], 400);
+        }
+    }
+
+    /**
+     * @OA\Get (
      *      path="/admin/companies/{company}/users",
      *      operationId="get all users of company",
      *      tags={"companies"},

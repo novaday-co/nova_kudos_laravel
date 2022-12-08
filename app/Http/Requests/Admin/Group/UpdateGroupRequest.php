@@ -25,7 +25,7 @@ class UpdateGroupRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'required', 'string'],
-            'avatar' => ['sometimes', 'required', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp']
+            'avatar' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp']
         ];
     }
 }

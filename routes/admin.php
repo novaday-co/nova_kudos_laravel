@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
  Route::prefix('companies')->name('company.')->group(function () {
      Route::get('lists', [CompanyController::class, 'companyLists'])->name('list');
+     Route::get('{company}/groups', [CompanyController::class, 'companyGroups'])->name('group');
      Route::get('{company}/users', [CompanyController::class, 'companyUsers'])->name('user');
      Route::get('{company}/owner', [CompanyController::class, '']);
      Route::post('store', [CompanyController::class, 'store'])->name('store');
