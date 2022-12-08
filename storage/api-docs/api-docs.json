@@ -1386,15 +1386,23 @@
                 ]
             }
         },
-        "/api/app/groups/companies/{company}": {
-            "post": {
+        "/api/app/groups/{group}/companies/{company}": {
+            "get": {
                 "tags": [
                     "groups"
                 ],
-                "summary": "store new groups",
-                "description": "store new groups",
-                "operationId": "store new groups",
+                "summary": "group users",
+                "description": "group users",
+                "operationId": "group users",
                 "parameters": [
+                    {
+                        "name": "group",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
                     {
                         "name": "company",
                         "in": "path",
@@ -1422,46 +1430,19 @@
                         "example": "application/json"
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "name"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "yasin"
-                                    },
-                                    "avatar": {
-                                        "type": "file",
-                                        "format": "text"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "success",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "/api/app/groups/companies/{company}"
+                                    "$ref": "/api/app/groups/{group}/companies/{company}"
                                 }
                             }
                         }
                     },
-                    "401": {
-                        "description": "validation error"
-                    },
-                    "422": {
-                        "description": "error"
+                    "400": {
+                        "description": "success"
                     },
                     "500": {
                         "description": "server error"
@@ -1472,9 +1453,7 @@
                         "sanctum": []
                     }
                 ]
-            }
-        },
-        "/api/app/groups/{group}/companies/{company}": {
+            },
             "put": {
                 "tags": [
                     "groups"
@@ -1557,6 +1536,94 @@
                         "description": "validation error"
                     },
                     "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/app/groups/companies/{company}": {
+            "post": {
+                "tags": [
+                    "groups"
+                ],
+                "summary": "store new groups",
+                "description": "store new groups",
+                "operationId": "store new groups",
+                "parameters": [
+                    {
+                        "name": "company",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "yasin"
+                                    },
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/groups/companies/{company}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
                         "description": "error"
                     },
                     "500": {

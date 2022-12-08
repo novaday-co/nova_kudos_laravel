@@ -51,6 +51,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::put('{group}/companies/{company}', [GroupController::class, 'update'])->name('update');
             Route::delete('delete/{group}', [GroupController::class, 'destroy'])->name('destroy');
            Route::post('{group}/companies/{company}/users/{user}', [GroupController::class, 'addUser'])->name('add.user');
+           Route::get('{group}/companies/{company}', [GroupController::class, 'groupUsers'])->name('user.list');
         });
         // poll routes
         Route::prefix('polls')->name('poll.')->group(function (){

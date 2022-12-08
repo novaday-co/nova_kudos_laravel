@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Group\GroupRequest;
 use App\Http\Requests\Admin\Group\UpdateGroupRequest;
 use App\Http\Resources\Admin\GroupResource;
+use App\Http\Resources\Admin\UserResource;
 use App\Http\Services\Image\ImageService;
 use App\Models\Company;
 use App\Models\Group;
@@ -15,6 +16,74 @@ use Illuminate\Support\Facades\DB;
 class GroupController extends Controller
 {
 
+    /**
+     * @OA\Get   (
+     *      path="/api/app/groups/{group}/companies/{company}",
+     *      operationId="group users",
+     *      tags={"groups"},
+     *      summary="group users",
+     *      description="group users",
+     *      security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *          name="group",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="company",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *     @OA\JsonContent(ref="/api/app/groups/{group}/companies/{company}")
+     *       ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="success",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
+    public function groupUsers(Group $group, Company $company)
+    {
+        try {
+            $company->groups()->findOrFail(['group_id' => $group->id]);
+            $users = $group->users;
+            return UserResource::collection($users);
+        } catch (\Exception $exception)
+        {
+            return response(['bad request' => $exception->getMessage()], 400);
+        }
+    }
     /**
      * @OA\Post (
      *      path="/api/app/groups/companies/{company}",
@@ -278,13 +347,12 @@ class GroupController extends Controller
         public function addUser(Group $group, Company $company, User $user)
         {
             try {
-                $company->users()->findOrFail([
-                    'user_id' => $user->id
-                ]);
+                $company->groups()->findOrFail(['group_id' => $group->id]);
+                $company->users()->findOrFail(['user_id' => $user->id]);
                 $group->users()->sync($user);
                 return response('user added', 200);
             } catch (\Exception $exception) {
                 return response('error', 400);
             }
-       }
+      }
     }
