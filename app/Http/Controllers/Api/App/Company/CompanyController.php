@@ -509,7 +509,74 @@ class CompanyController extends Controller
         {
             return response(['bad request' => $exception->getMessage()], 400);
         }
+    }
 
-
+    /**
+     * @OA\Delete  (
+     *      path="/admin/companies/{company}/users/{user}",
+     *      operationId="remove user",
+     *      tags={"companies"},
+     *      summary="remove user",
+     *      description="remove user",
+     *      security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *         description="company parameter",
+     *         in="path",
+     *         name="company",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Parameter(
+     *          description="user parameter",
+     *          name="user",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="/admin/companies/{company}/users/{user}")
+     *       ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="success",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
+    public function removeUser(Company $company, User $user)
+    {
+        try
+        {
+            $company->users()->detach($user);
+            return response(['this user deleted']);
+        } catch (\Exception $exception)
+        {
+            return response(['bad request' => $exception->getMessage()], 400);
+        }
     }
 }
