@@ -50,7 +50,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::post('companies/{company}', [GroupController::class, 'store'])->name('store');
             Route::put('{group}/companies/{company}', [GroupController::class, 'update'])->name('update');
             Route::delete('delete/{group}', [GroupController::class, 'destroy'])->name('destroy');
-           // Route::post('users/{user}/groups/{group}', [GroupController::class, 'addUser'])->name('add.user');
+           Route::post('{group}/companies/{company}/users/{user}', [GroupController::class, 'addUser'])->name('add.user');
         });
         // poll routes
         Route::prefix('polls')->name('poll.')->group(function (){

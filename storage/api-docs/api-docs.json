@@ -1570,7 +1570,7 @@
                 ]
             }
         },
-        "/api/app/add/groups/{group}/users/{user}": {
+        "/api/app/groups/{group}/companies/{company}/users/{user}": {
             "post": {
                 "tags": [
                     "groups"
@@ -1581,6 +1581,14 @@
                 "parameters": [
                     {
                         "name": "group",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "company",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1616,7 +1624,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "success"
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/groups/{group}/users/{user}"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "success"

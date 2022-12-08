@@ -212,7 +212,7 @@ class GroupController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/api/app/add/groups/{group}/users/{user}",
+     *      path="/api/app/groups/{group}/companies/{company}/users/{user}",
      *      operationId="add user to group",
      *      tags={"groups"},
      *      summary="add user to group",
@@ -220,6 +220,14 @@ class GroupController extends Controller
      *      security={ {"sanctum": {} }},
      *     @OA\Parameter(
      *          name="group",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="company",
      *          in="path",
      *          required=true,
      *          @OA\Schema(
@@ -255,6 +263,7 @@ class GroupController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
+     *     @OA\JsonContent(ref="/api/app/groups/{group}/users/{user}")
      *       ),
      *     @OA\Response(
      *          response=400,
@@ -266,15 +275,16 @@ class GroupController extends Controller
      *      ),
      * )
      */
-        public function addUser(User $user, Group $group)
+        public function addUser(Group $group, Company $company, User $user)
         {
             try {
-                // Group::find($group)->users()->attach($user);
-                $group->users()->attach($user);
+                $company->users()->findOrFail([
+                    'user_id' => $user->id
+                ]);
+                $group->users()->sync($user);
+                return response('user added', 200);
             } catch (\Exception $exception) {
                 return response('error', 400);
             }
-            return response('user added', 200);
-        }
-
+       }
     }
