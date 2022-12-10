@@ -2729,6 +2729,15 @@
                 "operationId": "login and register",
                 "parameters": [
                     {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
                         "name": "Accept",
                         "in": "header",
                         "required": true,
@@ -2804,6 +2813,15 @@
                 "description": "check otp",
                 "operationId": "check otp",
                 "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
                     {
                         "name": "Accept",
                         "in": "header",
