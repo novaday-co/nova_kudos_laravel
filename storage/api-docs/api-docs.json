@@ -2719,14 +2719,14 @@
                 ]
             }
         },
-        "/api/authentication/login-register": {
+        "/api/authentication/login": {
             "post": {
                 "tags": [
-                    "otp system"
+                    "Login"
                 ],
-                "summary": "login register",
-                "description": "login register",
-                "operationId": "login and register",
+                "summary": "login",
+                "description": "login",
+                "operationId": "login",
                 "parameters": [
                     {
                         "name": "locale",
@@ -2807,7 +2807,7 @@
         "/api/authentication/check-otp": {
             "post": {
                 "tags": [
-                    "otp system"
+                    "Login"
                 ],
                 "summary": "check otp",
                 "description": "check otp",

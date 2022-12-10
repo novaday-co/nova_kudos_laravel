@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRegisterRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\OtpRequest;
 use App\Http\Resources\Auth\UserResource;
 use App\Http\Services\Message\MessageService;
@@ -15,11 +15,11 @@ class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/api/authentication/login-register",
-     *      operationId="login and register",
-     *      tags={"otp system"},
-     *      summary="login register",
-     *      description="login register",
+     *      path="/api/authentication/login",
+     *      operationId="login",
+     *      tags={"Login"},
+     *      summary="login",
+     *      description="login",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="locale",
@@ -78,7 +78,7 @@ class AuthController extends Controller
      * )
      */
 
-    public function login(LoginRegisterRequest $request)
+    public function login(LoginRequest $request)
     {
         try
         {
@@ -106,7 +106,7 @@ class AuthController extends Controller
      * @OA\Post(
      *      path="/api/authentication/check-otp",
      *      operationId="check otp",
-     *      tags={"otp system"},
+     *      tags={"Login"},
      *      summary="check otp",
      *      description="check otp",
      *      security={ {"sanctum": {} }},
