@@ -22,6 +22,21 @@ return new class extends Migration
             $table->foreignId('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
 
+            $table->string('first_name', 255)->nullable();
+            $table->string('last_name', 255)->nullable();
+            $table->string('job_position', 255)->nullable();
+            $table->string('avatar', 255)->nullable();
+
+            $table->integer('coin_amount')->default(0);
+            $table->integer('rial_amount')->default(0);
+            $table->integer('notification_unread')->default(0);
+
+            $table->foreignId('is_default')->nullable();
+            $table->foreign('is_default')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->foreignId('role_id')->nullable();
+            $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

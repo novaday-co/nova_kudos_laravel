@@ -16,10 +16,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('mobile', 64)->unique();
-            $table->string('first_name', 255)->nullable();
-            $table->string('last_name', 255)->nullable();
-            $table->string('job_title', 255)->nullable();
-            $table->string('avatar', 255)->nullable();
+            $table->integer('login_count')->default(0);
             $table->string('otp_code')->nullable();
             $table->dateTime('expiration_otp')->nullable();
             $table->dateTime('activation_date')->nullable();
