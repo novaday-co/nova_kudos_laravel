@@ -17,56 +17,6 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    /**
-     * @OA\Get (
-     *      path="/api/app/events/all",
-     *      operationId="get all events",
-     *      tags={"events"},
-     *      summary="get all events",
-     *      description="get all events",
-     *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/api/app/events/all")
-     *       ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
-     *      ),
-     *     @OA\Response(
-     *          response=422,
-     *          description="error",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
-    public function index()
-    {
-        $events = Event::latest()->paginate(15);
-        return new EventResource($events);
-    }
 
     /**
      * @OA\Post (

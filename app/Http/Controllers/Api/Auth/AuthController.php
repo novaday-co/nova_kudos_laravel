@@ -22,6 +22,15 @@ class AuthController extends Controller
      *      description="login register",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
+     *          name="locale",
+     *          in="header",
+     *          required=true,
+     *          example="fa",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
      *          required=true,
@@ -103,6 +112,15 @@ class AuthController extends Controller
      *      summary="check otp",
      *      description="check otp",
      *      security={ {"sanctum": {} }},
+     *      @OA\Parameter(
+     *          name="locale",
+     *          in="header",
+     *          required=true,
+     *          example="fa",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",

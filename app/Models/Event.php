@@ -12,6 +12,11 @@ class Event extends Model
 
     protected $guarded = [];
 
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function users()
     {
         return $this->belongsToMany(Event::class, 'participate_user_events', 'event_id', 'user_id');
@@ -24,10 +29,5 @@ class Event extends Model
     public function groupType()
     {
         return $this->morphedByMany(Group::class, 'event_viewer');
-    }
-
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
     }
 }
