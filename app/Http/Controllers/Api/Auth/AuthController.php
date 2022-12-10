@@ -94,10 +94,10 @@ class AuthController extends Controller
             $messageService = new MessageService($smsService);
             $messageService->send();
 
-            return response(['message' => 'otp code sent..', 'code' => $otpCode], 200);
+            return response([trans('messages.sent_otp') => $otpCode], 200);
         } catch (\Exception $e)
         {
-            return response(['errors' => $e->getMessage()], 400);
+            return response(trans('auth.invalid_mobile'), 400);
         }
     }
 
@@ -180,7 +180,7 @@ class AuthController extends Controller
                 return new UserResource($user);
          } catch (\Exception $e)
         {
-           return response(['errors' => $e->getMessage()], 400);
+           return response(trans('auth.invalid_code'), 400);
         }
     }
 
@@ -264,10 +264,10 @@ class AuthController extends Controller
             $smsService->setOtpCode($otpCode);
             $messageService = new MessageService($smsService);
             $messageService->send();
-            return response(['message' => 'otp code sent..', 'code' => $otpCode], 200);
+            return response([trans('messages.sent_otp') => $otpCode], 200);
         } catch (\Exception $exception)
         {
-            return response(['bad request' => $exception->getMessage()]);
+            return response(trans('auth.invalid_resend', 400));
         }
     }
 }
