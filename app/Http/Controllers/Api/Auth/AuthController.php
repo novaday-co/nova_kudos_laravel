@@ -77,7 +77,6 @@ class AuthController extends Controller
      *      ),
      * )
      */
-
     public function login(LoginRequest $request)
     {
         try
@@ -185,14 +184,90 @@ class AuthController extends Controller
         }
     }
 
-    public function resendOtp(OtpRequest $request)
+    /**
+     * @OA\Post(
+     *      path="/api/authentication/resend-otp",
+     *      operationId="resend otp code",
+     *      tags={"Login"},
+     *      summary="resend otp code",
+     *      description="resend otp code",
+     *      security={ {"sanctum": {} }},
+     *      @OA\Parameter(
+     *          name="locale",
+     *          in="header",
+     *          required=true,
+     *          example="fa",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"mobile"},
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09124068701"),
+     *               ),
+     *           ),
+     *       ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="/api/authentication/resend-otp")
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="validation error",
+     *      ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="error",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
+    public function resendOtp(LoginRequest $request)
     {
         try{
             $attributes = $request->validated();
-            $user = User::query()->where('expiration_otp', '<=', Carbon::now()->subMinute()->toDateTimeString())->firstOrFail();
+            $otpCode = mt_rand(100000, 999999);
+            $user = User::query()->where('mobile', $attributes['mobile'])
+                ->where('expiration_otp', '<=', Carbon::now()->subMinute())->firstOrFail();
+            $user->update([
+               'otp_code' => $otpCode,
+               'expiration_otp' => Carbon::now()->addMinutes(),
+            ]);
+            $smsService = new SmsService();
+            $smsService->setReceptor($user->mobile);
+            $smsService->setOtpCode($otpCode);
+            $messageService = new MessageService($smsService);
+            $messageService->send();
+            return response(['message' => 'otp code sent..', 'code' => $otpCode], 200);
         } catch (\Exception $exception)
         {
-
+            return response(['bad request' => $exception->getMessage()]);
         }
     }
 }

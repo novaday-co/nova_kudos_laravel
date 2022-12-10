@@ -2893,6 +2893,91 @@
                     }
                 ]
             }
+        },
+        "/api/authentication/resend-otp": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "resend otp code",
+                "description": "resend otp code",
+                "operationId": "resend otp code",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "mobile"
+                                ],
+                                "properties": {
+                                    "mobile": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "09124068701"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/authentication/resend-otp"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
