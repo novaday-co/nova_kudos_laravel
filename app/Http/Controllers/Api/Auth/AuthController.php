@@ -185,8 +185,14 @@ class AuthController extends Controller
         }
     }
 
-    public function resendOtp()
+    public function resendOtp(OtpRequest $request)
     {
+        try{
+            $attributes = $request->validated();
+            $user = User::query()->where('expiration_otp', '<=', Carbon::now()->subMinute()->toDateTimeString())->firstOrFail();
+        } catch (\Exception $exception)
+        {
 
+        }
     }
 }
