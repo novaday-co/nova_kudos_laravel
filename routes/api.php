@@ -32,8 +32,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('authentication')->name('authentication.')->group(function (){
     // login & register route
-    Route::post('login-register', [AuthController::class, 'login'])->name('login');
+    Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check.otp');
+    Route::post('resend-otp', [AuthController::class, 'resendOtp'])->name('resend.otp');
 });
 
     // admin routes
