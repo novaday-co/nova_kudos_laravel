@@ -82,14 +82,13 @@ class AuthController extends Controller
     {
         try
         {
-
             $attributes = $request->validated();
             $otpCode = mt_rand(100000, 999999);
-            $user = User::updateOrCreate([
+            $user = User::query()->updateOrCreate([
                 'mobile' => $attributes['mobile'],
             ],[
                 'otp_code' => $otpCode,
-                'expiration_otp' => Carbon::now()->addMinutes(10),
+                'expiration_otp' => Carbon::now()->addMinutes(2),
             ]);
             $smsService = new SmsService();
             $smsService->setReceptor($user->mobile);
@@ -175,9 +174,8 @@ class AuthController extends Controller
     {
        try
        {
-           // validation
            $attributes = $request->validated();
-          $user = User::where('mobile', $attributes['mobile'])->where('otp_code', $attributes['otp_code'])
+            $user = User::query()->where('mobile', $attributes['mobile'])->where('otp_code', $attributes['otp_code'])
               ->where('expiration_otp', ">=", Carbon::now())->firstOrFail();
                 $user->update(['activation_date' => Carbon::now()]);
                 $user->token =  $user->createToken('api token')->plainTextToken;
