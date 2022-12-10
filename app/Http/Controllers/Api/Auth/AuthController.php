@@ -254,7 +254,7 @@ class AuthController extends Controller
             $attributes = $request->validated();
             $otpCode = mt_rand(100000, 999999);
             $user = User::query()->where('mobile', $attributes['mobile'])
-                ->where('expiration_otp', '<=', Carbon::now()->subMinute())->firstOrFail();
+                ->where('expiration_otp', '<=', Carbon::now()->subMinutes())->firstOrFail();
             $user->update([
                'otp_code' => $otpCode,
                'expiration_otp' => Carbon::now()->addMinutes(),
@@ -267,7 +267,7 @@ class AuthController extends Controller
             return response([trans('messages.sent_otp') => $otpCode], 200);
         } catch (\Exception $exception)
         {
-            return response(trans('auth.invalid_resend', 400));
+            return response(trans('auth.invalid_resend'), 400);
         }
     }
 }
