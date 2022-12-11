@@ -3022,7 +3022,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "/api/authentication/login-register"
+                                    "$ref": "/api/authentication/logout"
                                 }
                             }
                         }

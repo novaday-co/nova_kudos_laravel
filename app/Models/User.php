@@ -28,6 +28,7 @@ class User extends Authenticatable
         'last_name',
         'avatar',
         'otp_code',
+        'login_count',
         'expiration_otp',
         'activation_date',
     ];

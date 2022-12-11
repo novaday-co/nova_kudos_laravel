@@ -22,6 +22,7 @@ class UserResource extends JsonResource
     {
         return [
             'mobile' => $this->mobile,
+            'login_count' => $this->login_count,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'job_title' => $this->job_title,

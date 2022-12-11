@@ -176,7 +176,7 @@ class AuthController extends Controller
            $attributes = $request->validated();
             $user = User::query()->where('mobile', $attributes['mobile'])->where('otp_code', $attributes['otp_code'])
               ->where('expiration_otp', ">=", Carbon::now())->firstOrFail();
-                $user->update(['activation_date' => Carbon::now()]);
+                $user->update(['activation_date' => Carbon::now(), 'login_count' => $user['login_count'] + 1]);
                 $user->token =  $user->createToken('api token')->plainTextToken;
                 return UserResource::make($user, $user->token);
          } catch (\Exception $e)
