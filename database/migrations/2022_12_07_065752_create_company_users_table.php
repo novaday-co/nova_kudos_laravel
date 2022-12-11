@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('avatar', 255)->nullable();
 
             $table->integer('coin_amount')->default(0);
-            $table->integer('rial_amount')->default(0);
+            $table->integer('currency_amount')->default(0);
             $table->integer('notification_unread')->default(0);
 
             $table->foreignId('is_default')->nullable();

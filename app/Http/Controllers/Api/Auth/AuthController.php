@@ -177,7 +177,7 @@ class AuthController extends Controller
               ->where('expiration_otp', ">=", Carbon::now())->firstOrFail();
                 $user->update(['activation_date' => Carbon::now()]);
                 $user->token =  $user->createToken('api token')->plainTextToken;
-                return new UserResource($user);
+                return UserResource::make($user, $user->token);
          } catch (\Exception $e)
         {
            return response(trans('auth.invalid_code'), 400);
