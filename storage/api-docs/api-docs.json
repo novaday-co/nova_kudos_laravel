@@ -2979,14 +2979,14 @@
                 ]
             }
         },
-        "/api/authentication/user": {
-            "get": {
+        "/api/authentication/logout": {
+            "post": {
                 "tags": [
                     "Login"
                 ],
-                "summary": "user",
-                "description": "user",
-                "operationId": "user",
+                "summary": "logout",
+                "description": "logout",
+                "operationId": "logout",
                 "parameters": [
                     {
                         "name": "locale",
@@ -3022,7 +3022,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "/api/authentication/user"
+                                    "$ref": "/api/authentication/login-register"
                                 }
                             }
                         }

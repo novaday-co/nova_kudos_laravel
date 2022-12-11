@@ -10,6 +10,7 @@ use App\Http\Services\Message\MessageService;
 use App\Http\Services\Message\Sms\SmsService;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -269,5 +270,65 @@ class AuthController extends Controller
         {
             return response(trans('auth.invalid_resend'), 400);
         }
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/authentication/logout",
+     *      operationId="logout",
+     *      tags={"Login"},
+     *      summary="logout",
+     *      description="logout",
+     *      security={ {"sanctum": {} }},
+     *      @OA\Parameter(
+     *          name="locale",
+     *          in="header",
+     *          required=true,
+     *          example="fa",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="/api/authentication/login-register")
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="validation error",
+     *      ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="error",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
+    public function logout(Request $request)
+    {
+        auth()->user()->tokens()->delete();
+        return response(trans('messages.logout'), 200);
     }
 }
