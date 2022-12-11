@@ -35,7 +35,6 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check.otp');
     Route::post('resend-otp', [AuthController::class, 'resendOtp'])->name('resend.otp');
-    Route::get('user', [AuthController::class, 'user']);
 });
 
     // admin routes
