@@ -310,7 +310,7 @@ class AuthController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/authentication/login-register")
+     *          @OA\JsonContent(ref="/api/authentication/logout")
      *       ),
      *     @OA\Response(
      *          response=401,
