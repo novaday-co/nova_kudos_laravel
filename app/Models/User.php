@@ -33,8 +33,6 @@ class User extends Authenticatable
         'activation_date',
     ];
 
-    protected $with = ['companies'];
-
     public function companies(): BelongsToMany
     {
         return $this->belongsToMany(Company::class, 'company_user', 'user_id', 'company_id')

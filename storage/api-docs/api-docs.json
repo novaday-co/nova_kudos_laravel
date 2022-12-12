@@ -2877,7 +2877,7 @@
                         }
                     },
                     "401": {
-                        "description": "validation error"
+                        "description": "unauthorized"
                     },
                     "422": {
                         "description": "error"
@@ -2970,7 +2970,7 @@
                         "description": "request error"
                     },
                     "401": {
-                        "description": "validation error"
+                        "description": "unauthorized"
                     },
                     "500": {
                         "description": "server error"
@@ -3052,7 +3052,7 @@
                         }
                     },
                     "401": {
-                        "description": "validation error"
+                        "description": "unauthorized"
                     },
                     "422": {
                         "description": "error"
@@ -3117,7 +3117,7 @@
                         }
                     },
                     "401": {
-                        "description": "validation error"
+                        "description": "unauthorized"
                     },
                     "422": {
                         "description": "error"

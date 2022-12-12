@@ -66,7 +66,7 @@ class AuthController extends Controller
      *       ),
      *     @OA\Response(
      *          response=401,
-     *          description="validation error",
+     *          description="unauthorized",
      *      ),
      *     @OA\Response(
      *          response=422,
@@ -95,10 +95,10 @@ class AuthController extends Controller
             $messageService = new MessageService($smsService);
             $messageService->send();
 
-            return response([trans('messages.sent_otp') => $otpCode], 200);
+            return response(['message' => trans('messages.otp.sent'), 'otp_code' => $otpCode], 200);
         } catch (\Exception $e)
         {
-            return response(trans('auth.invalid_mobile'), 400);
+            return response(['error' => trans('auth.invalid_mobile')], 400);
         }
     }
 
@@ -160,7 +160,7 @@ class AuthController extends Controller
      *      ),
      *     @OA\Response(
      *          response=401,
-     *          description="validation error",
+     *          description="unauthorized",
      *       ),
      *     @OA\Response(
      *          response=500,
@@ -180,7 +180,7 @@ class AuthController extends Controller
                 return UserResource::make($user, $user->token);
          } catch (\Exception $e)
         {
-           return response(trans('auth.invalid_code'), 400);
+           return response(['error ' => trans('auth.invalid_code')], 400);
         }
     }
 
@@ -236,7 +236,7 @@ class AuthController extends Controller
      *       ),
      *     @OA\Response(
      *          response=401,
-     *          description="validation error",
+     *          description="unauthorized",
      *      ),
      *     @OA\Response(
      *          response=422,
@@ -264,10 +264,10 @@ class AuthController extends Controller
             $smsService->setOtpCode($otpCode);
             $messageService = new MessageService($smsService);
             $messageService->send();
-            return response([trans('messages.sent_otp') => $otpCode], 200);
+            return response(['message '=>trans('messages.sent_otp'), $otpCode], 200);
         } catch (\Exception $exception)
         {
-            return response(trans('auth.invalid_resend'), 400);
+            return response(['error ' => trans('auth.invalid_resend')], 400);
         }
     }
 
@@ -313,7 +313,7 @@ class AuthController extends Controller
      *       ),
      *     @OA\Response(
      *          response=401,
-     *          description="validation error",
+     *          description="unauthorized",
      *      ),
      *     @OA\Response(
      *          response=422,
@@ -327,7 +327,13 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete();
-        return response(trans('messages.logout'), 200);
+        try {
+            auth()->user()->tokens()->delete();
+            return response(['message' => trans('messages.logout')],200);
+        } catch (\Exception $exception)
+        {
+            return response(['error' => trans('auth.invalid_logout')], 400);
+        }
+
     }
 }
