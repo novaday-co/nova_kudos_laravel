@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\OtpRequest;
-use App\Http\Resources\Auth\UserResource;
+use App\Http\Resources\UserResource;
 use App\Http\Services\Message\MessageService;
 use App\Http\Services\Message\Sms\SmsService;
 use App\Models\User;
@@ -168,7 +168,6 @@ class AuthController extends Controller
      *      ),
      * )
      */
-
     public function checkOtp(OtpRequest $request)
     {
        try

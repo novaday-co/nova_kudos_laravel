@@ -33,11 +33,12 @@ class User extends Authenticatable
         'activation_date',
     ];
 
-    //protected $with = ['groups', 'questions'];
+    protected $with = ['companies'];
 
     public function companies(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class, 'company_users', 'user_id', 'company_id');
+        return $this->belongsToMany(Company::class, 'company_user', 'user_id', 'company_id')
+            ->withPivot('first_name', 'last_name', 'job_position', 'avatar', 'coin_amount', 'currency_amount', 'notification_unread', 'is_default', 'role_id');
     }
 
     public function groups(): BelongsToMany

@@ -47,6 +47,10 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::put('update/{user}', [UserController::class, 'update'])->name('update');
             Route::delete('delete/{user}', [UserController::class, 'destroy'])->name('destroy');
         });
+        // profile routes
+        Route::prefix('profiles')->name('profile.')->group(function (){
+           Route::post('users/companies/{company_id}', [ProfileController::class, 'updateProfile'])->name('update');
+        });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){
             Route::post('companies/{company}', [GroupController::class, 'store'])->name('store');

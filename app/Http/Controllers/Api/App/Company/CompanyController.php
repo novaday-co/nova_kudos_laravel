@@ -4,20 +4,15 @@ namespace App\Http\Controllers\Api\App\Company;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Company\UpdateCompanyRequest;
-use App\Http\Requests\Admin\Group\GroupRequest;
-use App\Http\Requests\Admin\Group\UpdateGroupRequest;
 use App\Http\Requests\SuperAdmin\Company\CompanyRequest;
 use App\Http\Resources\Admin\GroupResource;
-use App\Http\Resources\Auth\UserResource;
 use App\Http\Resources\SuperAdmin\CompanyResource;
 use App\Http\Resources\SuperAdmin\OwnerCompanyResource;
+use App\Http\Resources\UserResource;
 use App\Http\Services\Image\ImageService;
 use App\Models\Company;
-use App\Models\Group;
 use App\Models\OwnerCompany;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
@@ -275,14 +270,6 @@ class CompanyController extends Controller
      *      summary="store new company",
      *      description="store new company",
      *      security={ {"sanctum": {} }},
-     *          @OA\Parameter(
-     *          name="company",
-     *          in="path",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",

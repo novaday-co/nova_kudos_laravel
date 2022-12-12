@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Auth;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,9 +23,16 @@ class UserResource extends JsonResource
         return [
             'mobile' => $this->mobile,
             'login_count' => $this->login_count,
-            'first_name' => $this->first_name,
+            'first_name' => $this->whenPivotLoaded('company_user', function (){
+                return $this->pivot->first_name;
+            }),
             'last_name' => $this->last_name,
-            'job_title' => $this->job_title,
+            'job_position' => $this->job_title,
+            'coin_amount' => $this->coin_amount,
+            'currency_amount' => $this->currency_amount,
+            'notification_unread' => $this->notification_unread,
+            'role_id' => $this->role_id,
+            'is_default' => $this->is_default,
             'avatar' => $this->avatar,
             'token' => $this->token
         ];
