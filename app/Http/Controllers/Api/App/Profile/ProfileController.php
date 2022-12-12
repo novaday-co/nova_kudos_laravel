@@ -97,7 +97,7 @@ class ProfileController extends Controller
             if ($request->hasFile('avatar')) {
                 if (!empty($user_company->avatar))
                     $imageService->deleteImage($user_company->avatar);
-                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'company' . $company_id . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . 'profiles');
+                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'company' . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . 'profiles');
                 $result = $imageService->save($request->file('avatar'));
                 if ($result === false)
                     return response('error uploading photo ', 400);
