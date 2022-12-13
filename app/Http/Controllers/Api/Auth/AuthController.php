@@ -55,7 +55,7 @@ class AuthController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  required={"mobile"},
-     *                  @OA\Property(property="mobile", type="text", format="text", example="09124068701"),
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09350000000"),
      *               ),
      *           ),
      *       ),
@@ -83,22 +83,22 @@ class AuthController extends Controller
         try
         {
             $attributes = $request->validated();
-            $otpCode = mt_rand(100000, 999999);
+            $otpCode = mt_rand(1000, 9999);
             $user = User::query()->where('mobile', $attributes['mobile'])->firstOrFail();
             $user->update([
                'otp_code' => $otpCode,
                'expiration_otp' => Carbon::now()->addMinutes()
             ]);
-            $smsService = new SmsService();
-            $smsService->setReceptor($user->mobile);
-            $smsService->setOtpCode($otpCode);
-            $messageService = new MessageService($smsService);
-            $messageService->send();
+          //  $smsService = new SmsService();
+          //  $smsService->setReceptor($user->mobile);
+           // $smsService->setOtpCode($otpCode);
+          //  $messageService = new MessageService($smsService);
+          //  $messageService->send();
 
-            return response(['message' => trans('messages.otp.sent'), 'otp_code' => $otpCode], 200);
+            return response(['otp_code' => $otpCode], 200);
         } catch (\Exception $e)
         {
-            return response(['error' => trans('auth.invalid_mobile')], 400);
+            return response(['error' => trans('auth.invalid_mobile')], 422);
         }
     }
 
@@ -143,7 +143,7 @@ class AuthController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  required={"mobile"},
-     *                  @OA\Property(property="mobile", type="text", format="text", example="09124068701"),
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09350000000"),
      *                  required={"otp_code"},
      *                  @OA\Property(property="otp_code", type="text", format="text", example="091234"),
      *               ),
@@ -180,7 +180,7 @@ class AuthController extends Controller
                 return UserResource::make($user, $user->token);
          } catch (\Exception $e)
         {
-           return response(['error ' => trans('auth.invalid_code')], 400);
+           return response(['error ' => trans('auth.invalid_code')], 422);
         }
     }
 
@@ -225,7 +225,7 @@ class AuthController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  required={"mobile"},
-     *                  @OA\Property(property="mobile", type="text", format="text", example="09124068701"),
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09350000000"),
      *               ),
      *           ),
      *       ),
@@ -252,7 +252,7 @@ class AuthController extends Controller
     {
         try{
             $attributes = $request->validated();
-            $otpCode = mt_rand(100000, 999999);
+            $otpCode = mt_rand(1000, 9999);
             $user = User::query()->where('mobile', $attributes['mobile'])
                 ->where('expiration_otp', '<=', Carbon::now()->subMinutes())->firstOrFail();
             $user->update([
@@ -267,7 +267,7 @@ class AuthController extends Controller
             return response(['message '=>trans('messages.sent_otp'), $otpCode], 200);
         } catch (\Exception $exception)
         {
-            return response(['error ' => trans('auth.invalid_resend')], 400);
+            return response(['error ' => trans('auth.invalid_resend')], 422);
         }
     }
 
@@ -332,7 +332,7 @@ class AuthController extends Controller
             return response(['message' => trans('messages.logout')],200);
         } catch (\Exception $exception)
         {
-            return response(['error' => trans('auth.invalid_logout')], 400);
+            return response(['error' => trans('auth.invalid_logout')], 422);
         }
 
     }

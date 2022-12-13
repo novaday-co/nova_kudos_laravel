@@ -2857,7 +2857,7 @@
                                     "mobile": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "09124068701"
+                                        "example": "09350000000"
                                     }
                                 },
                                 "type": "object"
@@ -2942,7 +2942,7 @@
                                     "mobile": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "09124068701"
+                                        "example": "09350000000"
                                     },
                                     "otp_code": {
                                         "type": "text",
@@ -3032,7 +3032,7 @@
                                     "mobile": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "09124068701"
+                                        "example": "09350000000"
                                     }
                                 },
                                 "type": "object"

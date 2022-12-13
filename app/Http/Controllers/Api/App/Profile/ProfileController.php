@@ -103,7 +103,7 @@ class ProfileController extends Controller
                     return response('error uploading photo ', 400);
                 $attrs['avatar'] = $result;
             }
-            $user_company->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));
+            $company_id->users()->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));
             return response('ok');
         } catch (\Exception $e)
         {
