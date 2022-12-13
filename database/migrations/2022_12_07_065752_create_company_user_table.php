@@ -31,9 +31,6 @@ return new class extends Migration
             $table->integer('currency_amount')->default(0);
             $table->integer('notification_unread')->default(0);
 
-            $table->foreignId('is_default')->nullable();
-            $table->foreign('is_default')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
-
             $table->foreignId('role_id')->nullable();
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
 
