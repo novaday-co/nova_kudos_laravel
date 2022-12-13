@@ -262,14 +262,6 @@
                 "operationId": "store new company",
                 "parameters": [
                     {
-                        "name": "company",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
                         "name": "Accept",
                         "in": "header",
                         "required": true,
@@ -2438,6 +2430,103 @@
                 ]
             }
         },
+        "/api/app/profiles/users/companies/{company_id}": {
+            "post": {
+                "tags": [
+                    "profiles"
+                ],
+                "summary": "update profile user",
+                "description": "update profile user",
+                "operationId": "update profile user",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "mobile"
+                                ],
+                                "properties": {
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "text"
+                                    },
+                                    "mobile": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "09124068701"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/app/profile/users/update/{company_id}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/app/users/all": {
             "get": {
                 "tags": [
@@ -2768,7 +2857,7 @@
                                     "mobile": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "09124068701"
+                                        "example": "09350000000"
                                     }
                                 },
                                 "type": "object"
@@ -2788,7 +2877,7 @@
                         }
                     },
                     "401": {
-                        "description": "validation error"
+                        "description": "unauthorized"
                     },
                     "422": {
                         "description": "error"
@@ -2853,12 +2942,12 @@
                                     "mobile": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "09124068701"
+                                        "example": "09350000000"
                                     },
                                     "otp_code": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "091234"
+                                        "example": "0912"
                                     }
                                 },
                                 "type": "object"
@@ -2881,7 +2970,7 @@
                         "description": "request error"
                     },
                     "401": {
-                        "description": "validation error"
+                        "description": "unauthorized"
                     },
                     "500": {
                         "description": "server error"
@@ -2943,7 +3032,7 @@
                                     "mobile": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "09124068701"
+                                        "example": "09350000000"
                                     }
                                 },
                                 "type": "object"
@@ -2963,7 +3052,72 @@
                         }
                     },
                     "401": {
-                        "description": "validation error"
+                        "description": "unauthorized"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/authentication/logout": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "logout",
+                "description": "logout",
+                "operationId": "logout",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/authentication/logout"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized"
                     },
                     "422": {
                         "description": "error"

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('company_users', function (Blueprint $table) {
+        Schema::create('company_user', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('user_id');
@@ -28,11 +28,8 @@ return new class extends Migration
             $table->string('avatar', 255)->nullable();
 
             $table->integer('coin_amount')->default(0);
-            $table->integer('rial_amount')->default(0);
+            $table->integer('currency_amount')->default(0);
             $table->integer('notification_unread')->default(0);
-
-            $table->foreignId('is_default')->nullable();
-            $table->foreign('is_default')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
 
             $table->foreignId('role_id')->nullable();
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
@@ -48,6 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_users');
+        Schema::dropIfExists('company_user');
     }
 };

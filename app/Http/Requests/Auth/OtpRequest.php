@@ -25,7 +25,7 @@ class OtpRequest extends FormRequest
     {
         return [
             'mobile' => ['required', 'string', 'min:11', 'max:64', 'regex:/^[a-zA-Z0-9_.@\+]*$/'],
-            'otp_code' => ['required', 'digits:6'],
+            'otp_code' => ['required', 'digits:4'],
         ];
     }
 }

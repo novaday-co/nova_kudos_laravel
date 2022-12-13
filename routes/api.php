@@ -35,6 +35,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('check-otp', [AuthController::class, 'checkOtp'])->name('check.otp');
     Route::post('resend-otp', [AuthController::class, 'resendOtp'])->name('resend.otp');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 });
 
     // admin routes
@@ -45,6 +46,10 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::post('store', [UserController::class, 'store'])->name('store');
             Route::put('update/{user}', [UserController::class, 'update'])->name('update');
             Route::delete('delete/{user}', [UserController::class, 'destroy'])->name('destroy');
+        });
+        // profile routes
+        Route::prefix('profiles')->name('profile.')->group(function (){
+           Route::post('users/companies/{company_id}', [ProfileController::class, 'updateProfile'])->name('update');
         });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){

@@ -24,19 +24,16 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'mobile',
-        'first_name',
-        'last_name',
-        'avatar',
         'otp_code',
+        'login_count',
         'expiration_otp',
         'activation_date',
     ];
 
-    //protected $with = ['groups', 'questions'];
-
     public function companies(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class, 'company_users', 'user_id', 'company_id');
+        return $this->belongsToMany(Company::class, 'company_user', 'user_id', 'company_id')
+            ->withPivot('first_name', 'last_name', 'job_position', 'avatar', 'coin_amount', 'currency_amount', 'notification_unread', 'role_id');
     }
 
     public function groups(): BelongsToMany

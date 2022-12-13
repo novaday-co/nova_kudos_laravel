@@ -24,10 +24,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => ['sometimes', 'required', 'string', 'min:11', 'max:64', 'unique:users,mobile', 'regex:/^[a-zA-Z0-9_.@\+]*$/'],
-            'first_name' => ['sometimes', 'required', 'string', 'min:3'],
-            'last_name' => ['sometimes', 'required', 'string', 'min:3'],
-            'job_title' => ['sometimes', 'required', 'string'],
+            'mobile' => ['sometimes', 'required', 'string', 'max:11', 'unique:users,mobile', 'regex:/^[a-zA-Z0-9_.@\+]*$/'],
             'avatar' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp']
         ];
     }
