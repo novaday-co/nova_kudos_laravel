@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\OtpRequest;
@@ -12,7 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class AuthController extends ApiController
 {
     /**
      * @OA\Post(
@@ -95,10 +96,10 @@ class AuthController extends Controller
           //  $messageService = new MessageService($smsService);
           //  $messageService->send();
 
-            return response(['otp_code' => $otpCode], 200);
+            return $this->success(['otp_code' => $otpCode]);
         } catch (\Exception $e)
         {
-            return response(['error' => trans('auth.invalid_mobile')], 422);
+            return $this->error([$e->getMessage()], trans('auth.invalid.mobile'), 422);
         }
     }
 
@@ -180,7 +181,7 @@ class AuthController extends Controller
                 return UserResource::make($user, $user->token);
          } catch (\Exception $e)
         {
-           return response(['error ' => trans('auth.invalid_code')], 422);
+           return $this->error([$e->getMessage()], trans('auth.invalid.code'), 422);
         }
     }
 
@@ -264,10 +265,10 @@ class AuthController extends Controller
             $smsService->setOtpCode($otpCode);
             $messageService = new MessageService($smsService);
             $messageService->send();
-            return response(['message '=>trans('messages.sent_otp'), $otpCode], 200);
+            return $this->success([$otpCode]);
         } catch (\Exception $exception)
         {
-            return response(['error ' => trans('auth.invalid_resend')], 422);
+            return $this->error([$exception->getMessage()], trans('auth.invalid.resend'), 422);
         }
     }
 
@@ -329,11 +330,10 @@ class AuthController extends Controller
     {
         try {
             auth()->user()->tokens()->delete();
-            return response(['message' => trans('messages.logout')],200);
+            return $this->success([], trans('messages.logout'));
         } catch (\Exception $exception)
         {
-            return response(['error' => trans('auth.invalid_logout')], 422);
+            return $this->error([$exception->getMessage()], trans('auth.invalid.logout'), 422);
         }
-
     }
 }
