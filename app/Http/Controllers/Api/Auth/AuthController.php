@@ -99,7 +99,7 @@ class AuthController extends ApiController
             return $this->success(['otp_code' => $otpCode]);
         } catch (\Exception $e)
         {
-            return $this->error([$e->getMessage()], trans('auth.invalid.mobile'), 422);
+            return $this->error(['otp_code' => trans('auth.invalid.mobile')], trans('auth.invalid.mobile'), 422);
         }
     }
 
@@ -146,7 +146,7 @@ class AuthController extends ApiController
      *                  required={"mobile"},
      *                  @OA\Property(property="mobile", type="text", format="text", example="09350000000"),
      *                  required={"otp_code"},
-     *                  @OA\Property(property="otp_code", type="text", format="text", example="091234"),
+     *                  @OA\Property(property="otp_code", type="text", format="text", example="0912"),
      *               ),
      *           ),
      *       ),
@@ -181,7 +181,7 @@ class AuthController extends ApiController
                 return UserResource::make($user, $user->token);
          } catch (\Exception $e)
         {
-           return $this->error([$e->getMessage()], trans('auth.invalid.code'), 422);
+           return $this->error(['otp_code' => trans('auth.invalid.code')], trans('auth.invalid.code'), 422);
         }
     }
 
@@ -268,7 +268,7 @@ class AuthController extends ApiController
             return $this->success([$otpCode]);
         } catch (\Exception $exception)
         {
-            return $this->error([$exception->getMessage()], trans('auth.invalid.resend'), 422);
+            return $this->error(['resend_code' => trans('auth.invalid.resend')], trans('auth.invalid.resend'), 422);
         }
     }
 
@@ -333,7 +333,7 @@ class AuthController extends ApiController
             return $this->success([], trans('messages.logout'));
         } catch (\Exception $exception)
         {
-            return $this->error([$exception->getMessage()], trans('auth.invalid.logout'), 422);
+            return $this->error([trans('auth.invalid.logout')], trans('auth.invalid.logout'), 422);
         }
     }
 }
