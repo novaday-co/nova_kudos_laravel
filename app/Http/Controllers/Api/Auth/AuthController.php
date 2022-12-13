@@ -260,12 +260,12 @@ class AuthController extends ApiController
                'otp_code' => $otpCode,
                'expiration_otp' => Carbon::now()->addMinutes(),
             ]);
-            $smsService = new SmsService();
-            $smsService->setReceptor($user->mobile);
-            $smsService->setOtpCode($otpCode);
-            $messageService = new MessageService($smsService);
-            $messageService->send();
-            return $this->success([$otpCode]);
+//            $smsService = new SmsService();
+//            $smsService->setReceptor($user->mobile);
+//            $smsService->setOtpCode($otpCode);
+//            $messageService = new MessageService($smsService);
+//            $messageService->send();
+            return $this->success(['otp_code' => $otpCode]);
         } catch (\Exception $exception)
         {
             return $this->error(['resend_code' => trans('auth.invalid.resend')], trans('auth.invalid.resend'), 422);
@@ -329,7 +329,7 @@ class AuthController extends ApiController
     public function logout(Request $request)
     {
         try {
-            auth()->user()->tokens()->delete();
+            auth()->user()->currentAccessToken()->delete();
             return $this->success([], trans('messages.logout'));
         } catch (\Exception $exception)
         {

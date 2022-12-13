@@ -2947,7 +2947,7 @@
                                     "otp_code": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "091234"
+                                        "example": "0912"
                                     }
                                 },
                                 "type": "object"
