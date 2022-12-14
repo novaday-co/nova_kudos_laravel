@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('coin_values', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->nullable();
-            $table->string('value')->nullable();
+
+            $table->foreignId('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->integer('coin_value')->default(0);
+            $table->integer('system_value')->nullable();
             $table->timestamps();
         });
     }

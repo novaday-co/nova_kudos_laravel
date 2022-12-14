@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\Api\App\Coin\CoinController;
 use App\Http\Controllers\Api\App\Company\CompanyController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,7 @@ use Illuminate\Support\Facades\Route;
      Route::get('{company}/owner/get', [CompanyController::class, 'companyOwner'])->name('owner');
      Route::post('{company}/users/{user}', [CompanyController::class, 'addUser'])->name('add.user');
      Route::delete('{company}/users/{user}', [CompanyController::class, 'removeUser'])->name('remove.user');
+     Route::post('{company_id}/set/coin', [CoinController::class, 'updateValue'])->name('update.coin');
+     Route::get('{company_id}/coin/system', [CoinController::class, 'getValueOfSystem'])->name('value.coin');
 });
 
