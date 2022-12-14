@@ -6,6 +6,163 @@
         "version": "1.0"
     },
     "paths": {
+        "/admin/companies/{company_id}/coin/system": {
+            "get": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "get company coin and value system",
+                "description": "get company coin and value system",
+                "operationId": "get company coin and value system",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/lists"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/companies/{company_id}/set/coin": {
+            "post": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "update coin value",
+                "description": "update coin value",
+                "operationId": "update coin value",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "coin_value"
+                                ],
+                                "properties": {
+                                    "coin_value": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/admin/companies/{company_id}/set/coin"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/companies/lists": {
             "get": {
                 "tags": [

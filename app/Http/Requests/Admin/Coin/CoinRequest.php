@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Setting;
+namespace App\Http\Requests\Admin\Coin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SettingRequest extends FormRequest
+class CoinRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class SettingRequest extends FormRequest
     public function rules()
     {
         return [
-            'key' => ['required', 'integer'],
-            'value' => ['required', 'integer']
+            'coin_value' => ['required', 'integer'],
         ];
     }
 }
