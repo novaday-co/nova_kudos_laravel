@@ -38,8 +38,6 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 });
 
-    // admin routes
-    Route::prefix('app')->middleware('auth:sanctum')->name('app.')->group(function (){
         // user routes
         Route::prefix('users')->name('user.')->group(function (){
             Route::get('all', [UserController::class, 'index'])->name('all');
@@ -48,8 +46,9 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::delete('delete/{user}', [UserController::class, 'destroy'])->name('destroy');
         });
         // profile routes
-        Route::prefix('profiles')->name('profile.')->group(function (){
-           Route::post('users/companies/{company_id}', [ProfileController::class, 'updateProfile'])->name('update');
+        Route::prefix('profiles')->middleware('auth:sanctum')->name('profile.')->group(function (){
+           Route::post('companies/{company_id}/users/avatar', [ProfileController::class, 'updateProfile'])->name('update.avatar');
+           Route::post('users/update/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
         });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){
@@ -91,8 +90,8 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
                 Route::post('{event}/join/groups/{group}', [EventController::class, 'participateGroup']);
             });
         });
-    });
-        // final app routes
+
+
 
 
     // Route::post('events/users/{user}', [EventController::class, 'store']);
