@@ -4,15 +4,12 @@ namespace App\Http\Controllers\Api\App\Coin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Coin\CoinRequest;
-use App\Http\Resources\Admin\SettingResource;
-use App\Http\Resources\CoinResource;
 use App\Http\Resources\Company\Coin\CoinValueResource;
 use App\Http\Resources\Company\Coin\CompanyValueResource;
 use App\Models\CoinValue;
 use App\Models\Company;
 use App\Models\Setting;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 class CoinController extends Controller
 {
@@ -160,10 +157,10 @@ class CoinController extends Controller
             $countOfCoin = $user->pivot->sum('coin_amount');
             $valueOfCurrency = $user->pivot->sum('currency_amount');
             $systemValue = $countOfCoin * $coin_value->coin_value + $valueOfCurrency;
+            CoinValue::query()->update([
+                'system_value' => $systemValue,
+            ]);
         }
-        CoinValue::query()->update([
-            'system_value' => $systemValue,
-        ]);
         $company_id->coin_value_history()->create([
             'user_id' => auth()->user()->id,
             'coin_value' => $attrs['coin_value']
