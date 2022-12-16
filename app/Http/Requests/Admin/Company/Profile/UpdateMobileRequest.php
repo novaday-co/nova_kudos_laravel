@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Profile;
+namespace App\Http\Requests\Admin\Company\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProfileRequest extends FormRequest
+class UpdateMobileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => ['sometimes', 'required', 'string', 'max:11', 'unique:users,mobile', 'regex:/^[a-zA-Z0-9_.@\+]*$/'],
-            'avatar' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp']
+            'mobile' => ['required', 'string', 'max:11', 'unique:users,mobile', 'regex:/^[a-zA-Z0-9_.@\+]*$/'],
         ];
     }
 }

@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Api\App\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Profile\ProfileRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Requests\Admin\Company\Profile\UpdateAvatarRequest;
+use App\Http\Requests\Admin\Company\Profile\UpdateMobile;
+use App\Http\Requests\Admin\Company\Profile\UpdateMobileRequest;
+use App\Http\Requests\Admin\Company\Profile\VerifyMobileRequest;
 use App\Http\Services\Image\ImageService;
 use App\Models\Company;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -87,7 +86,7 @@ class ProfileController extends Controller
      *      ),
      * )
      */
-    public function updateProfile(ProfileRequest $request, ImageService $imageService, Company $company_id)
+    public function updateProfile(UpdateAvatarRequest $request, ImageService $imageService, Company $company_id)
     {
         try
         {
@@ -110,4 +109,16 @@ class ProfileController extends Controller
             return response(['bad request' =>$e->getMessage()], 400);
         }
     }
+
+    public function editMobile(UpdateMobileRequest $request)
+    {
+
+            $attributes = $request->validated();
+            $userMobile = auth()->user()->mobile;
+            if ($userMobile != $attributes['mobile'])
+            {
+                $otpCode = mt_rand(1000, 9999);
+
+            }
+        }
 }
