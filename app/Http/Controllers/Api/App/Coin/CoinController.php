@@ -170,9 +170,4 @@ class CoinController extends Controller
         ]);
         return CoinValueResource::make($coin);
     }
-
-    public function updateSystemValue(Company $company_id)
-    {
-
-    }
 }
