@@ -8,7 +8,6 @@ use App\Http\Resources\Company\Coin\CoinValueResource;
 use App\Http\Resources\Company\Coin\CompanyValueResource;
 use App\Models\CoinValue;
 use App\Models\Company;
-use App\Models\Setting;
 
 
 class CoinController extends Controller
@@ -68,8 +67,13 @@ class CoinController extends Controller
      */
     public function getValueOfSystem(Company $company_id)
     {
-        $values = $company_id->coin;
-        return CompanyValueResource::make($values);
+        try {
+            $values = $company_id->coin;
+            return CompanyValueResource::make($values);
+        } catch (\Exception $exception)
+        {
+            return $this->error(['error:' =>$exception->getMessage()], trans('messages.company.company_system_value'), 422);
+        }
     }
     /**
      * @OA\Post(
@@ -145,26 +149,31 @@ class CoinController extends Controller
      */
     public function updateValue(CoinRequest $request, Company $company_id)
     {
-        $attrs = $request->validated();
-        $coin = CoinValue::query()->updateOrCreate([
-            'company_id' => $company_id->id,
+        try {
+            $attrs = $request->validated();
+            $coin = CoinValue::query()->updateOrCreate([
+                'company_id' => $company_id->id,
             ],[
-            'coin_value' => $attrs['coin_value'],
-        ]);
-        $coin_value = $company_id->coin;
-        foreach ($company_id->users as $user)
-        {
-            $countOfCoin = $user->pivot->sum('coin_amount');
-            $valueOfCurrency = $user->pivot->sum('currency_amount');
-            $systemValue = $countOfCoin * $coin_value->coin_value + $valueOfCurrency;
-            CoinValue::query()->update([
-                'system_value' => $systemValue,
+                'coin_value' => $attrs['coin_value'],
             ]);
+            $coin_value = $company_id->coin;
+            foreach ($company_id->users as $user)
+            {
+                $countOfCoin = $user->pivot->sum('coin_amount');
+                $valueOfCurrency = $user->pivot->sum('currency_amount');
+                $systemValue = $countOfCoin * $coin_value->coin_value + $valueOfCurrency;
+                CoinValue::query()->update([
+                    'system_value' => $systemValue,
+                ]);
+            }
+            $company_id->coin_value_history()->create([
+                'user_id' => auth()->user()->id,
+                'coin_value' => $attrs['coin_value']
+            ]);
+            return CoinValueResource::make($coin);
+        } catch (\Exception $exception)
+        {
+            return $this->error(['error:' =>$exception->getMessage()], trans('messages.company.coin_value'), 422);
         }
-        $company_id->coin_value_history()->create([
-            'user_id' => auth()->user()->id,
-            'coin_value' => $attrs['coin_value']
-        ]);
-        return CoinValueResource::make($coin);
     }
 }
