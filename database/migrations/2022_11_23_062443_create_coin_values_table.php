@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
 
             $table->integer('coin_value')->default(0);
-            $table->integer('system_value')->nullable();
+            $table->integer('system_value')->default(0);
             $table->timestamps();
         });
     }

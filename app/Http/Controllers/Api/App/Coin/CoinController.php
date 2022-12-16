@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Coin\CoinRequest;
 use App\Http\Resources\Admin\SettingResource;
 use App\Http\Resources\CoinResource;
+use App\Http\Resources\Company\Coin\CoinValueResource;
+use App\Http\Resources\Company\Coin\CompanyValueResource;
 use App\Models\CoinValue;
 use App\Models\Company;
 use App\Models\Setting;
@@ -69,18 +71,8 @@ class CoinController extends Controller
      */
     public function getValueOfSystem(Company $company_id)
     {
-//        $count = count($company_id->users);
-//        dd($count);
-        // $count = $company_id->users->pivot->coin_amount;
-       $coin_value = $company_id->coin;
-        foreach ($company_id->users as $user)
-        {
-            $countOfCoin = $user->pivot->sum('coin_amount');
-            $systemValue = $countOfCoin * $coin_value->coin_value;
-            echo $systemValue;
-        }
-        //$coin_value = $company_id->coin;
-      //  return $coin_value;
+        $values = $company_id->coin;
+        return CompanyValueResource::make($values);
     }
     /**
      * @OA\Post(
@@ -160,12 +152,27 @@ class CoinController extends Controller
         $coin = CoinValue::query()->updateOrCreate([
             'company_id' => $company_id->id,
             ],[
-            'coin_value' => $attrs['coin_value']
+            'coin_value' => $attrs['coin_value'],
+        ]);
+        $coin_value = $company_id->coin;
+        foreach ($company_id->users as $user)
+        {
+            $countOfCoin = $user->pivot->sum('coin_amount');
+            $valueOfCurrency = $user->pivot->sum('currency_amount');
+            $systemValue = $countOfCoin * $coin_value->coin_value + $valueOfCurrency;
+        }
+        CoinValue::query()->update([
+            'system_value' => $systemValue,
         ]);
         $company_id->coin_value_history()->create([
             'user_id' => auth()->user()->id,
             'coin_value' => $attrs['coin_value']
         ]);
-        return CoinResource::make($coin);
+        return CoinValueResource::make($coin);
+    }
+
+    public function updateSystemValue(Company $company_id)
+    {
+
     }
 }
