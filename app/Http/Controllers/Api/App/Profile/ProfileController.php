@@ -273,14 +273,19 @@ class ProfileController extends Controller
 
         public function verifyMobile(OtpRequest $request)
         {
-            $attributes = $request->validated();
-            $tempMobile = TempMobile::query()->where('mobile', $attributes['mobile'])
-                ->where('otp_code', $attributes['otp_code'])
-                ->where('expiration_otp', ">=", Carbon::now())->firstOrFail();
-            $user = auth()->user();
-            $user->update([
-                'mobile' => $tempMobile['mobile']
-            ]);
-            return UserResource::make($user);
+            try {
+                $attributes = $request->validated();
+                $tempMobile = TempMobile::query()->where('mobile', $attributes['mobile'])
+                    ->where('otp_code', $attributes['otp_code'])
+                    ->where('expiration_otp', ">=", Carbon::now())->firstOrFail();
+                $user = auth()->user();
+                $user->update([
+                    'mobile' => $tempMobile['mobile']
+                ]);
+                return UserResource::make($user);
+            } catch (\Exception $e)
+            {
+                return $this->error([$e->getMessage()], trans('messages.profile.invalid.verify'), 422);
+            }
         }
 }
