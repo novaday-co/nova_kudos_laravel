@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Api\App\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Company\Profile\UpdateAvatarRequest;
-use App\Http\Requests\Admin\Company\Profile\UpdateMobile;
 use App\Http\Requests\Admin\Company\Profile\UpdateMobileRequest;
-use App\Http\Requests\Admin\Company\Profile\VerifyMobileRequest;
 use App\Http\Requests\Auth\OtpRequest;
 use App\Http\Resources\UserResource;
 use App\Http\Services\Image\ImageService;
@@ -181,6 +179,7 @@ class ProfileController extends Controller
      */
     public function updateMobile(UpdateMobileRequest $request)
     {
+        try {
             $attributes = $request->validated();
             $userMobile = auth()->user()->mobile;
             if ($userMobile != $attributes['mobile'])
@@ -193,13 +192,17 @@ class ProfileController extends Controller
                     'otp_code' => $otpCode,
                     'expiration_otp' => Carbon::now()->addMinutes(),
                 ]);
-                  $smsService = new SmsService();
-                  $smsService->setReceptor($tempMobile->mobile);
-                  $smsService->setOtpCode($otpCode);
-                  $messageService = new MessageService($smsService);
-                  $messageService->send();
-                  return $this->success(['otp_code' => $otpCode]);
+                $smsService = new SmsService();
+                $smsService->setReceptor($tempMobile->mobile);
+                $smsService->setOtpCode($otpCode);
+                $messageService = new MessageService($smsService);
+                $messageService->send();
             }
+            return $this->success(['otp_code' => $otpCode]);
+        } catch (\Exception $e)
+        {
+            return $this->error(['error: ' => $e->getMessage()], trans('messages.profile.duplicate.mobile'), 422);
+        }
         }
     /**
      * @OA\Post(
