@@ -186,9 +186,10 @@ class ProfileController extends Controller
             if ($userMobile != $attributes['mobile'])
             {
                 $otpCode = mt_rand(1000, 9999);
-                $tempMobile = TempMobile::query()->create([
-                   'user_id'  => auth()->user()->id,
+                $tempMobile = TempMobile::query()->updateOrCreate([
+                    'user_id' => auth()->user()->id,
                     'mobile' => $attributes['mobile'],
+                ],[
                     'otp_code' => $otpCode,
                     'expiration_otp' => Carbon::now()->addMinutes(),
                 ]);
@@ -200,6 +201,72 @@ class ProfileController extends Controller
                   return $this->success(['otp_code' => $otpCode]);
             }
         }
+    /**
+     * @OA\Post(
+     *      path="/api/profiles/users/verify/mobile",
+     *      operationId="verify mobile",
+     *      tags={"Profiles"},
+     *      summary="verify mobile",
+     *      description="verify mobile",
+     *      security={ {"sanctum": {} }},
+     *      @OA\Parameter(
+     *          name="locale",
+     *          in="header",
+     *          required=true,
+     *          example="fa",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"mobile"},
+     *                  required={"otp_code"},
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09350000000"),
+     *                  @OA\Property(property="otp_code", type="text", format="text", example="1234"),
+     *               ),
+     *           ),
+     *       ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="/api/profiles/companies/{company_id}/update/mobile")
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="unauthorized",
+     *      ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="error",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
 
         public function verifyMobile(OtpRequest $request)
         {
@@ -207,7 +274,7 @@ class ProfileController extends Controller
             $tempMobile = TempMobile::query()->where('mobile', $attributes['mobile'])
                 ->where('otp_code', $attributes['otp_code'])
                 ->where('expiration_otp', ">=", Carbon::now())->firstOrFail();
-            $user = auth()->user()->id;
+            $user = auth()->user();
             $user->update([
                 'mobile' => $tempMobile['mobile']
             ]);

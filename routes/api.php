@@ -49,6 +49,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         Route::prefix('profiles')->middleware('auth:sanctum')->name('profile.')->group(function (){
            Route::post('companies/{company_id}/users/avatar', [ProfileController::class, 'updateProfile'])->name('update.avatar');
            Route::post('users/update/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
+           Route::post('users/verify/mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
         });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){
