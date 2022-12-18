@@ -31,5 +31,6 @@ use Illuminate\Support\Facades\Route;
      Route::post('{company_id}/set/coin', [CoinController::class, 'updateValue'])->name('update.coin');
      Route::get('{company_id}/coin/system', [CoinController::class, 'getValueOfSystem'])->name('value.coin');
      Route::get('{company_id}/users/transactions', [AdminBalanceController::class, 'getTransactionUsers'])->name('transaction');
+     Route::post('{company_id}/users/transactions/{transaction}/status', [AdminBalanceController::class, 'updateTransactionStatus'])->name('change.status');
 });
 
