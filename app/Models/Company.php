@@ -46,4 +46,9 @@ class Company extends Model
     {
         return $this->hasOne(CoinValue::class);
     }
+
+    public function companyUserTransactions(): HasMany
+    {
+        return $this->hasMany(CompanyUserTransaction::class);
+    }
 }

@@ -10,4 +10,20 @@ class CompanyUserTransaction extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function exchangeStatus($status)
+    {
+        switch ($status)
+        {
+            case(0):
+                $status = 'pending';
+                break;
+            case(1) :
+                $status = 'done';
+                break;
+            case(2) :
+                $status = 'failed';
+        }
+        return $status;
+    }
 }
