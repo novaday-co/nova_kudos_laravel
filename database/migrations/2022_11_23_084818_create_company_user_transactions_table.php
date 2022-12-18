@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('transaction_type')->index();
             $table->integer('amount');
 
-            $table->tinyInteger('status')->default(0)->comment('0 => pending, 1 => done, 2 => failed');
+            $table->enum('status', ['pending', 'failed', 'done'])->default('pending');
             $table->timestamps();
         });
     }
