@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\App\Company\AccountBalance\BalanceController;
 use App\Http\Controllers\Api\App\Company\CompanyController;
 use App\Http\Controllers\Api\App\GiftCard\SendGiftCardController;
 use App\Http\Controllers\Api\App\Group\GroupController;
@@ -38,8 +39,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 });
 
-    // admin routes
-    Route::prefix('app')->middleware('auth:sanctum')->name('app.')->group(function (){
+
         // user routes
         Route::prefix('users')->name('user.')->group(function (){
             Route::get('all', [UserController::class, 'index'])->name('all');
@@ -50,6 +50,11 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         // profile routes
         Route::prefix('profiles')->name('profile.')->group(function (){
            Route::post('users/companies/{company_id}', [ProfileController::class, 'updateProfile'])->name('update');
+        });
+
+        Route::prefix('currencies')->middleware('auth:sanctum')->name('currency.')->group(function (){
+           Route::post('withdrawal/companies/{company_id}/users', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
+           Route::get('companies/{company_id}/users/transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
         });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){
@@ -91,7 +96,6 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
                 Route::post('{event}/join/groups/{group}', [EventController::class, 'participateGroup']);
             });
         });
-    });
         // final app routes
 
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\DB;
 
 class Company extends Model
 {
@@ -44,5 +45,10 @@ class Company extends Model
     public function coin(): HasOne
     {
         return $this->hasOne(CoinValue::class);
+    }
+
+    public function companyUserTransactions(): HasMany
+    {
+        return $this->hasMany(CompanyUserTransaction::class);
     }
 }

@@ -107,7 +107,7 @@ class ProfileController extends Controller
             return response('ok');
         } catch (\Exception $e)
         {
-            return response(['bad request' =>$e->getMessage()], 400);
+            return response(['bad request' => $e->getMessage()], 400);
         }
     }
 }
