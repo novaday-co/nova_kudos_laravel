@@ -163,6 +163,79 @@
                 ]
             }
         },
+        "/admin/companies/{company_id}/users/transactions": {
+            "get": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "get all transactions",
+                "description": "get all transactions",
+                "operationId": "get all transactions",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/{company_id}/users/transactions"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/currencies/companies/{company_id}/users/transactions": {
             "get": {
                 "tags": [
