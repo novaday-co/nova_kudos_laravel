@@ -178,15 +178,15 @@ class AdminBalanceController extends Controller
             $balance = $user->pivot->currency_amount;
             switch ($attrs['status']){
                 case 'pending':
-                    $companyTransaction->status = 'pending';
+                    $companyTransaction->status = $attrs['status'];
                     $balance -= $companyTransaction->amount;
                     break;
                 case 'failed':
-                      $companyTransaction->status = 'failed';
+                      $companyTransaction->status = $attrs['status'];
                       $balance += $companyTransaction->amount;
                     break;
                 case 'done':
-                    $companyTransaction->status = 'done';
+                    $companyTransaction->status = $attrs['status'];
                     $balance -= $companyTransaction->amount;
                     break;
             }
