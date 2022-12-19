@@ -27,9 +27,13 @@ class User extends Authenticatable
         'mobile',
         'otp_code',
         'login_count',
+        'super_admin',
+        'default_company',
         'expiration_otp',
         'activation_date',
     ];
+
+   // protected $with = 'defaultCompany';
 
     public function companies(): BelongsToMany
     {

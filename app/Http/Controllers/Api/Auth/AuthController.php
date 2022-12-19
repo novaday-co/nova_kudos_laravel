@@ -170,18 +170,18 @@ class AuthController extends ApiController
      */
     public function checkOtp(OtpRequest $request)
     {
-       try
-       {
+//       try
+//       {
            $attributes = $request->validated();
             $user = User::query()->where('mobile', $attributes['mobile'])->where('otp_code', $attributes['otp_code'])
               ->where('expiration_otp', ">=", Carbon::now())->firstOrFail();
                 $user->update(['activation_date' => Carbon::now(), 'login_count' => $user['login_count'] + 1]);
                 $user->token =  $user->createToken('api token')->plainTextToken;
                 return UserResource::make($user, $user->token);
-         } catch (\Exception $e)
-        {
-           return $this->error(['otp_code' => trans('auth.invalid.code')], trans('auth.invalid.code'), 422);
-        }
+//         } catch (\Exception $e)
+//        {
+//           return $this->error(['otp_code' => trans('auth.invalid.code')], trans('auth.invalid.code'), 422);
+//        }
     }
 
     /**

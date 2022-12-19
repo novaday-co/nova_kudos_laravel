@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\SuperAdmin\CompanyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use \App\Http\Resources\Company\User\CompanyUserResource;
 
@@ -26,7 +27,8 @@ class UserResource extends JsonResource
             'login_count' => $this->login_count,
             'token' => $this->token,
             'super_admin' => $this->super_admin,
-            'companies' => CompanyUserResource::collection($this->companies),
+          //  'default_company' => CompanyResource::make($this->defaultCompany),
+           // 'default_company' => $this->defaultCompany
         ];
     }
 }

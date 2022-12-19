@@ -3368,7 +3368,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "/api/authentication/login-register"
+                                    "$ref": "authentication/login-register"
                                 }
                             }
                         }
@@ -3433,6 +3433,7 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
+                                    "mobile",
                                     "otp_code"
                                 ],
                                 "properties": {
