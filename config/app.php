@@ -193,6 +193,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Kavenegar\Laravel\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -220,6 +221,7 @@ return [
         'Kavenegar' => Kavenegar\Laravel\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'ImageUploader' => App\Http\Services\Image\ImageUploaderFacade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
     ])->toArray(),
 
 ];

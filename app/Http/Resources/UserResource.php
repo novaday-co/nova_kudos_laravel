@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use \App\Http\Resources\Company\User\CompanyUserResource;
 
 class UserResource extends JsonResource
 {
@@ -26,7 +27,7 @@ class UserResource extends JsonResource
             'token' => $this->token,
             'super_admin' => $this->super_admin,
             'default_company' => $this->default_company,
-            'companies' => $this->companies,
+            'companies' => CompanyUserResource::collection($this->companies),
         ];
     }
 }
