@@ -15,6 +15,8 @@ class CompanyUserResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'company_name' => $this->name,
+            'company_avatar' => $this->avatar,
             'first_name' => $this->whenPivotLoaded('company_user', function (){
                 return $this->pivot->first_name;
             }),
