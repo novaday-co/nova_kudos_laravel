@@ -173,7 +173,7 @@ class CoinController extends Controller
             return CoinValueResource::make($coin);
         } catch (\Exception $exception)
         {
-            return $this->error(['error:' =>$exception->getMessage()], trans('messages.company.coin_value'), 422);
+            return $this->error([$exception->getMessage()], trans('messages.company.coin_value'), 422);
         }
     }
 }

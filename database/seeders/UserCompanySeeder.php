@@ -18,6 +18,6 @@ class UserCompanySeeder extends Seeder
     {
         $company = Company::query()->findOrFail(1);
         $user = User::query()->findOrFail(1);
-        $company->users()->updateExistingPivot($user, array(['first_name' => 'yasin', 'last_name' => 'baghban']));
+        $company->users()->updateExistingPivot($user, array(['first_name' => 'yasin', 'last_name' => 'baghban', 'coin_amount' => 50, 'currency_amount' => 1500]));
     }
 }

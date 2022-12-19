@@ -31,6 +31,9 @@ return new class extends Migration
             $table->integer('currency_amount')->default(0);
             $table->integer('notification_unread')->default(0);
 
+            $table->boolean('profile_complete')->default(false)->comment('false => not complete, true => complete');
+            $table->boolean('default_company')->default(false)->comment('false => not default , true => default');
+
             $table->foreignId('role_id')->nullable();
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
 

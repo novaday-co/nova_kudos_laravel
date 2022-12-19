@@ -51,3 +51,16 @@ function exchangeTransactionType($type): string
     }
     return $type;
 }
+
+function boolType($type)
+{
+    switch ($type)
+    {
+        case (0):
+            $type = false;
+            break;
+        case (1):
+            $type = true;
+    }
+    return $type;
+}

@@ -26,7 +26,6 @@ class UserResource extends JsonResource
             'login_count' => $this->login_count,
             'token' => $this->token,
             'super_admin' => $this->super_admin,
-            'default_company' => $this->default_company,
             'companies' => CompanyUserResource::collection($this->companies),
         ];
     }

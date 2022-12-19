@@ -143,9 +143,8 @@ class AuthController extends ApiController
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"mobile"},
+     *                  required={"mobile", "otp_code"},
      *                  @OA\Property(property="mobile", type="text", format="text", example="09350000000"),
-     *                  required={"otp_code"},
      *                  @OA\Property(property="otp_code", type="text", format="text", example="0912"),
      *               ),
      *           ),

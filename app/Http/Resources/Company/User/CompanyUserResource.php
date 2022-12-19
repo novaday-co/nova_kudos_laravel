@@ -29,6 +29,12 @@ class CompanyUserResource extends JsonResource
             'job_position' => $this->whenPivotLoaded('company_user', function (){
                 return $this->pivot->job_position;
             }),
+            'profile_complete' => $this->whenPivotLoaded('company_user', function (){
+                return boolType($this->pivot->profile_complete);
+            }),
+            'default_company' => $this->whenPivotLoaded('company_user', function (){
+                return boolType($this->pivot->default_company);
+            }),
             'currency_amount' => $this->whenPivotLoaded('company_user', function (){
                 return $this->pivot->currency_amount;
             }),
@@ -36,7 +42,7 @@ class CompanyUserResource extends JsonResource
                 return $this->pivot->coin_amount;
             }),
             'roles' => $this->whenPivotLoaded('company_user', function (){
-                return $this->pivot->coin_amount;
+                return $this->pivot->roles;
             }),
         ];
     }
