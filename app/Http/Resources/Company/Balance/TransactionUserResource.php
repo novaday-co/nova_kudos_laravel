@@ -19,9 +19,9 @@ class TransactionUserResource extends JsonResource
             'user_mobile' => $this->user->mobile,
             'company' => $this->company->name,
             'amount' => $this->amount,
-            'transaction_type' => $this->transaction_type,
-            'status' => $this->exchangeStatus($this->status),
-            'date' => $this->created_at
+            'transaction_type' => exchangeTransactionType($this->transaction_type),
+            'status' => exchangeStatus($this->status),
+            'date' => dateTime($this->created_at)
         ];
     }
 }
