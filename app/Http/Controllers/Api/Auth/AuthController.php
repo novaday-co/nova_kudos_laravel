@@ -63,7 +63,7 @@ class AuthController extends ApiController
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/authentication/login-register")
+     *          @OA\JsonContent(ref="authentication/login-register")
      *       ),
      *     @OA\Response(
      *          response=401,
