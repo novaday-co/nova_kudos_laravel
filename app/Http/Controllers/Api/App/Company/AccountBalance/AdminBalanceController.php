@@ -170,30 +170,32 @@ class AdminBalanceController extends Controller
      */
     public function updateTransactionStatus(StatusTransactionRequest $request, Company $company_id, CompanyUserTransaction $transaction)
     {
-        $attrs = $request->validated();
-        $companyTransaction = $company_id->companyUserTransactions()->findOrFail($transaction->id);
-        $userId = auth()->user();
-        foreach ($company_id->users as $user)
-        {
-            $balance = $user->pivot->currency_amount;
-            switch ($attrs['status']){
-                case 'pending':
-                    $companyTransaction->status = $attrs['status'];
-                    $balance -= $companyTransaction->amount;
-                    break;
-                case 'failed':
-                      $companyTransaction->status = $attrs['status'];
-                      $balance += $companyTransaction->amount;
-                    break;
-                case 'done':
-                    $companyTransaction->status = $attrs['status'];
-                    $balance -= $companyTransaction->amount;
-                    break;
+        try {
+            $attrs = $request->validated();
+            $companyTransaction = $company_id->companyUserTransactions()->findOrFail($transaction->id);
+            $userId = auth()->user();
+            foreach ($company_id->users as $user)
+            {
+                $balance = $user->pivot->currency_amount;
+                switch ($attrs['status']){
+                    case 'done':
+                    case 'pending':
+                        $companyTransaction->status = $attrs['status'];
+                        $balance -= $companyTransaction->amount;
+                        break;
+                    case 'failed':
+                        $companyTransaction->status = $attrs['status'];
+                        $balance += $companyTransaction->amount;
+                        break;
+                }
             }
+            $status = $companyTransaction->save();
+            $company_id->users()->updateExistingPivot($userId, array('currency_amount' => $balance));
+            $company_id->companyUserTransactions()->where('id', $companyTransaction)->update(array('status' => $status));
+            return TransactionUserResource::make($companyTransaction);
+        } catch (\Exception $exception)
+        {
+            return $this->error([$exception->getMessage()], '', 422);
         }
-        $status = $companyTransaction->save();
-        $company_id->users()->updateExistingPivot($userId, array('currency_amount' => $balance));
-        $company_id->companyUserTransactions()->where('id', $companyTransaction)->update(array('status' => $status));
-        return TransactionUserResource::make($companyTransaction);
     }
 }
