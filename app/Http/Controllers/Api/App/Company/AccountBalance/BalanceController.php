@@ -18,7 +18,7 @@ class BalanceController extends Controller
      * @OA\Get (
      *      path="/api/currencies/companies/{company_id}/users/transactions",
      *      operationId="get user transactions",
-     *      tags={"Currency"},
+     *      tags={"users"},
      *      summary="get user transactions",
      *      description="get user transactions",
      *      security={ {"sanctum": {} }},
@@ -26,6 +26,7 @@ class BalanceController extends Controller
      *      name="company_id",
      *      in="path",
      *      required=true,
+     *      example=1,
      *     @OA\Schema(
      *      type="integer"
      *          )
@@ -91,7 +92,7 @@ class BalanceController extends Controller
      * @OA\Post(
      *      path="/api/currencies/withdrawal/companies/{company_id}/users",
      *      operationId="withdrawal currency",
-     *      tags={"Currency"},
+     *      tags={"users"},
      *      summary="withdrawal currency",
      *      description="withdrawal currency",
      *      security={ {"sanctum": {} }},
@@ -99,6 +100,7 @@ class BalanceController extends Controller
      *      name="company_id",
      *      in="path",
      *      required=true,
+     *      example=1,
      *     @OA\Schema(
      *      type="integer"
      *          )

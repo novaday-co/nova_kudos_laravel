@@ -53,8 +53,8 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         });
 
         Route::prefix('currencies')->middleware('auth:sanctum')->name('currency.')->group(function (){
-           Route::post('withdrawal/companies/{company_id}/users', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
-           Route::get('companies/{company_id}/users/transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
+           Route::post('users/withdrawal/companies/{company_id}', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
+           Route::get('users/companies/{company_id}/transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
         });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){

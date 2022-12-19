@@ -68,8 +68,8 @@ class CoinController extends Controller
     public function getValueOfSystem(Company $company_id)
     {
         try {
-            $values = $company_id->coin;
-            return CompanyValueResource::make($values);
+
+            return CompanyValueResource::make($company_id->coin);
         } catch (\Exception $exception)
         {
             return $this->error(['error:' =>$exception->getMessage()], trans('messages.company.company_system_value'), 422);
