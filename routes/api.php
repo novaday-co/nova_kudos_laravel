@@ -48,8 +48,10 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::delete('delete/{user}', [UserController::class, 'destroy'])->name('destroy');
         });
         // profile routes
-        Route::prefix('profiles')->name('profile.')->group(function (){
-           Route::post('users/companies/{company_id}', [ProfileController::class, 'updateProfile'])->name('update');
+        Route::prefix('profiles')->middleware('auth:sanctum')->name('profile.')->group(function (){
+           Route::post('users/companies/{company_id}/avatar', [ProfileController::class, 'updateProfile'])->name('update');
+            Route::post('users/update/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
+            Route::post('users/verify/mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
         });
 
         Route::prefix('currencies')->middleware('auth:sanctum')->name('currency.')->group(function (){

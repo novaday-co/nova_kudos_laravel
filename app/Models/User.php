@@ -28,7 +28,6 @@ class User extends Authenticatable
         'otp_code',
         'login_count',
         'super_admin',
-        'default_company',
         'expiration_otp',
         'activation_date',
     ];

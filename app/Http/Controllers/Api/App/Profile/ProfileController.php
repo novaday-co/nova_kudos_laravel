@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Company\Profile\UpdateAvatarRequest;
 use App\Http\Requests\Admin\Company\Profile\UpdateMobileRequest;
 use App\Http\Requests\Admin\Profile\ProfileRequest;
 use App\Http\Requests\Auth\OtpRequest;
+use App\Http\Resources\Company\User\CompanyUserResource;
 use App\Http\Resources\UserResource;
 use App\Http\Services\Image\ImageService;
 use App\Http\Services\Message\MessageService;
@@ -23,7 +24,7 @@ class ProfileController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/profiles/companies/{company_id}/users/avatar",
+     *      path="/api/profiles/users/companies/{company_id}/avatar",
      *      operationId="update profile user",
      *      tags={"Profiles"},
      *      summary="update profile user",
@@ -33,6 +34,7 @@ class ProfileController extends Controller
      *      name="company_id",
      *      in="path",
      *      required=true,
+     *     example=1,
      *     @OA\Schema(
      *      type="integer"
      *          )
@@ -69,7 +71,7 @@ class ProfileController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"mobile"},
+     *                  required={"avatar"},
      *                  @OA\Property(property="avatar", type="file", format="text"),
      *               ),
      *           ),
@@ -77,7 +79,7 @@ class ProfileController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/app/profile/users/update/{company_id}")
+     *          @OA\JsonContent(ref="/api/profiles/users/companies/{company_id}/avatar")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -158,7 +160,7 @@ class ProfileController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  required={"mobile"},
-     *                  @OA\Property(property="mobile", type="text", format="text", example="09350000000"),
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09350000001"),
      *               ),
      *           ),
      *       ),
@@ -183,7 +185,7 @@ class ProfileController extends Controller
      */
     public function updateMobile(UpdateMobileRequest $request)
     {
-        try {
+      //  try {
             $attributes = $request->validated();
             $userMobile = auth()->user()->mobile;
             if ($userMobile != $attributes['mobile'])
@@ -203,10 +205,10 @@ class ProfileController extends Controller
                 $messageService->send();
             }
             return $this->success(['otp_code' => $otpCode]);
-        } catch (\Exception $e)
-        {
-            return $this->error(['error: ' => $e->getMessage()], trans('messages.profile.duplicate.mobile'), 422);
-        }
+     //   } catch (\Exception $e)
+    //    {
+    //        return $this->error(['error: ' => $e->getMessage()], trans('messages.profile.duplicate.mobile'), 422);
+    //    }
     }
     /**
      * @OA\Post(
@@ -248,9 +250,8 @@ class ProfileController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"mobile"},
-     *                  required={"otp_code"},
-     *                  @OA\Property(property="mobile", type="text", format="text", example="09350000000"),
+     *                  required={"mobile", "otp_code"},
+     *                  @OA\Property(property="mobile", type="text", format="text", example="09350000001"),
      *                  @OA\Property(property="otp_code", type="text", format="text", example="1234"),
      *               ),
      *           ),
