@@ -19,5 +19,6 @@ class AddUserSeeder extends Seeder
         $company = Company::query()->findOrFail(1);
         $user = User::query()->findOrFail(1);
         $company->users()->attach($user);
+        $user->update(array('default_company' => 1));
     }
 }

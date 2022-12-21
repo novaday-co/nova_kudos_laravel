@@ -27,6 +27,7 @@ class User extends Authenticatable
         'mobile',
         'otp_code',
         'login_count',
+        'default_company',
         'super_admin',
         'expiration_otp',
         'activation_date',
@@ -42,7 +43,7 @@ class User extends Authenticatable
 
     public function defaultCompany(): HasOne
     {
-        return $this->hasOne(Company::class);
+        return $this->hasOne(CompanyUser::class);
     }
 
     public function groups(): BelongsToMany

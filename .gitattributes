@@ -1,5 +1,5 @@
 * text=auto
-
+*.blade linguist-language=php
 *.blade.php diff=html
 *.css diff=css
 *.html diff=html
