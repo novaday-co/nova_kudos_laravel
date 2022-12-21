@@ -48,13 +48,15 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::delete('delete/{user}', [UserController::class, 'destroy'])->name('destroy');
         });
         // profile routes
-        Route::prefix('profiles')->name('profile.')->group(function (){
-           Route::post('users/companies/{company_id}', [ProfileController::class, 'updateProfile'])->name('update');
+        Route::prefix('profiles')->middleware('auth:sanctum')->name('profile.')->group(function (){
+           Route::post('users/companies/{company_id}/avatar', [ProfileController::class, 'updateProfile'])->name('update');
+            Route::post('users/update/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
+            Route::post('users/verify/mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
         });
 
         Route::prefix('currencies')->middleware('auth:sanctum')->name('currency.')->group(function (){
-           Route::post('withdrawal/companies/{company_id}/users', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
-           Route::get('companies/{company_id}/users/transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
+           Route::post('users/withdrawal/companies/{company_id}', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
+           Route::get('users/companies/{company_id}/transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
         });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){

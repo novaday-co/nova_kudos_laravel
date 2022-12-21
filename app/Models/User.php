@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,14 +27,22 @@ class User extends Authenticatable
         'mobile',
         'otp_code',
         'login_count',
+        'super_admin',
         'expiration_otp',
         'activation_date',
     ];
 
+   // protected $with = 'defaultCompany';
+
     public function companies(): BelongsToMany
     {
         return $this->belongsToMany(Company::class, 'company_user', 'user_id', 'company_id')
-            ->withPivot('first_name', 'last_name', 'job_position', 'avatar', 'coin_amount', 'currency_amount', 'notification_unread', 'role_id');
+            ->withPivot('first_name', 'last_name', 'job_position', 'avatar', 'profile_complete', 'coin_amount', 'currency_amount', 'notification_unread', 'role_id');
+    }
+
+    public function defaultCompany(): HasOne
+    {
+        return $this->hasOne(Company::class);
     }
 
     public function groups(): BelongsToMany

@@ -16,7 +16,7 @@ class AdminBalanceController extends Controller
      * @OA\Get (
      *      path="/admin/companies/{company_id}/users/transactions",
      *      operationId="get all transactions",
-     *      tags={"Currency"},
+     *      tags={"companies"},
      *      summary="get all transactions",
      *      description="get all transactions",
      *      security={ {"sanctum": {} }},
@@ -24,6 +24,7 @@ class AdminBalanceController extends Controller
      *      name="company_id",
      *      in="path",
      *      required=true,
+     *      example=1,
      *     @OA\Schema(
      *      type="integer"
      *          )
@@ -89,7 +90,7 @@ class AdminBalanceController extends Controller
      * @OA\Post  (
      *      path="/admin/companies/{company_id}/users/transactions/{transaction}/status",
      *      operationId="change transaction status",
-     *      tags={"Currency"},
+     *      tags={"companies"},
      *      summary="change transaction status",
      *      description="change transaction status",
      *      security={ {"sanctum": {} }},
@@ -97,6 +98,7 @@ class AdminBalanceController extends Controller
      *      name="company_id",
      *      in="path",
      *      required=true,
+     *      example=1,
      *     @OA\Schema(
      *      type="integer"
      *          )

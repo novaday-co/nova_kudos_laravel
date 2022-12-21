@@ -63,7 +63,7 @@ class AuthController extends ApiController
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/authentication/login-register")
+     *          @OA\JsonContent(ref="authentication/login-register")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -143,9 +143,8 @@ class AuthController extends ApiController
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"mobile"},
+     *                  required={"mobile", "otp_code"},
      *                  @OA\Property(property="mobile", type="text", format="text", example="09350000000"),
-     *                  required={"otp_code"},
      *                  @OA\Property(property="otp_code", type="text", format="text", example="0912"),
      *               ),
      *           ),
@@ -171,18 +170,18 @@ class AuthController extends ApiController
      */
     public function checkOtp(OtpRequest $request)
     {
-       try
-       {
+//       try
+//       {
            $attributes = $request->validated();
             $user = User::query()->where('mobile', $attributes['mobile'])->where('otp_code', $attributes['otp_code'])
               ->where('expiration_otp', ">=", Carbon::now())->firstOrFail();
                 $user->update(['activation_date' => Carbon::now(), 'login_count' => $user['login_count'] + 1]);
                 $user->token =  $user->createToken('api token')->plainTextToken;
                 return UserResource::make($user, $user->token);
-         } catch (\Exception $e)
-        {
-           return $this->error(['otp_code' => trans('auth.invalid.code')], trans('auth.invalid.code'), 422);
-        }
+//         } catch (\Exception $e)
+//        {
+//           return $this->error(['otp_code' => trans('auth.invalid.code')], trans('auth.invalid.code'), 422);
+//        }
     }
 
     /**

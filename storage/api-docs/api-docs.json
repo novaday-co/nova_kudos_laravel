@@ -166,7 +166,7 @@
         "/admin/companies/{company_id}/users/transactions": {
             "get": {
                 "tags": [
-                    "Currency"
+                    "companies"
                 ],
                 "summary": "get all transactions",
                 "description": "get all transactions",
@@ -178,7 +178,8 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 1
                     },
                     {
                         "name": "locale",
@@ -239,7 +240,7 @@
         "/admin/companies/{company_id}/users/transactions/{transaction}/status": {
             "post": {
                 "tags": [
-                    "Currency"
+                    "companies"
                 ],
                 "summary": "change transaction status",
                 "description": "change transaction status",
@@ -251,7 +252,8 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 1
                     },
                     {
                         "name": "transaction",
@@ -338,7 +340,7 @@
         "/api/currencies/companies/{company_id}/users/transactions": {
             "get": {
                 "tags": [
-                    "Currency"
+                    "users"
                 ],
                 "summary": "get user transactions",
                 "description": "get user transactions",
@@ -350,7 +352,8 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 1
                     },
                     {
                         "name": "locale",
@@ -411,7 +414,7 @@
         "/api/currencies/withdrawal/companies/{company_id}/users": {
             "post": {
                 "tags": [
-                    "Currency"
+                    "users"
                 ],
                 "summary": "withdrawal currency",
                 "description": "withdrawal currency",
@@ -423,7 +426,8 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        }
+                        },
+                        "example": 1
                     },
                     {
                         "name": "locale",
@@ -3364,7 +3368,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "/api/authentication/login-register"
+                                    "$ref": "authentication/login-register"
                                 }
                             }
                         }
@@ -3429,6 +3433,7 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
+                                    "mobile",
                                     "otp_code"
                                 ],
                                 "properties": {
