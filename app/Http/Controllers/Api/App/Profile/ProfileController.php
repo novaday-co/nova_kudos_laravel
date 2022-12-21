@@ -108,14 +108,14 @@ class ProfileController extends Controller
                 $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'company' . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . 'profiles');
                 $result = $imageService->save($request->file('avatar'));
                 if ($result === false)
-                    return response('error uploading photo ', 400);
+                    return $this->error([trans('messages.company.profile.invalid.avatar')], trans('messages.company.profile.invalid.avatar'), 422);
                 $attrs['avatar'] = $result;
             }
             $company_id->users()->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));
             return response('ok');
         } catch (\Exception $e)
         {
-            return response(['bad request' =>$e->getMessage()], 400);
+            return $this->error([$e->getMessage()], trans('messages.company.profile.invalid.avatar'), 422);
         }
     }
 
@@ -290,7 +290,7 @@ class ProfileController extends Controller
             return UserResource::make($user);
         } catch (\Exception $e)
         {
-            return $this->error([$e->getMessage()], trans('messages.profile.invalid.verify'), 422);
+            return $this->error([$e->getMessage()], trans('messages.company.profile.invalid.verify'), 422);
         }
     }
 }

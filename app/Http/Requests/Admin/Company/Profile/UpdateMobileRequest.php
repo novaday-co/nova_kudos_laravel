@@ -24,7 +24,7 @@ class UpdateMobileRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => ['required', 'string', 'max:11', 'unique:users,mobile', 'regex:/^[a-zA-Z0-9_.@\+]*$/'],
+            'mobile' => ['required', 'string', 'digits:11', 'unique:users,mobile', 'regex:/^[a-zA-Z0-9_.@\+]*$/'],
         ];
     }
 }
