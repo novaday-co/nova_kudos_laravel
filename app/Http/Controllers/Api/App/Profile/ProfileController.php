@@ -5,19 +5,14 @@ namespace App\Http\Controllers\Api\App\Profile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Company\Profile\UpdateAvatarRequest;
 use App\Http\Requests\Admin\Company\Profile\UpdateMobileRequest;
-use App\Http\Requests\Admin\Profile\ProfileRequest;
 use App\Http\Requests\Auth\OtpRequest;
-use App\Http\Resources\Company\User\CompanyUserResource;
 use App\Http\Resources\UserResource;
 use App\Http\Services\Image\ImageService;
 use App\Http\Services\Message\MessageService;
 use App\Http\Services\Message\Sms\SmsService;
 use App\Models\Company;
 use App\Models\TempMobile;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
