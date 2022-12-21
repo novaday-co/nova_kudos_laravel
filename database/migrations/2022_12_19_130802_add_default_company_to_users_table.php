@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('company_id')->nullable();
-            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('default_company')->after('login_count')->nullable()->constrained('company_user')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
