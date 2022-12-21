@@ -13,7 +13,7 @@ class ImageService extends ImageTools
         // execute provider
         $this->provider();
         // save image
-        $res = Image::make($image->getRealPath())->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
+        $res = Image::make($image->getRealPath())->save(storage_path($this->getImageAddress()), null, $this->getImageFormat());
         return $res ? $this->getImageAddress() : false;
     }
 
@@ -24,7 +24,7 @@ class ImageService extends ImageTools
         //execute provider
         $this->provider();
         //save image
-        $res = Image::make($image->getRealPath())->fit($width, $height)->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
+        $res = Image::make($image->getRealPath())->fit($width, $height)->save(storage_path($this->getImageAddress()), null, $this->getImageFormat());
         return $res ? $this->getImageAddress() : false;
     }
 
