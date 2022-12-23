@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Api\App\Company\AccountBalance;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\Balance\BalanceRequest;
-use App\Http\Resources\Company\User\CompanyUserResource;
 use App\Http\Resources\User\Balance\TransactionsResource;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\User\Company\DefaultCompanyUserResource;
 use App\Models\Company;
-use App\Models\CompanyUserTransaction;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class BalanceController extends Controller
 {
@@ -187,7 +183,7 @@ class BalanceController extends Controller
                 }
             }
             $userCompany = $userId->companies()->find($company_id);
-                return CompanyUserResource::make($userCompany);
+                return DefaultCompanyUserResource::make($userCompany);
         } catch (\Exception $exception)
         {
             return $this->error([$exception->getMessage()], trans('messages.currency.withdrawal'), 422);

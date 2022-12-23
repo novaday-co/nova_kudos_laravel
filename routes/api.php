@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\App\Company\AccountBalance\BalanceController;
 use App\Http\Controllers\Api\App\Company\CompanyController;
+use App\Http\Controllers\Api\App\Company\Exchange\ExchangeController;
 use App\Http\Controllers\Api\App\GiftCard\SendGiftCardController;
 use App\Http\Controllers\Api\App\Group\GroupController;
 use App\Http\Controllers\Api\App\Home\HomeController;
@@ -41,11 +42,13 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
 
 
         // user routes
-        Route::prefix('users')->name('user.')->group(function (){
+        Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(function (){
             Route::get('all', [UserController::class, 'index'])->name('all');
             Route::post('store', [UserController::class, 'store'])->name('store');
             Route::put('update/{user}', [UserController::class, 'update'])->name('update');
             Route::delete('delete/{user}', [UserController::class, 'destroy'])->name('destroy');
+            Route::post('exchange/coin/companies/{company_id}', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
+            Route::post('exchange/currency/companies/{company_id}', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
         });
         // profile routes
         Route::prefix('profiles')->middleware('auth:sanctum')->name('profile.')->group(function (){

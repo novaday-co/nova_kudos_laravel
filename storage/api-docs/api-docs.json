@@ -1128,6 +1128,190 @@
                 ]
             }
         },
+        "/api/exchange/currency/companies/{company_id}": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "exchange coin to currency",
+                "description": "exchange coin to currency",
+                "operationId": "exchange coin to currency",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "type": "integer",
+                                        "example": 12
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/exchange/currency/companies/{company_id}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/users/exchange/coin/companies/{company_id}": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "exchange currency to coin",
+                "description": "exchange currency to coin",
+                "operationId": "exchange currency to coin",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "type": "integer",
+                                        "example": 12000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/users/exchange/coin/companies/{company_id}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/app/events/companies/{company}": {
             "post": {
                 "tags": [
@@ -2927,10 +3111,10 @@
                 ]
             }
         },
-        "/api/app/profiles/users/companies/{company_id}": {
+        "/api/profiles/users/companies/{company_id}/avatar": {
             "post": {
                 "tags": [
-                    "profiles"
+                    "Profiles"
                 ],
                 "summary": "update profile user",
                 "description": "update profile user",
@@ -2942,8 +3126,93 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "avatar"
+                                ],
+                                "properties": {
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/profiles/users/companies/{company_id}/avatar"
+                                }
+                            }
                         }
                     },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/profiles/users/update/mobile": {
+            "post": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "update mobile",
+                "description": "update mobile",
+                "operationId": "update mobile",
+                "parameters": [
                     {
                         "name": "locale",
                         "in": "header",
@@ -2981,14 +3250,10 @@
                                     "mobile"
                                 ],
                                 "properties": {
-                                    "avatar": {
-                                        "type": "file",
-                                        "format": "text"
-                                    },
                                     "mobile": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "09124068701"
+                                        "example": "09350000001"
                                     }
                                 },
                                 "type": "object"
@@ -3002,13 +3267,104 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "/api/app/profile/users/update/{company_id}"
+                                    "$ref": "/api/profiles/companies/{company_id}/update/mobile"
                                 }
                             }
                         }
                     },
                     "401": {
-                        "description": "validation error"
+                        "description": "unauthorized"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/profiles/users/verify/mobile": {
+            "post": {
+                "tags": [
+                    "Profiles"
+                ],
+                "summary": "verify mobile",
+                "description": "verify mobile",
+                "operationId": "verify mobile",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "fa"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "mobile",
+                                    "otp_code"
+                                ],
+                                "properties": {
+                                    "mobile": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "09350000001"
+                                    },
+                                    "otp_code": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/profiles/companies/{company_id}/update/mobile"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "unauthorized"
                     },
                     "422": {
                         "description": "error"
