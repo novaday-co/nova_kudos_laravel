@@ -1307,16 +1307,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v9.45.0",
+            "version": "v9.45.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "f2c51fdfcb0c50c19cdc49c2e82690ad1a21eafe"
+                "reference": "faeb20d3fc61b69790068161ab42bcf2d5faccbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f2c51fdfcb0c50c19cdc49c2e82690ad1a21eafe",
-                "reference": "f2c51fdfcb0c50c19cdc49c2e82690ad1a21eafe",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/faeb20d3fc61b69790068161ab42bcf2d5faccbc",
+                "reference": "faeb20d3fc61b69790068161ab42bcf2d5faccbc",
                 "shasum": ""
             },
             "require": {
@@ -1489,7 +1489,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-12-20T14:16:06+00:00"
+            "time": "2022-12-21T19:37:46+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -6087,16 +6087,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.5.2",
+            "version": "4.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "8b55d616213cd0b05de84e0fabc34de74a4c6d1d"
+                "reference": "e505bce612a86fe90f8fd50917e0848afc5d2ba8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/8b55d616213cd0b05de84e0fabc34de74a4c6d1d",
-                "reference": "8b55d616213cd0b05de84e0fabc34de74a4c6d1d",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/e505bce612a86fe90f8fd50917e0848afc5d2ba8",
+                "reference": "e505bce612a86fe90f8fd50917e0848afc5d2ba8",
                 "shasum": ""
             },
             "require": {
@@ -6159,9 +6159,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.5.2"
+                "source": "https://github.com/zircote/swagger-php/tree/4.5.3"
             },
-            "time": "2022-12-19T00:41:18+00:00"
+            "time": "2022-12-21T18:26:59+00:00"
         }
     ],
     "packages-dev": [

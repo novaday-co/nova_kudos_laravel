@@ -209,11 +209,11 @@ class ExchangeController extends Controller
                 if ($currency_balance >= $attrs['amount'])
                 {
                     if ($coin_value > $attrs['amount'])
-                        return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
+                        return $this->error([trans('messages.currency.invalid.coin_value')], trans('messages.currency.invalid.coin_value'), 422);
                     $exchange = $attrs['amount'] / $coin_value;
-                    $final = $attrs['amount'] - $coin_value;
+                    $additionalAmount = $attrs['amount'] - $coin_value * $exchange;
                     $currency_balance -= $attrs['amount'];
-                    // $currency_balance += $final;
+                    $currency_balance += $additionalAmount;
                     $coin_balance += round($exchange);
                     $company_id->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
                     $company_id->companyUserTransactions()->create([
