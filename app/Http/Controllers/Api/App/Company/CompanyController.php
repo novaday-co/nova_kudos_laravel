@@ -9,10 +9,10 @@ use App\Http\Resources\Admin\GroupResource;
 use App\Http\Resources\SuperAdmin\CompanyResource;
 use App\Http\Resources\SuperAdmin\OwnerCompanyResource;
 use App\Http\Resources\UserResource;
-use App\Http\Services\Image\ImageService;
 use App\Models\Company;
 use App\Models\OwnerCompany;
 use App\Models\User;
+use App\Services\Image\ImageService;
 
 class CompanyController extends Controller
 {

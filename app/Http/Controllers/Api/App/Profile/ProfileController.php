@@ -7,11 +7,11 @@ use App\Http\Requests\Admin\Company\Profile\UpdateAvatarRequest;
 use App\Http\Requests\Admin\Company\Profile\UpdateMobileRequest;
 use App\Http\Requests\Auth\OtpRequest;
 use App\Http\Resources\UserResource;
-use App\Http\Services\Image\ImageService;
-use App\Http\Services\Message\MessageService;
-use App\Http\Services\Message\Sms\SmsService;
 use App\Models\Company;
 use App\Models\TempMobile;
+use App\Services\Image\ImageService;
+use App\Services\Message\MessageService;
+use App\Services\Message\Sms\SmsService;
 use Carbon\Carbon;
 
 class ProfileController extends Controller

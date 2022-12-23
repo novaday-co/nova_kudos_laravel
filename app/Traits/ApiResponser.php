@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Traits;
+namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 trait ApiResponser
 {

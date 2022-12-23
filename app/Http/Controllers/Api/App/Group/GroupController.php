@@ -7,11 +7,10 @@ use App\Http\Requests\Admin\Group\GroupRequest;
 use App\Http\Requests\Admin\Group\UpdateGroupRequest;
 use App\Http\Resources\Admin\GroupResource;
 use App\Http\Resources\Admin\UserResource;
-use App\Http\Services\Image\ImageService;
 use App\Models\Company;
 use App\Models\Group;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Services\Image\ImageService;
 
 class GroupController extends Controller
 {

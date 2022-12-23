@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Product\ProductRequest;
 use App\Http\Requests\Admin\Product\UpdateProductRequest;
 use App\Http\Resources\Admin\ProductResource;
-use App\Http\Services\Image\ImageService;
 use App\Models\Product;
+use App\Services\Image\ImageService;
 
 class ProductController extends Controller
 {

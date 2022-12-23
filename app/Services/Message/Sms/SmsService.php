@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Message\Sms;
+namespace App\Services\Message\Sms;
 
 use App\Http\Interfaces\MessageInterface;
 use Kavenegar\KavenegarApi;
