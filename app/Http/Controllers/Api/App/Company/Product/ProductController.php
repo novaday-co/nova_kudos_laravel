@@ -157,7 +157,7 @@ class ProductController extends Controller
             return new ProductResource($product);
         } catch (\Exception $e)
         {
-            return $this->error([$e->getMessage()], trans('messages.market.invalid.request'), 422);
+            return $this->error([$e->getMessage()], trans('messages.company.market.invalid.request'), 422);
         }
     }
 
@@ -259,7 +259,7 @@ class ProductController extends Controller
         }
         catch (\Exception $e)
         {
-            return $this->error([$e->getMessage()], trans('messages.market.invalid.request'), 400);
+            return $this->error([$e->getMessage()], trans('messages.company.market.invalid.request'), 400);
         }
     }
 
@@ -331,10 +331,10 @@ class ProductController extends Controller
         try
         {
             $company_id->products()->where('id', $product->id)->delete();
-            return $this->success([trans('messages.market.destroy')], trans('messages.market.destroy'));
+            return $this->success([trans('messages.company.market.destroy')], trans('messages.company.market.destroy'));
         } catch (\Exception $e)
         {
-            return $this->error([$e->getMessage()], trans('messages.market.invalid.request'), 422);
+            return $this->error([$e->getMessage()], trans('messages.company.market.invalid.request'), 422);
         }
     }
 }
