@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Traits;
 
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -10,6 +10,9 @@ trait ImageHandler
     public string $public_path = "/public/images/";
     public string $storage_path = "/storage/images/";
 
+    /**
+     * upload images with this function
+     */
     public function uploadImage($file, $path)
     {
         if ( $file ) {
@@ -25,5 +28,10 @@ trait ImageHandler
             $url = preg_replace( "/public/", "", $url);
             return $img->save($public_path) ? $url : '';
         }
+    }
+
+    public function deleteImage($imagePath)
+    {
+
     }
 }

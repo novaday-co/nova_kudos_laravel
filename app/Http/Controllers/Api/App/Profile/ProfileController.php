@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Company\Profile\UpdateAvatarRequest;
 use App\Http\Requests\Admin\Company\Profile\UpdateMobileRequest;
 use App\Http\Requests\Auth\OtpRequest;
+use App\Http\Resources\Company\User\CompanyUserResource;
+use App\Http\Resources\Company\User\Profile\AvatarResource;
 use App\Http\Resources\UserResource;
 use App\Models\Company;
 use App\Models\TempMobile;
@@ -90,24 +92,19 @@ class ProfileController extends Controller
      *      ),
      * )
      */
-    public function updateProfile(UpdateAvatarRequest $request, ImageService $imageService, Company $company_id)
+    public function updateProfile(UpdateAvatarRequest $request, Company $company_id)
     {
         try
         {
             $user_id = auth()->user();
-            $user_company = $company_id->users()->findOrFail($user_id->id);
+            // $user_company = $company_id->users()->findOrFail($user_id->id);
             $attrs = $request->validated();
             if ($request->hasFile('avatar')) {
-                if (!empty($user_company->avatar))
-                    $imageService->deleteImage($user_company->avatar);
-                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'company' . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . 'profiles');
-                $result = $imageService->save($request->file('avatar'));
-                if ($result === false)
-                    return $this->error([trans('messages.company.profile.invalid.avatar')], trans('messages.company.profile.invalid.avatar'), 422);
-                $attrs['avatar'] = $result;
+                $avatar = $this->uploadImage($request->file('avatar'), 'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR .  'users' . DIRECTORY_SEPARATOR . 'avatar');
+                $attrs['avatar'] = $avatar;
             }
-            $company_id->users()->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));
-            return response('ok');
+            $company_user = $company_id->users()->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));
+            return AvatarResource::make($company_user);
         } catch (\Exception $e)
         {
             return $this->error([$e->getMessage()], trans('messages.company.profile.invalid.avatar'), 422);
