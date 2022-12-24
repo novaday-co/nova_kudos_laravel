@@ -19,6 +19,7 @@ class ProductResource extends JsonResource
             'company_avatar' => $this->company->avatar,
             'product_name' => $this->name,
             'product_currency' => $this->currency,
+            'product_coin' => $this->coin,
             'product_amount' => $this->amount,
             'product_avatar' => $this->avatar,
             'product_expiration_date' => $this->expiration_date,

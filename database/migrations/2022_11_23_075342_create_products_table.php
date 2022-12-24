@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('currency');
+            $table->integer('coin');
             $table->integer('amount');
 
             $table->foreignId('company_id');

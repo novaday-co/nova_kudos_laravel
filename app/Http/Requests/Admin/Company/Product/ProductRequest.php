@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Product;
+namespace App\Http\Requests\Admin\Company\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProductRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,11 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['sometimes', 'required', 'string'],
-            'coin' => ['sometimes', 'required', 'integer'],
-            'amount' => ['sometimes', 'required', 'integer'],
-            'picture' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
-            'expiration_date' => ['sometimes' , 'date'],
+            'name' => ['required', 'string'],
+            'currency' => ['required', 'integer'],
+            'amount' => ['required', 'integer'],
+            'avatar' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
+            'expiration_date' => ['sometimes', 'date', 'after:today'],
         ];
     }
 }

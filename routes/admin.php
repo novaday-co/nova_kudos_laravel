@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Route;
 
      Route::get('{company_id}/market/products', [ProductController::class, 'index'])->name('product.index');
      Route::post('{company_id}/market/products', [ProductController::class, 'store'])->name('product.store');
-     Route::put('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.update');
-     Route::delete('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.update');
+     Route::post('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.update');
+     Route::delete('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.destroy');
 });
 
