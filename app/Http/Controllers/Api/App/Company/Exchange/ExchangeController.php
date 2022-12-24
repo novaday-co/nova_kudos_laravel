@@ -103,7 +103,7 @@ class ExchangeController extends Controller
                     $coin_balance -= $attrs['amount'];
                     $currency_balance += $exchange;
                     $company_id->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
-                    $company_id->companyUserTransactions()->create([
+                    $company_id->exchangeUserTransaction()->create([
                         'user_id' => $userId->id,
                         'transaction_type' => 'ToCurrency',
                         'amount' => $exchange
@@ -216,7 +216,7 @@ class ExchangeController extends Controller
                     $currency_balance += $additionalAmount;
                     $coin_balance += round($exchange);
                     $company_id->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
-                    $company_id->companyUserTransactions()->create([
+                    $company_id->exchangeUserTransaction()->create([
                         'user_id' => $userId->id,
                         'transaction_type' => 'ToCoin',
                         'amount' => $exchange
