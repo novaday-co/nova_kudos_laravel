@@ -15,7 +15,7 @@ class AvatarResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'user_mobile' => $this->user_id,
+           // 'user_mobile' => $this->user_id,
             'company_id' => $this->company_id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,

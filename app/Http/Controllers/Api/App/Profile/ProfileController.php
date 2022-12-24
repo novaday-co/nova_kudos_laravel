@@ -97,14 +97,14 @@ class ProfileController extends Controller
         try
         {
             $user_id = auth()->user();
-            // $user_company = $company_id->users()->findOrFail($user_id->id);
+            $user_company = $company_id->users()->findOrFail($user_id->id);
             $attrs = $request->validated();
             if ($request->hasFile('avatar')) {
                 $avatar = $this->uploadImage($request->file('avatar'), 'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR .  'users' . DIRECTORY_SEPARATOR . 'avatar');
                 $attrs['avatar'] = $avatar;
             }
-            $company_user = $company_id->users()->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));
-            return AvatarResource::make($company_user);
+            $company_id->users()->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));
+            return CompanyUserResource::make($user_company);
         } catch (\Exception $e)
         {
             return $this->error([$e->getMessage()], trans('messages.company.profile.invalid.avatar'), 422);
@@ -177,7 +177,7 @@ class ProfileController extends Controller
      */
     public function updateMobile(UpdateMobileRequest $request)
     {
-      //  try {
+        try {
             $attributes = $request->validated();
             $userMobile = auth()->user()->mobile;
             if ($userMobile != $attributes['mobile'])
@@ -197,10 +197,10 @@ class ProfileController extends Controller
                 $messageService->send();
             }
             return $this->success(['otp_code' => $otpCode]);
-     //   } catch (\Exception $e)
-    //    {
-    //        return $this->error(['error: ' => $e->getMessage()], trans('messages.profile.duplicate.mobile'), 422);
-    //    }
+        } catch (\Exception $e)
+        {
+            return $this->error(['error: ' => $e->getMessage()], trans('messages.profile.duplicate.mobile'), 422);
+        }
     }
     /**
      * @OA\Post(
