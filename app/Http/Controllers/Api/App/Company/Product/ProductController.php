@@ -211,11 +211,10 @@ class ProductController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  @OA\Property(property="name", type="text", format="text", example="product 1"),
-     *                   required={"name", "currency", "amount"},
      *                  @OA\Property(property="currency", type="text", format="text", example="3000"),
      *                  @OA\Property(property="amount", type="integer", format="integer", example="12"),
      *                  @OA\Property(property="avatar", type="file", format="file"),
-     *                  @OA\Property(property="expiration_date", type="text", format="text", example="2022-12-09"),
+     *                  @OA\Property(property="expiration_date", type="text", format="text", example="2022-12-11"),
      *               ),
      *           ),
      *       ),
@@ -240,27 +239,28 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Company $company_id, Product $product)
     {
-        try
-        {
+//        try
+//        {
             $attrs = $request->validated();
             if ($request->hasFile('avatar'))
             {
                 $avatar = $this->uploadImage($request->file('avatar'), 'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'market');
                 $attrs['avatar'] = $avatar;
             }
+            $coin_value = $company_id->coin->coin_value;
             if ($attrs['currency'])
             {
-                $coin_value = $company_id->coin->coin_value;
                 $coin = $attrs['currency'] / $coin_value;
                 $attrs['coin'] = round($coin);
             }
-            $product = $product->company()->where('id', $company_id)->update($attrs);
-            return ProductResource::make($product);
-        }
-        catch (\Exception $e)
-        {
-            return $this->error([$e->getMessage()], trans('messages.company.market.invalid.request'), 400);
-        }
+            $product->company()->where('id', $company_id->id)->get();
+            $product->update($attrs);
+             return ProductResource::make($product);
+        // }
+//        catch (\Exception $e)
+//        {
+//            return $this->error([$e->getMessage()], trans('messages.company.market.invalid.request'), 400);
+//        }
     }
 
     /**
@@ -330,11 +330,17 @@ class ProductController extends Controller
     {
         try
         {
-            $company_id->products()->where('id', $product->id)->delete();
+            $product->company()->where('id', $company_id)->get();
+            $product->delete();
             return $this->success([trans('messages.company.market.destroy')], trans('messages.company.market.destroy'));
         } catch (\Exception $e)
         {
             return $this->error([$e->getMessage()], trans('messages.company.market.invalid.request'), 422);
         }
+    }
+
+    public function buyProduct()
+    {
+
     }
 }

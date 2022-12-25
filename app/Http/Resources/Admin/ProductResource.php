@@ -15,6 +15,7 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'company_name' => $this->company->name,
             'company_avatar' => $this->company->avatar,
             'product_name' => $this->name,
@@ -22,7 +23,9 @@ class ProductResource extends JsonResource
             'product_coin' => $this->coin,
             'product_amount' => $this->amount,
             'product_avatar' => $this->avatar,
-            'product_expiration_date' => $this->expiration_date,
+            'product_expiration_date' => dateTime($this->expiration_date),
+            'product_created_at' => dateTime($this->created_at),
+            'product_updated_at' => dateTime($this->updated_at),
         ];
     }
 }
