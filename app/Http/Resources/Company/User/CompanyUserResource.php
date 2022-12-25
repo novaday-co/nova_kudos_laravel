@@ -30,7 +30,7 @@ class CompanyUserResource extends JsonResource
                 return $this->pivot->job_position;
             }),
             'avatar' => $this->whenPivotLoaded('company_user', function (){
-                return $this->pivot->avatar;
+                return asset('storage' . $this->pivot->avatar);
             }),
             'coin_amount' => $this->whenPivotLoaded('company_user', function (){
                 return $this->pivot->coin_amount;

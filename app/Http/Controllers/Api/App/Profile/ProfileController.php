@@ -7,11 +7,9 @@ use App\Http\Requests\Admin\Company\Profile\UpdateAvatarRequest;
 use App\Http\Requests\Admin\Company\Profile\UpdateMobileRequest;
 use App\Http\Requests\Auth\OtpRequest;
 use App\Http\Resources\Company\User\CompanyUserResource;
-use App\Http\Resources\Company\User\Profile\AvatarResource;
 use App\Http\Resources\UserResource;
 use App\Models\Company;
 use App\Models\TempMobile;
-use App\Services\Image\ImageService;
 use App\Services\Message\MessageService;
 use App\Services\Message\Sms\SmsService;
 use Carbon\Carbon;
@@ -100,7 +98,7 @@ class ProfileController extends Controller
             $user_company = $company_id->users()->findOrFail($user_id->id);
             $attrs = $request->validated();
             if ($request->hasFile('avatar')) {
-                $avatar = $this->uploadImage($request->file('avatar'), 'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR .  'users' . DIRECTORY_SEPARATOR . 'avatar');
+                $avatar = $this->uploadImage($request->file('avatar'), 'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . 'avatar');
                 $attrs['avatar'] = $avatar;
             }
             $company_id->users()->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));

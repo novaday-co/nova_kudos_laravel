@@ -15,6 +15,7 @@ class DefaultCompanyUserResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->company->id,
             'company_name' => $this->company->name,
             'company_avatar' => $this->company->avatar,
             'first_name' => $this->first_name,
