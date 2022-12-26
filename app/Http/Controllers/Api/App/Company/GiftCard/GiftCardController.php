@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\App\GiftCard;
+namespace App\Http\Controllers\Api\App\Company\GiftCard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\GiftCard\GiftCardRequest;
@@ -14,12 +14,21 @@ class GiftCardController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/giftcards/all",
-     *      operationId="get gift cards",
-     *      tags={"giftcards"},
-     *      summary="get giftcards",
-     *      description="get giftcards",
+     *      path="/admin/companies/{company_id}/gift-cards",
+     *      operationId="get all gift cards",
+     *      tags={"companies"},
+     *      summary="get all giftcards",
+     *      description="get all giftcards",
      *      security={ {"sanctum": {} }},
+     *      @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -41,7 +50,7 @@ class GiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/giftcards/all")
+     *          @OA\JsonContent(ref="/admin/companies/{company_id}/gift-cards")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -57,20 +66,29 @@ class GiftCardController extends Controller
      *      ),
      * )
      */
-    public function index()
+    public function index(Company $company_id)
     {
-        $giftCards = GiftCard::query()->latest()->paginate(15);
+        $giftCards = $company_id->giftCards;
         return new GiftCardResource($giftCards);
     }
 
     /**
      * @OA\Post (
-     *      path="/api/giftcards/companies/{company}/store",
+     *      path="/admin/companies/{company_id}/gift-cards",
      *      operationId="store new gift card",
      *      tags={"giftcards"},
      *      summary="store new git card",
      *      description="store new gift card",
      *      security={ {"sanctum": {} }},
+     *    @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -94,18 +112,18 @@ class GiftCardController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  @OA\Property(property="title", type="text", format="text", example="yasin"),
-     *                   required={"title"},
-     *                  @OA\Property(property="picture", type="file", format="text"),
-     *                  @OA\Property(property="coin", type="integer", format="integer", example="123"),
-     *                  @OA\Property(property="expiration_date", type="string", format="string", example="12/3/22"),
+     *                  @OA\Property(property="title", type="text", format="text", example="gift 1"),
+     *                   required={"title", "coin"},
+     *                  @OA\Property(property="avatar", type="file", format="text"),
+     *                  @OA\Property(property="coin", type="integer", format="integer", example="20"),
+     *                  @OA\Property(property="expiration_date", type="string", format="string", example="2022-12-27"),
      *               ),
      *           ),
      *       ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/giftcards/companies/{company}/store")
+     *          @OA\JsonContent(ref="/admin/companies/{company_id}/gift-cards")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -122,36 +140,46 @@ class GiftCardController extends Controller
      * )
      */
 
-    public function store(GiftCardRequest $request, Company $company, ImageService $imageService)
+    public function store(GiftCardRequest $request, Company $company_id)
     {
         try
         {
             $attrs = $request->validated();
-            if ($request->hasFile('picture'))
+            if ($request->hasFile('avatar'))
             {
-                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'giftcards');
-                $result = $imageService->save($request->file('picture'));
-                if ($result === false)
-                    return response('error uploading photo ', 400);
-                $attrs['picture'] = $result;
+                $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'giftCards');
+                $attrs['avatar'] = $avatar;
             }
-            $attrs['company_id'] = $company->id;
-            $giftCard = GiftCard::query()->create($attrs);
+            $giftCard = $company_id->giftCards()->create([
+               'title' => $attrs['title'],
+               'avatar' => $avatar,
+               'coin' => $attrs['coin'],
+               'expiration_date' => $attrs['expiration_date']
+            ]);
             return new GiftCardResource($giftCard);
         } catch (\Exception $e)
         {
-            return response(['bad request' => $e->getMessage()], 400);
+            return $this->error([$e->getMessage()], trans('messages.company.giftcard.failed'), 422);
         }
     }
 
     /**
      * @OA\Put(
-     *      path="/api/app/giftcards/{giftcard}/update",
+     *      path="/admin/companies/{company_id}/gift-cards/{giftcard}",
      *      operationId="update gift card",
-     *      tags={"giftcards"},
-     *      summary="update giftcard",
-     *      description="update giftcard",
+     *      tags={"companies"},
+     *      summary="update gift card",
+     *      description="update gift card",
      *      security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
      *     @OA\Parameter(
      *          name="giftcard",
      *          in="path",
@@ -185,8 +213,7 @@ class GiftCardController extends Controller
      *              @OA\Schema(
 
      *                  @OA\Property(property="title", type="text", format="text", example="yasin"),
-     *                   required={"title"},
-     *                  @OA\Property(property="picture", type="file", format="text"),
+     *                  @OA\Property(property="avatar", type="file", format="text"),
      *                  @OA\Property(property="coin", type="integer", format="integer", example="123"),
      *                  @OA\Property(property="expiration_date", type="string", format="string", example="12/3/22"),
      *               ),
@@ -195,7 +222,7 @@ class GiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/app/giftcards/{giftcard}/update")
+     *          @OA\JsonContent(ref="/admin/companies/{company_id}/gift-cards/{giftcard}")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -212,27 +239,27 @@ class GiftCardController extends Controller
      * )
      */
 
-    public function update(UpdateGiftCardRequest $request, GiftCard $giftCard, ImageService $imageService)
+    public function update(UpdateGiftCardRequest $request, Company $company_id, GiftCard $giftCard)
     {
         try
         {
             $attrs = $request->validated();
-            if ($request->hasFile('picture'))
+            if ($request->hasFile('avatar'))
             {
-                if (!empty($giftCard->picture))
-                    $imageService->deleteImage($giftCard->picture);
-                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'giftcards');
-                $result = $imageService->save($request->file('picture'));
-                if ($result === false)
-                    return response('error uploading photo ', 400);
-                $attrs['picture'] = $result;
+                $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR . 'giftCards');
+                $attrs['avatar'] = $avatar;
             }
-            $giftCard = $giftCard->update($attrs);
+            $giftCard = $company_id->giftCards()->where('id', $giftCard->id)->update([
+                'title' => $attrs['title'],
+                'coin' => $attrs['coin'],
+                'avatar' => $avatar,
+                'expiration_date' => $attrs['expiration_date'],
+            ]);
             return new GiftCardResource($giftCard);
         }
         catch (\Exception $e)
         {
-            return response(['bad request' => $e->getMessage()], 400);
+            return $this->error([$e->getMessage()],trans('messages.company.giftcard.failed'), 422);
         }
     }
 

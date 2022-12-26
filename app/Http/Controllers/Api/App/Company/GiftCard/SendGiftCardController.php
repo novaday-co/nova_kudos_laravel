@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\App\GiftCard;
+namespace App\Http\Controllers\Api\App\Company\GiftCard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\GiftCard\SendGiftRequest;
@@ -8,7 +8,6 @@ use App\Http\Resources\Admin\SendGiftResource;
 use App\Models\GiftCard;
 use App\Models\GiftUser;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class SendGiftCardController extends Controller
 {

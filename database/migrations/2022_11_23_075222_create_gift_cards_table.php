@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('gift_cards', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
-            $table->string('picture', 255)->nullable();
+            $table->string('avatar', 255)->nullable();
             $table->integer('coin');
 
             $table->foreignId('company_id');

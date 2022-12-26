@@ -1,20 +1,18 @@
 <?php
 
 use App\Http\Controllers\Api\App\Company\AccountBalance\BalanceController;
-use App\Http\Controllers\Api\App\Company\CompanyController;
 use App\Http\Controllers\Api\App\Company\Exchange\ExchangeController;
-use App\Http\Controllers\Api\App\GiftCard\SendGiftCardController;
+use App\Http\Controllers\Api\App\Company\GiftCard\SendGiftCardController;
+use App\Http\Controllers\Api\App\Event\EventController;
 use App\Http\Controllers\Api\App\Group\GroupController;
 use App\Http\Controllers\Api\App\Home\HomeController;
+use App\Http\Controllers\Api\App\Medal\MedalController;
 use App\Http\Controllers\Api\App\Poll\AnswerController;
 use App\Http\Controllers\Api\App\Poll\QuestionController;
 use App\Http\Controllers\Api\App\Poll\VoteController;
 use App\Http\Controllers\Api\App\Profile\ProfileController;
 use App\Http\Controllers\Api\App\User\UserController;
-use App\Http\Controllers\Api\App\Event\EventController;
-use App\Http\Controllers\Api\App\Medal\MedalController;
 use App\Http\Controllers\Api\Auth\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*

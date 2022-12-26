@@ -51,4 +51,10 @@ class Company extends Model
     {
         return $this->hasMany(CompanyUserTransaction::class);
     }
+
+    public function giftCards(): HasMany
+    {
+        return $this->hasMany(GiftCard::class);
+    }
+
 }
