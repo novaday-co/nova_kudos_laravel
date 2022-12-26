@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Api\App\Company\GiftCard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\GiftCard\GiftCardRequest;
 use App\Http\Requests\Admin\GiftCard\UpdateGiftCardRequest;
-use App\Http\Resources\Admin\GiftCardResource;
+use App\Http\Resources\Company\GiftCard\GiftCardResource;
 use App\Models\Company;
 use App\Models\GiftCard;
-use App\Services\Image\ImageService;
 
 class GiftCardController extends Controller
 {
@@ -69,15 +68,15 @@ class GiftCardController extends Controller
     public function index(Company $company_id)
     {
         $giftCards = $company_id->giftCards;
-        return new GiftCardResource($giftCards);
+        return GiftCardResource::collection($giftCards);
     }
 
     /**
      * @OA\Post (
      *      path="/admin/companies/{company_id}/gift-cards",
      *      operationId="store new gift card",
-     *      tags={"giftcards"},
-     *      summary="store new git card",
+     *      tags={"companies"},
+     *      summary="store new gift card",
      *      description="store new gift card",
      *      security={ {"sanctum": {} }},
      *    @OA\Parameter(
@@ -164,7 +163,7 @@ class GiftCardController extends Controller
     }
 
     /**
-     * @OA\Put(
+     * @OA\Post (
      *      path="/admin/companies/{company_id}/gift-cards/{giftcard}",
      *      operationId="update gift card",
      *      tags={"companies"},

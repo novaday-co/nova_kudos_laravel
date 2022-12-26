@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Company\GiftCard;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,11 +15,12 @@ class GiftCardResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'title' => $this->title,
-            'picture' => $this->picture,
+            'avatar' => asset('storage' . $this->avatar),
             'coin' => $this->coin,
-            'company' => $this->company_id,
-            'expiration_date' => $this->expiration_date,
+            'company_name' => $this->company->name,
+            'expiration_date' => dateTime($this->expiration_date),
         ];
     }
 }

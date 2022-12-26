@@ -11,6 +11,7 @@ use App\Models\User;
 
 class SendGiftCardController extends Controller
 {
+    /*
     /**
      * @OA\Post (
      *      path="/api/giftcards/{giftcard}/companies/{company}/users/{to_user}",
