@@ -14,6 +14,7 @@
 use App\Http\Controllers\Api\App\Coin\CoinController;
 use App\Http\Controllers\Api\App\Company\AccountBalance\AdminBalanceController;
 use App\Http\Controllers\Api\App\Company\CompanyController;
+use App\Http\Controllers\Api\App\Company\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
  Route::prefix('companies')->name('company.')->group(function () {
@@ -32,5 +33,10 @@ use Illuminate\Support\Facades\Route;
      Route::get('{company_id}/coin/system', [CoinController::class, 'getValueOfSystem'])->name('value.coin');
      Route::get('{company_id}/users/transactions', [AdminBalanceController::class, 'getTransactionUsers'])->name('transaction');
      Route::post('{company_id}/users/transactions/{transaction}/status', [AdminBalanceController::class, 'updateTransactionStatus'])->name('change.status');
+
+     Route::get('{company_id}/market/products', [ProductController::class, 'index'])->name('product.index');
+     Route::post('{company_id}/market/products', [ProductController::class, 'store'])->name('product.store');
+     Route::post('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.update');
+     Route::delete('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.destroy');
 });
 
