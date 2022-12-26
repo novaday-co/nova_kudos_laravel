@@ -7,13 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\OtpRequest;
 use App\Http\Resources\UserResource;
-use App\Http\Services\Message\MessageService;
-use App\Http\Services\Message\Sms\SmsService;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class AuthController extends ApiController
+class AuthController extends Controller
 {
     /**
      * @OA\Post(

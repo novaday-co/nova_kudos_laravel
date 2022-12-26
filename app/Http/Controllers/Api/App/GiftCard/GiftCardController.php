@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\GiftCard\GiftCardRequest;
 use App\Http\Requests\Admin\GiftCard\UpdateGiftCardRequest;
 use App\Http\Resources\Admin\GiftCardResource;
-use App\Http\Services\Image\ImageService;
 use App\Models\Company;
 use App\Models\GiftCard;
+use App\Services\Image\ImageService;
 
 class GiftCardController extends Controller
 {

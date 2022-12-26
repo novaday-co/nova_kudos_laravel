@@ -1312,6 +1312,289 @@
                 ]
             }
         },
+        "/admin/companies/{company_id}/market/products": {
+            "get": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "get products of market",
+                "description": "get products of market",
+                "operationId": "get products of market",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/{company_id}/markets/products"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "store new product",
+                "description": "store new product",
+                "operationId": "store new product",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "currency",
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "prdouct 1"
+                                    },
+                                    "currency": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "1220"
+                                    },
+                                    "amount": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "12"
+                                    },
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "file"
+                                    },
+                                    "expiration_date": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "2022-12-11"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/{company_id}/products"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/{company_id}/market/products/{product}": {
+            "put": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "update product",
+                "description": "update product",
+                "operationId": "update product",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "text"
+                                    },
+                                    "currency": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "text"
+                                    },
+                                    "amount": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "1213"
+                                    },
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "file",
+                                        "example": "text"
+                                    },
+                                    "expiration_date": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/companies/{company_id}/market/products/{product}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/app/events/companies/{company}": {
             "post": {
                 "tags": [
@@ -2835,270 +3118,6 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "server error"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/app/products/all": {
-            "get": {
-                "tags": [
-                    "products"
-                ],
-                "summary": "get products",
-                "description": "get products",
-                "operationId": "get products",
-                "parameters": [
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "/api/app/products/all"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "validation error"
-                    },
-                    "422": {
-                        "description": "error"
-                    },
-                    "500": {
-                        "description": "server error"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/app/products/companies/{company}": {
-            "post": {
-                "tags": [
-                    "products"
-                ],
-                "summary": "store new product",
-                "description": "store new product",
-                "operationId": "store new product",
-                "parameters": [
-                    {
-                        "name": "company",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "amount"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "text"
-                                    },
-                                    "coin": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "text"
-                                    },
-                                    "amount": {
-                                        "type": "integer",
-                                        "format": "integer",
-                                        "example": "1213"
-                                    },
-                                    "picture": {
-                                        "type": "file",
-                                        "format": "file",
-                                        "example": "text"
-                                    },
-                                    "expiration_date": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "text"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "/api/app/products/companies/{company}"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "validation error"
-                    },
-                    "422": {
-                        "description": "error"
-                    },
-                    "500": {
-                        "description": "server error"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/app/products/{product}": {
-            "put": {
-                "tags": [
-                    "products"
-                ],
-                "summary": "update product",
-                "description": "update product",
-                "operationId": "update product",
-                "parameters": [
-                    {
-                        "name": "product",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "amount"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "text"
-                                    },
-                                    "coin": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "text"
-                                    },
-                                    "amount": {
-                                        "type": "integer",
-                                        "format": "integer",
-                                        "example": "1213"
-                                    },
-                                    "picture": {
-                                        "type": "file",
-                                        "format": "file",
-                                        "example": "text"
-                                    },
-                                    "expiration_date": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "text"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "/api/app/products/{product}"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "validation error"
-                    },
-                    "400": {
-                        "description": "error"
                     },
                     "500": {
                         "description": "server error"

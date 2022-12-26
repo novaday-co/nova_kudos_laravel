@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Http\Services\Image\ImageUploader;
+use App\Services\Image\ImageUploader;
 use Illuminate\Support\ServiceProvider;
 
 class ImageUploaderProvider extends ServiceProvider

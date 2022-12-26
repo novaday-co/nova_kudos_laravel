@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Medal\MedalRequest;
 use App\Http\Requests\Admin\Medal\UpdateMedalRequest;
 use App\Http\Resources\Admin\MedalResource;
-use App\Http\Services\Image\ImageService;
 use App\Models\Medal;
 use App\Models\Question;
 use App\Models\User;
+use App\Services\Image\ImageService;
 
 class MedalController extends Controller
 {

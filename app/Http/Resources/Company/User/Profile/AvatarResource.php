@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Company\User\Profile;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CompanyUserResource extends JsonResource
+class AvatarResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +15,7 @@ class CompanyUserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'user_id' => $this->companies->first->user_id,
+           // 'user_mobile' => $this->user_id,
             'company_id' => $this->company_id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,

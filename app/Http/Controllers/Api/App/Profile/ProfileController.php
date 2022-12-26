@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Company\Profile\UpdateAvatarRequest;
 use App\Http\Requests\Admin\Company\Profile\UpdateMobileRequest;
 use App\Http\Requests\Auth\OtpRequest;
+use App\Http\Resources\Company\User\CompanyUserResource;
 use App\Http\Resources\UserResource;
-use App\Http\Services\Image\ImageService;
-use App\Http\Services\Message\MessageService;
-use App\Http\Services\Message\Sms\SmsService;
 use App\Models\Company;
 use App\Models\TempMobile;
+use App\Services\Message\MessageService;
+use App\Services\Message\Sms\SmsService;
 use Carbon\Carbon;
 
 class ProfileController extends Controller
@@ -90,24 +90,20 @@ class ProfileController extends Controller
      *      ),
      * )
      */
-    public function updateProfile(UpdateAvatarRequest $request, ImageService $imageService, Company $company_id)
+    public function updateProfile(UpdateAvatarRequest $request, Company $company_id)
     {
         try
         {
             $user_id = auth()->user();
-            $user_company = $company_id->users()->findOrFail($user_id->id);
+            $data = $company_id->users()->findOrFail($user_id->id);
             $attrs = $request->validated();
             if ($request->hasFile('avatar')) {
-                if (!empty($user_company->avatar))
-                    $imageService->deleteImage($user_company->avatar);
-                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'company' . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . 'profiles');
-                $result = $imageService->save($request->file('avatar'));
-                if ($result === false)
-                    return $this->error([trans('messages.company.profile.invalid.avatar')], trans('messages.company.profile.invalid.avatar'), 422);
-                $attrs['avatar'] = $result;
+                $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . 'avatar');
+                $attrs['avatar'] = $avatar;
             }
             $company_id->users()->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));
-            return response('ok');
+            $user_company = $user_id->companies()->findOrFail($company_id->id);
+            return CompanyUserResource::make($user_company);
         } catch (\Exception $e)
         {
             return $this->error([$e->getMessage()], trans('messages.company.profile.invalid.avatar'), 422);
@@ -180,7 +176,7 @@ class ProfileController extends Controller
      */
     public function updateMobile(UpdateMobileRequest $request)
     {
-      //  try {
+        try {
             $attributes = $request->validated();
             $userMobile = auth()->user()->mobile;
             if ($userMobile != $attributes['mobile'])
@@ -200,10 +196,10 @@ class ProfileController extends Controller
                 $messageService->send();
             }
             return $this->success(['otp_code' => $otpCode]);
-     //   } catch (\Exception $e)
-    //    {
-    //        return $this->error(['error: ' => $e->getMessage()], trans('messages.profile.duplicate.mobile'), 422);
-    //    }
+        } catch (\Exception $e)
+        {
+            return $this->error(['error: ' => $e->getMessage()], trans('messages.profile.duplicate.mobile'), 422);
+        }
     }
     /**
      * @OA\Post(

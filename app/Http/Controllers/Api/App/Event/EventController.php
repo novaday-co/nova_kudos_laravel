@@ -6,14 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Event\EventRequest;
 use App\Http\Requests\Admin\Event\UpdateEventRequest;
 use App\Http\Resources\Admin\EventResource;
-use App\Http\Services\Image\ImageService;
-use App\Http\Services\Image\ImageUploader;
 use App\Models\Company;
 use App\Models\Event;
 use App\Models\Group;
-use App\Models\Question;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Services\Image\ImageService;
 
 class EventController extends Controller
 {

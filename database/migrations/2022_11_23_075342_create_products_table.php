@@ -16,13 +16,14 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('currency');
             $table->integer('coin');
             $table->integer('amount');
 
             $table->foreignId('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
 
-            $table->string('picture', 255)->nullable();
+            $table->string('avatar', 255)->nullable();
             $table->dateTime('expiration_date')->nullable();
             $table->tinyInteger('status')->default(0)->comment('0 => inactive, 1 => active');
             $table->timestamps();

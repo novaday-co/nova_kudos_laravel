@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Image;
+namespace App\Services\Image;
 
 use Intervention\Image\Facades\Image;
 

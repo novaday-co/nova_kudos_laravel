@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\Image;
+namespace App\Services\Image;
 
 class ImageUploader extends ImageService
 {

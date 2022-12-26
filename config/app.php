@@ -219,7 +219,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Kavenegar' => Kavenegar\Laravel\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'ImageUploader' => App\Http\Services\Image\ImageUploaderFacade::class,
+        'ImageUploader' => \App\Services\Image\ImageUploaderFacade::class,
     ])->toArray(),
 
 ];

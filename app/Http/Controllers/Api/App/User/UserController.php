@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
 use App\Http\Requests\Admin\User\UserRequest;
 use App\Http\Resources\Admin\UserResource;
-use App\Http\Services\Image\ImageService;
 use App\Models\User;
+use App\Services\Image\ImageService;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
