@@ -24,5 +24,5 @@ trait ImageHandler
             Image::make($file->getRealPath());
             return $final_path;
        }
-}
+    }
 }
