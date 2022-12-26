@@ -19,11 +19,10 @@ trait ImageHandler
             $file_name = date('Y')
                 . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR
                 . date('d') . DIRECTORY_SEPARATOR . time() . '.' . $extension;
-            $pathAddres = $file->storeAs($path, $file_name, 'public');
-            $final_path = '/' . $pathAddres;
+            $pathAddress = $file->storeAs($path, $file_name, 'public');
+            $final_path = '/' . $pathAddress;
             Image::make($file->getRealPath());
             return $final_path;
-            // $file_path = '/' . $path . '/' . $file_name;
        }
 }
 }

@@ -95,13 +95,14 @@ class ProfileController extends Controller
         try
         {
             $user_id = auth()->user();
-            $user_company = $company_id->users()->findOrFail($user_id->id);
+            $data = $company_id->users()->findOrFail($user_id->id);
             $attrs = $request->validated();
             if ($request->hasFile('avatar')) {
-                $avatar = $this->uploadImage($request->file('avatar'), 'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . 'avatar');
+                $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . 'avatar');
                 $attrs['avatar'] = $avatar;
             }
             $company_id->users()->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));
+            $user_company = $user_id->companies()->findOrFail($company_id->id);
             return CompanyUserResource::make($user_company);
         } catch (\Exception $e)
         {
