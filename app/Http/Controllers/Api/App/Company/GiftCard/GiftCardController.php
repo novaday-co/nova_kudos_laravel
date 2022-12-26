@@ -13,7 +13,7 @@ class GiftCardController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/admin/companies/{company_id}/gift-cards",
+     *      path="/admin/companies/{company_id}/giftCards",
      *      operationId="get all gift cards",
      *      tags={"companies"},
      *      summary="get all giftcards",
@@ -49,7 +49,7 @@ class GiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/gift-cards")
+     *          @OA\JsonContent(ref="/admin/companies/{company_id}/giftCards")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -73,7 +73,7 @@ class GiftCardController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/admin/companies/{company_id}/gift-cards",
+     *      path="/admin/companies/{company_id}/giftCards",
      *      operationId="store new gift card",
      *      tags={"companies"},
      *      summary="store new gift card",
@@ -122,7 +122,7 @@ class GiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/gift-cards")
+     *          @OA\JsonContent(ref="/admin/companies/{company_id}/giftCards")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -164,7 +164,7 @@ class GiftCardController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/admin/companies/{company_id}/gift-cards/{giftcard}",
+     *      path="/admin/companies/{company_id}/giftCards/{giftCard}",
      *      operationId="update gift card",
      *      tags={"companies"},
      *      summary="update gift card",
@@ -180,9 +180,10 @@ class GiftCardController extends Controller
      *          )
      *      ),
      *     @OA\Parameter(
-     *          name="giftcard",
+     *          name="giftCard",
      *          in="path",
      *          required=true,
+     *          example=1,
      *          @OA\Schema(
      *              type="integer"
      *          )
@@ -211,17 +212,17 @@ class GiftCardController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
 
-     *                  @OA\Property(property="title", type="text", format="text", example="yasin"),
+     *                  @OA\Property(property="title", type="text", format="text", example="birthday gift"),
      *                  @OA\Property(property="avatar", type="file", format="text"),
-     *                  @OA\Property(property="coin", type="integer", format="integer", example="123"),
-     *                  @OA\Property(property="expiration_date", type="string", format="string", example="12/3/22"),
+     *                  @OA\Property(property="coin", type="integer", format="integer", example="20"),
+     *                  @OA\Property(property="expiration_date", type="string", format="string", example="2023-12-29"),
      *               ),
      *           ),
      *       ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/gift-cards/{giftcard}")
+     *          @OA\JsonContent(ref="/admin/companies/{company_id}/giftCards/{giftCard}")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -245,16 +246,18 @@ class GiftCardController extends Controller
             $attrs = $request->validated();
             if ($request->hasFile('avatar'))
             {
-                $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR . 'giftCards');
+                $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR . 'companies'
+                    . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'giftCard');
                 $attrs['avatar'] = $avatar;
             }
-            $giftCard = $company_id->giftCards()->where('id', $giftCard->id)->update([
+            $gift = $company_id->giftCards()->findOrFail($giftCard->id);
+            $gift->update([
                 'title' => $attrs['title'],
                 'coin' => $attrs['coin'],
                 'avatar' => $avatar,
                 'expiration_date' => $attrs['expiration_date'],
             ]);
-            return new GiftCardResource($giftCard);
+            return GiftCardResource::make($gift);
         }
         catch (\Exception $e)
         {

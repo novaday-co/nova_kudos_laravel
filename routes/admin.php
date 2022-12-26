@@ -40,8 +40,8 @@ use Illuminate\Support\Facades\Route;
      Route::post('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.update');
      Route::delete('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.destroy');
 
-     Route::get('{company_id}/gift-cards', [GiftCardController::class, 'index'])->name('giftcard.index');
-     Route::post('{company_id}/gift-cards', [GiftCardController::class, 'store'])->name('giftcard.store');
-     Route::post('{company_id}/gift-cards/{giftcard}', [GiftCardController::class, 'update'])->name('giftcard.update');
+     Route::get('{company_id}/giftCards', [GiftCardController::class, 'index'])->name('giftCard.index');
+     Route::post('{company_id}/giftCards', [GiftCardController::class, 'store'])->name('giftCard.store');
+     Route::post('{company_id}/giftCards/{giftCard}', [GiftCardController::class, 'update'])->name('giftCard.update');
 });
 
