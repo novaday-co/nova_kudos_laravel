@@ -43,5 +43,6 @@ use Illuminate\Support\Facades\Route;
      Route::get('{company_id}/giftCards', [GiftCardController::class, 'index'])->name('giftCard.index');
      Route::post('{company_id}/giftCards', [GiftCardController::class, 'store'])->name('giftCard.store');
      Route::post('{company_id}/giftCards/{giftCard}', [GiftCardController::class, 'update'])->name('giftCard.update');
+     Route::delete('{company_id}/giftCards/{giftCard}', [GiftCardController::class, 'destroy'])->name('giftCard.delete');
 });
 

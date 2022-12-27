@@ -265,16 +265,82 @@ class GiftCardController extends Controller
         }
     }
 
-    /*public function destroy(GiftCard $giftCard)
+    /**
+     * @OA\Delete  (
+     *      path="/admin/companies/{company_id}/giftCards/{giftCard}",
+     *      operationId="delete gift card",
+     *      tags={"companies"},
+     *      summary="delete gift card",
+     *      description="delete gift card",
+     *      security={ {"sanctum": {} }},
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="giftCard",
+     *          in="path",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="/admin/companies/{company_id}/giftCards/{giftCard}")
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="validation error",
+     *      ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="error",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+  */
+
+    public function destroy(Company $company_id, GiftCard $giftCard)
     {
-        try
-        {
+        try {
+            $company_id->giftCards()->findOrFail($giftCard->id);
             $giftCard->delete();
-            return response('delete success', 200);
-        }
-        catch (\Exception $e)
+            return $this->success([], trans('messages.company.giftCard.success.delete'));
+        } catch (\Exception $exception)
         {
-            return response(['bad request' => $e->getMessage()], 400);
+            return $this->error([$exception->getMessage()], trans('messages.company.giftCard.invalid.delete'), 422);
         }
-    }*/
+    }
 }
+
+
+
