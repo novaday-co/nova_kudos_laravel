@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\App\Company\AccountBalance\BalanceController;
+use App\Http\Controllers\Api\App\Company\AccountInfo\AccountInfoController;
 use App\Http\Controllers\Api\App\Company\Exchange\ExchangeController;
 use App\Http\Controllers\Api\App\Company\GiftCard\SendGiftCardController;
 use App\Http\Controllers\Api\App\Event\EventController;
@@ -47,6 +48,10 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::delete('delete/{user}', [UserController::class, 'destroy'])->name('destroy');
             Route::post('exchange/coin/companies/{company_id}', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
             Route::post('exchange/currency/companies/{company_id}', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
+        });
+        // account info routes
+        Route::prefix('account')->controller(AccountInfoController::class)->middleware('auth:sanctum')->name('account.info.')->group(function () {
+            Route::get('user/default-company', 'defaultCompany')->name('default.company');
         });
         // profile routes
         Route::prefix('profiles')->middleware('auth:sanctum')->name('profile.')->group(function (){

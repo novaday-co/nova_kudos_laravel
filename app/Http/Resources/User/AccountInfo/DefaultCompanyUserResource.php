@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\User\Company;
+namespace App\Http\Resources\User\AccountInfo;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,17 +15,17 @@ class DefaultCompanyUserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->company->id,
+            'company_id' => $this->company->id,
             'company_name' => $this->company->name,
             'company_avatar' => $this->company->avatar,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'job_position' => $this->job_position,
-            'avatar' => $this->avatar,
+            'avatar' => asset('storage' . $this->avatar),
             'coin_amount' => $this->coin_amount,
             'currency_amount' => $this->currency_amount,
-            'notification_unread' => $this->notification_unread,
-            'profile_complete' => boolType($this->profile_complete),
+           // 'notification_unread' => $this->notification_unread,
+          //  'profile_complete' => boolType($this->profile_complete),
         ];
     }
 }
