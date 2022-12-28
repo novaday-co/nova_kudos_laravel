@@ -24,7 +24,7 @@ class UserResource extends JsonResource
         return [
             'mobile' => $this->mobile,
             'login_count' => $this->login_count,
-            'token' => $this->token,
+            'token' => $this->token ?? null,
             'super_admin' => $this->super_admin,
             // 'default_company' => DefaultCompanyUserResource::make($this->defaultCompany),
         ];

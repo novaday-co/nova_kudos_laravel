@@ -15,12 +15,8 @@ class UserDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'first_name' => $this->whenPivotLoaded('company_user', function (){
-                return $this->pivot->first_name;
-            }),
-            'last_name' => $this->whenPivotLoaded('company_user', function (){
-                return $this->pivot->last_name;
-            })
+            'first_name' => $this?->pivot->first_name,
+            'last_name' => $this?->pivot->last_name,
         ];
     }
 }

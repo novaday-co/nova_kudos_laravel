@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\SuperAdmin;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CompanyResource extends JsonResource

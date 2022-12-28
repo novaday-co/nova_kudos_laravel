@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Company\GiftCard;
 
+use App\Http\Resources\SuperAdmin\CompanyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SendGiftCardResource extends JsonResource
@@ -18,6 +19,7 @@ class SendGiftCardResource extends JsonResource
             'company_id' => $this->company->id,
             'company_name' => $this->company->name,
             'company_avatar' => $this->company->avatar,
+           // 'companies' => new CompanyUserDetailResource($this->company),
             'from_id' => $this->fromId ? $this->fromId->mobile : $this->from_id,
             'to_id' => $this->toId ? $this->toId->mobile : $this->to_id,
             'message' => $this->message,

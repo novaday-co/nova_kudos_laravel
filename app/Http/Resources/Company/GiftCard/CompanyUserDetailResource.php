@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Company\GiftCard;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CompanyUserDetailResource extends JsonResource
@@ -15,7 +16,9 @@ class CompanyUserDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'detail' => UserDetailResource::make($this->companies)
+            'company_name' => $this->name,
+            'company_avatar' => $this->avatar,
+            'user' => UserDetailResource::collection($this->users),
         ];
     }
 }
