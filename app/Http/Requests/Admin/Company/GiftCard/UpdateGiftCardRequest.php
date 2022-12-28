@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\GiftCard;
+namespace App\Http\Requests\Admin\Company\GiftCard;
 
 use Illuminate\Foundation\Http\FormRequest;
 

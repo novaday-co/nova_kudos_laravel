@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\App\Company\AccountBalance\BalanceController;
 use App\Http\Controllers\Api\App\Company\Exchange\ExchangeController;
-use App\Http\Controllers\Api\App\Company\GiftCard\SendGiftCardController;
+use App\Http\Controllers\Api\App\Company\GiftCard\UserGiftCardController;
 use App\Http\Controllers\Api\App\Event\EventController;
 use App\Http\Controllers\Api\App\Group\GroupController;
 use App\Http\Controllers\Api\App\Home\HomeController;
@@ -38,7 +38,11 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 });
 
-
+        // company routes
+        Route::prefix('companies')->middleware('auth:sanctum')->name('companies.')->group(function (){
+            // gift card
+            Route::post('{company_id}/send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('send.gift');
+        });
         // user routes
         Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(function (){
             Route::get('all', [UserController::class, 'index'])->name('all');
@@ -114,7 +118,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         Route::get('answers/questions/{question}', [HomeController::class, 'answerQuestions']);
         Route::post('questions/{question}/users/{user}', [QuestionController::class, 'userType'])->name('type.user');
         Route::get('questions/{question}/votes', [HomeController::class, 'countOfVotes']);
-        Route::post('users/{from_id}/users/{to_id}/gifts/{gift_id}', [SendGiftCardController::class, 'sendTo']);
+        Route::post('users/{from_id}/users/{to_id}/gifts/{gift_id}', [UserGiftCardController::class, 'sendTo']);
 
         // profile
         Route::get('users/{user}/profile', [ProfileController::class, 'show']);

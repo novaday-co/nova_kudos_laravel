@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\App\Company\GiftCard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\GiftCard\GiftCardRequest;
-use App\Http\Requests\Admin\GiftCard\UpdateGiftCardRequest;
+use App\Http\Requests\Admin\Company\GiftCard\GiftCardRequest;
+use App\Http\Requests\Admin\Company\GiftCard\UpdateGiftCardRequest;
 use App\Http\Resources\Company\GiftCard\GiftCardResource;
 use App\Models\Company;
 use App\Models\GiftCard;

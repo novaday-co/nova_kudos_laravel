@@ -62,4 +62,12 @@ class Company extends Model
         return $this->hasMany(GiftCard::class);
     }
 
+    /**
+     * gift card transaction
+     */
+    public function companyUserGiftTransaction(): HasMany
+    {
+        return $this->hasMany(GiftUserTransaction::class);
+    }
+
 }

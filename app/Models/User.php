@@ -88,7 +88,17 @@ class User extends Authenticatable
 
     public function gifts()
     {
-        return $this->hasMany(GiftUser::class);
+        return $this->hasMany(GiftUserTransaction::class);
+    }
+
+    public function sendGift(): HasMany
+    {
+        return $this->hasMany(GiftUserTransaction::class);
+    }
+
+    public function reciveGift(): HasMany
+    {
+        return $this->hasMany(GiftUserTransaction::class);
     }
 
 }
