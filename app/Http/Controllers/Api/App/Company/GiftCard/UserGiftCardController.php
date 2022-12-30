@@ -7,8 +7,10 @@ use App\Http\Requests\Admin\Company\GiftCard\SearchUserRequest;
 use App\Http\Requests\Admin\Company\GiftCard\SendGiftRequest;
 use App\Http\Resources\Company\GiftCard\GiftCardResource;
 use App\Http\Resources\Company\GiftCard\SendGiftCardResource;
+use App\Http\Resources\Company\User\Search\UserSearchResource;
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserGiftCardController extends Controller
 {
@@ -146,9 +148,7 @@ class UserGiftCardController extends Controller
             $from_id = $company_id->users()->where('user_id', auth()->user()->id)->first();
             $to_id = $company_id->users()->findOrFail($attrs['to_id']);
             $gift_id = $company_id->giftCards()->findOrFail($attrs['gift_id']);
-//            foreach ($from_id as $user)
-//            {
-                $coin_balance = $from_id->pivot->coin_amount;
+            $coin_balance = $from_id->pivot->coin_amount;
                 if ($coin_balance < $gift_id->coin)
                     return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
                 $gift = $company_id->companyUserGiftTransaction()->create([
@@ -179,15 +179,6 @@ class UserGiftCardController extends Controller
      *      description="search user",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
      *          required=true,
@@ -205,15 +196,25 @@ class UserGiftCardController extends Controller
      *              type="string"
      *          )
      *      ),
-     *      @OA\RequestBody(
-     *          required=true,
-     *          @OA\MediaType(
-     *              mediaType="multipart/form-data",
-     *              @OA\Schema(
-     *                  @OA\Property(property="search", type="string", format="string", example="yasin"),
-     *               ),
-     *           ),
-     *       ),
+     *      @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *      name="search",
+     *      in="query",
+     *      required=false,
+     *     description="search user with firstname or lastname",
+     *      example="yasin",
+     *     @OA\Schema(
+     *      type="string"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
@@ -233,10 +234,24 @@ class UserGiftCardController extends Controller
      *      ),
      * )
      */
-    public function searchUser(SearchUserRequest $request, Company $company_id)
+    public function searchUser(Request $request, Company $company_id)
     {
-        $searchItem = $request->search_item;
-        $user = $company_id->users()->where('first_name', 'LIKE', "%{$searchItem}%")->get();
-        return $user;
+        try {
+            if ($request->has('search'))
+            {
+                $user = $company_id->users()->where('first_name', 'LIKE', "%{$request->search}%")
+                    ->orWhere('last_name', 'LIKE', "%{$request->search}%")->firstOrFail();
+                $user->load(['companies' => function($query) use ($user) {
+                    $query->whereIn('user_id', [$user->id]);
+                }]);
+                return UserSearchResource::make($user);
+            } if ($request->has('search') == '') {
+                $user = $company_id->users()->limit(5)->orderBy('created_at', 'desc')->get();
+                return UserSearchResource::collection($user);
+            }
+        } catch (\Exception $exception)
+        {
+            return $this->error([$exception->getMessage()], trans('messages.company.search.invalid.user'), 422);
+        }
     }
 }
