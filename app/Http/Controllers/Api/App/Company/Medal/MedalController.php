@@ -69,8 +69,14 @@ class MedalController extends Controller
      */
     public function index(Company $company_id)
     {
-        $medals = $company_id->medals()->latest()->paginate(10);
-        return MedalResource::collection($medals);
+        try {
+            $medals = $company_id->medals()->latest()->paginate(10);
+            return MedalResource::collection($medals);
+        } catch (\Exception $exception)
+        {
+            return $this->error([$exception->getMessage()], trans('messages.company.search.invalid.request'), 422);
+        }
+
     }
 
     /**
@@ -141,15 +147,20 @@ class MedalController extends Controller
      */
     public function store(MedalRequest $request, Company $company_id)
     {
-        $attrs = $request->validated();
-        if ($request->hasFile('avatar'))
+        try {
+            $attrs = $request->validated();
+            if ($request->hasFile('avatar'))
+            {
+                $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR
+                    . 'companies' . DIRECTORY_SEPARATOR . 'company' . DIRECTORY_SEPARATOR . $company_id->id .  DIRECTORY_SEPARATOR . 'medal');
+                $attrs['avatar'] = $avatar;
+            }
+            $medal = $company_id->medals()->create($attrs);
+            return new MedalResource($medal);
+        } catch (\Exception $exception)
         {
-           $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR
-           . 'companies' . DIRECTORY_SEPARATOR . 'company' . DIRECTORY_SEPARATOR . $company_id->id .  DIRECTORY_SEPARATOR . 'medal');
-            $attrs['avatar'] = $avatar;
+            return $this->error([$exception->getMessage()], trans('messages.company.invalid.request'), 422);
         }
-        $medal = $company_id->medals()->create($attrs);
-        return new MedalResource($medal);
     }
 
     /**
@@ -240,7 +251,7 @@ class MedalController extends Controller
             return MedalResource::make($medal);
         } catch (\Exception $e)
         {
-            return response(['error' => $e->getMessage()], 400);
+            return $this->error([$e->getMessage()], trans('messages.company.search.invalid.medal'), 422);
         }
     }
 
