@@ -14,6 +14,7 @@
 use App\Http\Controllers\Api\App\Coin\CoinController;
 use App\Http\Controllers\Api\App\Company\AccountBalance\AdminBalanceController;
 use App\Http\Controllers\Api\App\Company\CompanyController;
+use App\Http\Controllers\Api\App\Company\GiftCard\GiftCardController;
 use App\Http\Controllers\Api\App\Company\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,5 +39,10 @@ use Illuminate\Support\Facades\Route;
      Route::post('{company_id}/market/products', [ProductController::class, 'store'])->name('product.store');
      Route::post('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.update');
      Route::delete('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.destroy');
+
+     Route::get('{company_id}/giftCards', [GiftCardController::class, 'index'])->name('giftCard.index');
+     Route::post('{company_id}/giftCards', [GiftCardController::class, 'store'])->name('giftCard.store');
+     Route::post('{company_id}/giftCards/{giftCard}', [GiftCardController::class, 'update'])->name('giftCard.update');
+     Route::delete('{company_id}/giftCards/{giftCard}', [GiftCardController::class, 'destroy'])->name('giftCard.delete');
 });
 

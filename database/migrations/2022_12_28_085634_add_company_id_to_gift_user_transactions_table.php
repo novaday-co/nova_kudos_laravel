@@ -13,18 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('gift_cards', function (Blueprint $table) {
-            $table->id();
-            $table->string('title', 255);
-            $table->string('avatar', 255)->nullable();
-            $table->integer('coin');
-
-            $table->foreignId('company_id');
+        Schema::table('gift_user_transactions', function (Blueprint $table) {
+            $table->foreignId('company_id')->after('id');
             $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
-
-            $table->dateTime('expiration_date')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -35,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gift_cards');
+        Schema::table('gift_user_transactions', function (Blueprint $table) {
+            //
+        });
     }
 };

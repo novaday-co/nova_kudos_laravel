@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\SuperAdmin;
+namespace App\Http\Resources\Company\GiftCard;
 
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CompanyResource extends JsonResource
+class CompanyUserDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,6 +18,7 @@ class CompanyResource extends JsonResource
         return [
             'company_name' => $this->name,
             'company_avatar' => $this->avatar,
+            'user' => UserDetailResource::collection($this->users),
         ];
     }
 }

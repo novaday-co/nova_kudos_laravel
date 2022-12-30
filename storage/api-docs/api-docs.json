@@ -1312,6 +1312,589 @@
                 ]
             }
         },
+        "/admin/companies/{company_id}/giftCards": {
+            "get": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "get all giftcards",
+                "description": "get all giftcards",
+                "operationId": "get all gift cards",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/{company_id}/giftCards"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "store new gift card",
+                "description": "store new gift card",
+                "operationId": "store new gift card",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "coin"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "gift 1"
+                                    },
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "text"
+                                    },
+                                    "coin": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "20"
+                                    },
+                                    "expiration_date": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "2022-12-27"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/{company_id}/giftCards"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/companies/{company_id}/giftCards/{giftCard}": {
+            "post": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "update gift card",
+                "description": "update gift card",
+                "operationId": "update gift card",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "giftCard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "text",
+                                        "format": "text",
+                                        "example": "birthday gift"
+                                    },
+                                    "avatar": {
+                                        "type": "file",
+                                        "format": "text"
+                                    },
+                                    "coin": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "20"
+                                    },
+                                    "expiration_date": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "2023-12-29"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/{company_id}/giftCards/{giftCard}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "delete gift card",
+                "description": "delete gift card",
+                "operationId": "delete gift card",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "giftCard",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/{company_id}/giftCards/{giftCard}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/{company_id}/giftCards/client": {
+            "get": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "get all gift client",
+                "description": "get all gift client",
+                "operationId": "get all gift client",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/admin/companies/{company_id}/giftCards/client"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/{company_id}/send/giftCard": {
+            "post": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "send gift card",
+                "description": "send gift card",
+                "operationId": "send gift card",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "to_id",
+                                    "gift_id"
+                                ],
+                                "properties": {
+                                    "to_id": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": "2"
+                                    },
+                                    "gift_id": {
+                                        "type": "integer",
+                                        "format": "integer",
+                                        "example": 1
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "happy birthday"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/companies/{company_id}/send/giftCard"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/{company_id}/search/user": {
+            "get": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "search user",
+                "description": "search user",
+                "operationId": "search user",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "search": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "yasin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/companies/{company_id}/search/user"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "422": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/companies/{company_id}/market/products": {
             "get": {
                 "tags": [
@@ -1481,10 +2064,10 @@
                 ]
             }
         },
-        "/api/companies/{company_id}/market/products/{product}": {
-            "put": {
+        "/admin/companies/{company_id}/market/products/{product}": {
+            "post": {
                 "tags": [
-                    "products"
+                    "companies"
                 ],
                 "summary": "update product",
                 "description": "update product",
@@ -1532,34 +2115,30 @@
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "required": [
-                                    "amount"
-                                ],
                                 "properties": {
                                     "name": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "text"
+                                        "example": "product 1"
                                     },
                                     "currency": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "text"
+                                        "example": "3000"
                                     },
                                     "amount": {
                                         "type": "integer",
                                         "format": "integer",
-                                        "example": "1213"
+                                        "example": "12"
                                     },
                                     "avatar": {
                                         "type": "file",
-                                        "format": "file",
-                                        "example": "text"
+                                        "format": "file"
                                     },
                                     "expiration_date": {
                                         "type": "text",
                                         "format": "text",
-                                        "example": "text"
+                                        "example": "2022-12-11"
                                     }
                                 },
                                 "type": "object"
@@ -1567,6 +2146,78 @@
                         }
                     }
                 },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "/api/companies/{company_id}/market/products/{product}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "validation error"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "companies"
+                ],
+                "summary": "delete product",
+                "description": "delete product",
+                "operationId": "delete product",
+                "parameters": [
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    },
+                    {
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -1924,347 +2575,6 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "/api/app/events/{event}/groups/{group}"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "validation error"
-                    },
-                    "422": {
-                        "description": "error"
-                    },
-                    "500": {
-                        "description": "server error"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/giftcards/all": {
-            "get": {
-                "tags": [
-                    "giftcards"
-                ],
-                "summary": "get giftcards",
-                "description": "get giftcards",
-                "operationId": "get gift cards",
-                "parameters": [
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "/api/giftcards/all"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "validation error"
-                    },
-                    "422": {
-                        "description": "error"
-                    },
-                    "500": {
-                        "description": "server error"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/giftcards/companies/{company}/store": {
-            "post": {
-                "tags": [
-                    "giftcards"
-                ],
-                "summary": "store new git card",
-                "description": "store new gift card",
-                "operationId": "store new gift card",
-                "parameters": [
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "title"
-                                ],
-                                "properties": {
-                                    "title": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "yasin"
-                                    },
-                                    "picture": {
-                                        "type": "file",
-                                        "format": "text"
-                                    },
-                                    "coin": {
-                                        "type": "integer",
-                                        "format": "integer",
-                                        "example": "123"
-                                    },
-                                    "expiration_date": {
-                                        "type": "string",
-                                        "format": "string",
-                                        "example": "12/3/22"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "/api/giftcards/companies/{company}/store"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "validation error"
-                    },
-                    "422": {
-                        "description": "error"
-                    },
-                    "500": {
-                        "description": "server error"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/app/giftcards/{giftcard}/update": {
-            "put": {
-                "tags": [
-                    "giftcards"
-                ],
-                "summary": "update giftcard",
-                "description": "update giftcard",
-                "operationId": "update gift card",
-                "parameters": [
-                    {
-                        "name": "giftcard",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "title"
-                                ],
-                                "properties": {
-                                    "title": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "yasin"
-                                    },
-                                    "picture": {
-                                        "type": "file",
-                                        "format": "text"
-                                    },
-                                    "coin": {
-                                        "type": "integer",
-                                        "format": "integer",
-                                        "example": "123"
-                                    },
-                                    "expiration_date": {
-                                        "type": "string",
-                                        "format": "string",
-                                        "example": "12/3/22"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "/api/app/giftcards/{giftcard}/update"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "validation error"
-                    },
-                    "400": {
-                        "description": "error"
-                    },
-                    "500": {
-                        "description": "server error"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/giftcards/{giftcard}/companies/{company}/users/{to_user}": {
-            "post": {
-                "tags": [
-                    "giftcards"
-                ],
-                "summary": "send gift card",
-                "description": "send gift card",
-                "operationId": "send gift card",
-                "parameters": [
-                    {
-                        "name": "giftcard",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "company",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "to_user",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "properties": {
-                                    "message": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "yasin"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "/api/giftcards/companies/{company}/store"
                                 }
                             }
                         }

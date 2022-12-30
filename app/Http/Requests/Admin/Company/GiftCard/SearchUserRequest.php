@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\GiftCard;
+namespace App\Http\Requests\Admin\Company\GiftCard;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GiftCardRequest extends FormRequest
+class SearchUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class GiftCardRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,9 +24,7 @@ class GiftCardRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string'],
-            'picture' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
-            'expiration_date' => ['sometimes', 'date', 'after:today']
+            'search_item' => ['required', 'string']
         ];
     }
 }
