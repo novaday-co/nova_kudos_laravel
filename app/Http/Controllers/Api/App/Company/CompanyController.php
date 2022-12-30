@@ -318,40 +318,30 @@ class CompanyController extends Controller
      *      ),
      * )
      */
-    public function store(CompanyRequest $request, ImageService $imageService)
+    public function store(CompanyRequest $request)
     {
         try {
             $attrs = $request->validated();
             if ($request->hasFile('avatar')) {
-                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'companies');
-                $result = $imageService->save($request->file('avatar'));
-                if ($result === false)
-                    return response('error uploading photo ', 400);
-                $attrs['avatar'] = $result;
+                $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR
+                . 'companies' . DIRECTORY_SEPARATOR . 'company' . DIRECTORY_SEPARATOR . 'avatar');
+                $attrs['avatar'] = $avatar;
             }
             $company = Company::query()->create($attrs);
-            return CompanyResource::make($company);
+            return new CompanyResource($company);
         } catch (\Exception $e) {
-            return response(['errors: ' => $e->getMessage()], 400);
+            return $this->error([$e->getMessage()], trans('messages.company.invalid.request'), 422);
         }
     }
 
     /**
-     * @OA\Put(
-     *      path="/admin/companies/{company}/update",
+     * @OA\Post (
+     *      path="/admin/companies/{company_id}/update",
      *      operationId="update company",
      *      tags={"companies"},
      *      summary="update company",
      *      description="update company",
      *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *          name="company",
-     *          in="path",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -370,12 +360,21 @@ class CompanyController extends Controller
      *              type="string"
      *          )
      *      ),
+     *    @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
      *     @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  @OA\Property(property="name", type="text", format="text", example="yasin"),
+     *                  @OA\Property(property="name", type="text", format="text", example="novaday"),
      *                   required={"name"},
      *                  @OA\Property(property="avatar", type="file", format="text"),
      *               ),
@@ -401,23 +400,19 @@ class CompanyController extends Controller
      * )
      */
 
-    public function update(UpdateCompanyRequest $request, ImageService $imageService, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company_id)
     {
         try {
             $attrs = $request->validated();
             if ($request->hasFile('avatar')) {
-                if (!empty($company->avatar))
-                    $imageService->deleteImage($company->avatar);
-                $imageService->setCustomDirectory('images' . DIRECTORY_SEPARATOR . 'companies');
-                $result = $imageService->save($request->file('avatar'));
-                if ($result === false)
-                    return response('error uploading photo ', 400);
-                $attrs['avatar'] = $result;
+              $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR
+              . 'companies' . DIRECTORY_SEPARATOR . 'company' . DIRECTORY_SEPARATOR . 'avatar');
+                $attrs['avatar'] = $avatar;
             }
-            $company->update($attrs);
-            return new CompanyResource($company);
+            $company_id->update($attrs);
+            return CompanyResource::make($company_id);
         } catch (\Exception $e) {
-            return response(['errors' => $e->getMessage()], 400);
+            return $this->error([$e->getMessage()], trans('messages.company.invalid.request'), 422);
         }
     }
 
