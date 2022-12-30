@@ -15,9 +15,13 @@ return new class extends Migration
     {
         Schema::create('medals', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
-            $table->string('icon', 255)->nullable();
-            $table->integer('score')->nullable();
+            $table->string('name', 255);
+            $table->string('avatar', 255)->nullable();
+            $table->integer('coin');
+
+            $table->foreignId('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

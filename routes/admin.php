@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\App\Coin\CoinController;
 use App\Http\Controllers\Api\App\Company\AccountBalance\AdminBalanceController;
 use App\Http\Controllers\Api\App\Company\CompanyController;
 use App\Http\Controllers\Api\App\Company\GiftCard\GiftCardController;
+use App\Http\Controllers\Api\App\Company\Medal\MedalController;
 use App\Http\Controllers\Api\App\Company\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,5 +45,11 @@ use Illuminate\Support\Facades\Route;
      Route::post('{company_id}/giftCards', [GiftCardController::class, 'store'])->name('giftCard.store');
      Route::post('{company_id}/giftCards/{giftCard}', [GiftCardController::class, 'update'])->name('giftCard.update');
      Route::delete('{company_id}/giftCards/{giftCard}', [GiftCardController::class, 'destroy'])->name('giftCard.delete');
+
+     // medal
+     Route::get('{company_id}/medals', [MedalController::class, 'index'])->name('medal.index');
+     Route::post('{company_id}/medals', [MedalController::class, 'store'])->name('medal.store');
+     Route::post('{company_id}/medals/{medal_id}', [MedalController::class, 'update'])->name('medal.update');
+     Route::get('{company_id}/search/medal', [MedalController::class, 'searchMedal'])->name('medal.search');
 });
 

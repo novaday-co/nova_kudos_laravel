@@ -14,6 +14,11 @@ class MedalResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'medal_name' => $this->name,
+            'medal_avatar' => asset('storage' . $this->avatar),
+            'medal_coin' => $this->coin,
+        ];
     }
 }
