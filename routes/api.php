@@ -56,6 +56,10 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::post('exchange/coin/companies/{company_id}', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
             Route::post('exchange/currency/companies/{company_id}', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
         });
+        // account info routes
+        Route::prefix('account')->controller(AccountInfoController::class)->middleware('auth:sanctum')->name('account.info.')->group(function () {
+            Route::get('user/default-company', 'defaultCompany')->name('default.company');
+});
         // profile routes
         Route::prefix('profiles')->middleware('auth:sanctum')->name('profile.')->group(function (){
            Route::post('users/companies/{company_id}/avatar', [ProfileController::class, 'updateProfile'])->name('update');
