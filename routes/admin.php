@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
      Route::get('{company}/users', [CompanyController::class, 'companyUsers'])->name('user');
      Route::get('{company}/owner', [CompanyController::class, '']);
      Route::post('store', [CompanyController::class, 'store'])->name('store');
-     Route::put('{company}/update', [CompanyController::class, 'update'])->name('update');
+     Route::post('{company_id}/update', [CompanyController::class, 'update'])->name('update');
      Route::delete('delete/{group}', [CompanyController::class, 'destroy'])->name('destroy');
      Route::post('{company}/owner/users/{user}', [CompanyController::class, 'addOwner'])->name('add.owner');
      Route::get('{company}/owner/get', [CompanyController::class, 'companyOwner'])->name('owner');
