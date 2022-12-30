@@ -23,6 +23,11 @@ class Medal extends Model
         return $this->belongsToMany(User::class, 'medal_users', 'medal_id', 'user_id');
     }
 
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function questions(): BelongsToMany
     {
         return $this->belongsToMany(Question::class, 'medal_questions', 'medal_id', 'question_id');

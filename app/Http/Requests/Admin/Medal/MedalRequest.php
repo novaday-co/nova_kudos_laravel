@@ -24,9 +24,9 @@ class MedalRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string'],
-            'icon' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
-            'score' => ['sometimes', 'numeric', 'integer'],
+            'name' => ['required', 'string'],
+            'avatar' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
+            'coin' => ['required', 'numeric', 'integer'],
         ];
     }
 }

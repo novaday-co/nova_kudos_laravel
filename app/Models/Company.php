@@ -70,4 +70,8 @@ class Company extends Model
         return $this->hasMany(GiftUserTransaction::class);
     }
 
+    public function medals(): HasMany
+    {
+        return $this->hasMany(Medal::class);
+    }
 }
