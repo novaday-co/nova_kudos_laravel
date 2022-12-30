@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\App\User;
+namespace App\Http\Controllers\Api\App\Company\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
 use App\Http\Requests\Admin\User\UserRequest;
-use App\Http\Resources\Admin\UserResource;
 use App\Models\User;
 use App\Services\Image\ImageService;
 use Illuminate\Support\Facades\DB;
