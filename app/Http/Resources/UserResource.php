@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\User\Company\DefaultCompanyUserResource;
+use App\Http\Resources\User\AccountInfo\DefaultCompanyUserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource

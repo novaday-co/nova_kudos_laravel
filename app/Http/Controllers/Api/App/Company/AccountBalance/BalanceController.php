@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\App\Company\AccountBalance;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\Balance\BalanceRequest;
 use App\Http\Resources\User\Balance\TransactionsResource;
-use App\Http\Resources\User\Company\DefaultCompanyUserResource;
+use App\Http\Resources\User\AccountInfo\DefaultCompanyUserResource;
 use App\Models\Company;
 
 class BalanceController extends Controller
