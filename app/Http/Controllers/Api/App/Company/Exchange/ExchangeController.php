@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\App\Company\Exchange;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Company\Exchange\ExchangeRequest;
+use App\Http\Resources\Company\Exchange\ExchangeResource;
 use App\Http\Resources\Company\User\CompanyUserResource;
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -12,21 +13,12 @@ class ExchangeController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/api/exchange/currency/companies/{company_id}",
+     *      path="/users/companies/{company_id}/exchange/currency",
      *      operationId="exchange coin to currency",
-     *      tags={"users"},
+     *      tags={"User"},
      *      summary="exchange coin to currency",
      *      description="exchange coin to currency",
      *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="locale",
      *          in="header",
@@ -54,6 +46,15 @@ class ExchangeController extends Controller
      *              type="string"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
@@ -70,7 +71,7 @@ class ExchangeController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/exchange/currency/companies/{company_id}")
+     *          @OA\JsonContent(ref="/users/companies/{company_id}/exchange/currency")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -109,10 +110,12 @@ class ExchangeController extends Controller
                         'amount' => $exchange
                     ]);
                 } if ($coin_balance < $attrs['amount'])
-                    return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
+                    {
+                        return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
+                    }
+                $userCompany = $userId->companies()->findOrFail($company_id->id);
+                return ExchangeResource::make($userCompany);
             }
-            $userCompany = $userId->companies()->findOrFail($company_id->id);
-            return CompanyUserResource::make($userCompany);
         } catch (\Exception $exception)
         {
             return $this->error([$exception->getMessage()], trans('messages.currency.invalid.exchange'), 422);
@@ -121,21 +124,12 @@ class ExchangeController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/users/exchange/coin/companies/{company_id}",
+     *      path="/users/companies/{company_id}/exchange/coin",
      *      operationId="exchange currency to coin",
-     *      tags={"users"},
+     *      tags={"User"},
      *      summary="exchange currency to coin",
      *      description="exchange currency to coin",
      *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="locale",
      *          in="header",
@@ -163,6 +157,15 @@ class ExchangeController extends Controller
      *              type="string"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
@@ -179,7 +182,7 @@ class ExchangeController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/users/exchange/coin/companies/{company_id}")
+     *          @OA\JsonContent(ref="/users/companies/{company_id}/exchange/coin")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -222,10 +225,12 @@ class ExchangeController extends Controller
                         'amount' => $exchange
                     ]);
                 } if ($currency_balance < $attrs['amount'])
-                    return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
+                    {
+                        return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
+                    }
+                $userCompany = $userId->companies()->findOrFail($company_id->id);
+                return ExchangeResource::make($userCompany);
             }
-            $userCompany = $userId->companies()->findOrFail($company_id->id);
-            return CompanyUserResource::make($userCompany);
         } catch (\Exception $exception)
         {
             return $this->error([$exception->getMessage()], trans('messages.currency.invalid.exchange'), 422);

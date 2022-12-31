@@ -10,9 +10,9 @@ class AccountInfoController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/account/user/default-company",
+     *      path="/users/account/detail",
      *      operationId="get default company",
-     *      tags={"account info"},
+     *      tags={"User"},
      *      summary="get default company",
      *      description="get default company",
      *      security={ {"sanctum": {} }},
@@ -46,7 +46,7 @@ class AccountInfoController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/account/user/default-company")
+     *          @OA\JsonContent(ref="/users/account/detail")
      *       ),
      *     @OA\Response(
      *          response=401,

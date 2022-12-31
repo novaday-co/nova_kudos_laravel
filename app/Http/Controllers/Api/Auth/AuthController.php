@@ -15,9 +15,9 @@ class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/api/authentication/login",
+     *      path="/authentication/login",
      *      operationId="login",
-     *      tags={"Login"},
+     *      tags={"Auth"},
      *      summary="login",
      *      description="login",
      *      security={ {"sanctum": {} }},
@@ -61,7 +61,7 @@ class AuthController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="authentication/login-register")
+     *          @OA\JsonContent(ref="/authentication/login")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -82,7 +82,8 @@ class AuthController extends Controller
         try
         {
             $attributes = $request->validated();
-            $otpCode = mt_rand(1000, 9999);
+           // $otpCode = mt_rand(1000, 9999);
+            $otpCode = mt_rand(1000, 1000);
             $user = User::query()->where('mobile', $attributes['mobile'])->firstOrFail();
             $user->update([
                'otp_code' => $otpCode,
@@ -103,9 +104,9 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/authentication/check-otp",
+     *      path="/authentication/check-otp",
      *      operationId="check otp",
-     *      tags={"Login"},
+     *      tags={"Auth"},
      *      summary="check otp",
      *      description="check otp",
      *      security={ {"sanctum": {} }},
@@ -143,14 +144,14 @@ class AuthController extends Controller
      *              @OA\Schema(
      *                  required={"mobile", "otp_code"},
      *                  @OA\Property(property="mobile", type="text", format="text", example="09350000000"),
-     *                  @OA\Property(property="otp_code", type="text", format="text", example="0912"),
+     *                  @OA\Property(property="otp_code", type="text", format="text", example="1000"),
      *               ),
      *           ),
      *       ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *     @OA\JsonContent(ref="/api/authentication/check-otp")
+     *     @OA\JsonContent(ref="/authentication/check-otp")
      *       ),
      *     @OA\Response(
      *          response=400,
@@ -184,9 +185,9 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/authentication/resend-otp",
+     *      path="/authentication/resend-otp",
      *      operationId="resend otp code",
-     *      tags={"Login"},
+     *      tags={"Auth"},
      *      summary="resend otp code",
      *      description="resend otp code",
      *      security={ {"sanctum": {} }},
@@ -230,7 +231,7 @@ class AuthController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/authentication/resend-otp")
+     *          @OA\JsonContent(ref="/authentication/resend-otp")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -250,7 +251,8 @@ class AuthController extends Controller
     {
         try{
             $attributes = $request->validated();
-            $otpCode = mt_rand(1000, 9999);
+            // $otpCode = mt_rand(1000, 9999);
+            $otpCode = mt_rand(1000, 1000);
             $user = User::query()->where('mobile', $attributes['mobile'])
                 ->where('expiration_otp', '<=', Carbon::now()->subMinutes())->firstOrFail();
             $user->update([
@@ -271,9 +273,9 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/authentication/logout",
+     *      path="/authentication/logout",
      *      operationId="logout",
-     *      tags={"Login"},
+     *      tags={"Auth"},
      *      summary="logout",
      *      description="logout",
      *      security={ {"sanctum": {} }},
@@ -307,7 +309,7 @@ class AuthController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/authentication/logout")
+     *          @OA\JsonContent(ref="/authentication/logout")
      *       ),
      *     @OA\Response(
      *          response=401,

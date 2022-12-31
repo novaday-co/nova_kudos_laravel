@@ -19,21 +19,12 @@ class ProfileController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/profiles/users/companies/{company_id}/avatar",
-     *      operationId="update profile user",
-     *      tags={"Profiles"},
-     *      summary="update profile user",
-     *      description="update profile user",
+     *      path="/users/companies/{company_id}/change/avatar",
+     *      operationId="change avatar user",
+     *      tags={"User"},
+     *      summary="change avatar user",
+     *      description="change avatar user",
      *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *     example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="locale",
      *          in="header",
@@ -61,6 +52,15 @@ class ProfileController extends Controller
      *              type="string"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *     example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
      *         @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
@@ -74,7 +74,7 @@ class ProfileController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/profiles/users/companies/{company_id}/avatar")
+     *          @OA\JsonContent(ref="/users/companies/{company_id}/change/avatar")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -112,11 +112,11 @@ class ProfileController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/profiles/users/update/mobile",
-     *      operationId="update mobile",
-     *      tags={"Profiles"},
-     *      summary="update mobile",
-     *      description="update mobile",
+     *      path="/users/change/mobile",
+     *      operationId="change user mobile",
+     *      tags={"User"},
+     *      summary="change user mobile",
+     *      description="change user mobile",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="locale",
@@ -158,7 +158,7 @@ class ProfileController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/profiles/companies/{company_id}/update/mobile")
+     *          @OA\JsonContent(ref="/users/change/mobile")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -194,20 +194,21 @@ class ProfileController extends Controller
                 $smsService->setOtpCode($otpCode);
                 $messageService = new MessageService($smsService);
                 $messageService->send();
-            }
+            } else
+                return $this->error([trans('messages.profile.duplicate.mobile')], trans('messages.profile.duplicate.mobile'), 422);
             return $this->success(['otp_code' => $otpCode]);
         } catch (\Exception $e)
         {
-            return $this->error(['error: ' => $e->getMessage()], trans('messages.profile.duplicate.mobile'), 422);
+            return $this->error([$e->getMessage()], trans('messages.profile.duplicate.mobile'), 422);
         }
     }
     /**
      * @OA\Post(
-     *      path="/api/profiles/users/verify/mobile",
-     *      operationId="verify mobile",
-     *      tags={"Profiles"},
-     *      summary="verify mobile",
-     *      description="verify mobile",
+     *      path="/users/verify/mobile",
+     *      operationId="verify user mobile",
+     *      tags={"User"},
+     *      summary="verify user mobile",
+     *      description="verify user mobile",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="locale",
@@ -250,7 +251,7 @@ class ProfileController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/profiles/companies/{company_id}/update/mobile")
+     *          @OA\JsonContent(ref="/users/verify/mobile")
      *       ),
      *     @OA\Response(
      *          response=401,

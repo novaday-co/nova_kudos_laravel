@@ -32,26 +32,31 @@ use Illuminate\Support\Facades\Route;
      Route::get('{company}/owner/get', [CompanyController::class, 'companyOwner'])->name('owner');
      Route::post('{company}/users/{user}', [CompanyController::class, 'addUser'])->name('add.user');
      Route::delete('{company}/users/{user}', [CompanyController::class, 'removeUser'])->name('remove.user');
-     Route::post('{company_id}/set/coin', [CoinController::class, 'updateValue'])->name('update.coin');
-     Route::get('{company_id}/coin/system', [CoinController::class, 'getValueOfSystem'])->name('value.coin');
-     Route::get('{company_id}/users/transactions', [AdminBalanceController::class, 'getTransactionUsers'])->name('transaction');
-     Route::post('{company_id}/users/transactions/{transaction}/status', [AdminBalanceController::class, 'updateTransactionStatus'])->name('change.status');
 
-     Route::get('{company_id}/market/products', [ProductController::class, 'index'])->name('product.index');
-     Route::post('{company_id}/market/products', [ProductController::class, 'store'])->name('product.store');
-     Route::post('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.update');
-     Route::delete('{company_id}/market/products/{product}', [ProductController::class, 'update'])->name('product.destroy');
 
-     Route::get('{company_id}/giftCards', [GiftCardController::class, 'index'])->name('giftCard.index');
-     Route::post('{company_id}/giftCards', [GiftCardController::class, 'store'])->name('giftCard.store');
-     Route::post('{company_id}/giftCards/{giftCard}', [GiftCardController::class, 'update'])->name('giftCard.update');
-     Route::delete('{company_id}/giftCards/{giftCard}', [GiftCardController::class, 'destroy'])->name('giftCard.delete');
+     Route::prefix('{company_id}')->group(function (){
+         Route::post('set/coin', [CoinController::class, 'updateValue'])->name('update.coin');
+         Route::get('coin/system', [CoinController::class, 'getValueOfSystem'])->name('value.coin');
+         Route::get('users/transactions', [AdminBalanceController::class, 'getTransactionUsers'])->name('transaction');
+         Route::post('users/transactions/{transaction}/status', [AdminBalanceController::class, 'updateTransactionStatus'])->name('change.status');
 
-     // medal
-     Route::get('{company_id}/medals', [MedalController::class, 'index'])->name('medal.index');
-     Route::post('{company_id}/medals', [MedalController::class, 'store'])->name('medal.store');
-     Route::post('{company_id}/medals/{medal_id}', [MedalController::class, 'update'])->name('medal.update');
-     Route::get('{company_id}/search/medal', [MedalController::class, 'searchMedal'])->name('medal.search');
+         Route::get('market/products', [ProductController::class, 'index'])->name('product.index');
+         Route::post('market/products', [ProductController::class, 'store'])->name('product.store');
+         Route::post('market/products/{product}', [ProductController::class, 'update'])->name('product.update');
+         Route::delete('market/products/{product}', [ProductController::class, 'update'])->name('product.destroy');
+
+         Route::get('giftCards', [GiftCardController::class, 'index'])->name('giftCard.index');
+         Route::post('giftCards', [GiftCardController::class, 'store'])->name('giftCard.store');
+         Route::post('giftCards/{giftCard}', [GiftCardController::class, 'update'])->name('giftCard.update');
+         Route::delete('giftCards/{giftCard}', [GiftCardController::class, 'destroy'])->name('giftCard.delete');
+
+         // medal
+         Route::get('medals', [MedalController::class, 'index'])->name('medal.index');
+         Route::post('medals', [MedalController::class, 'store'])->name('medal.store');
+         Route::post('medals/{medal_id}', [MedalController::class, 'update'])->name('medal.update');
+         Route::get('search/medal', [MedalController::class, 'searchMedal'])->name('medal.search');
+     });
+
 
 
 });

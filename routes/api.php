@@ -39,6 +39,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 });
 
+<<<<<<< HEAD
         // company routes
         Route::prefix('companies')->middleware('auth:sanctum')->name('companies.')->group(function (){
             // gift card
@@ -68,6 +69,25 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         Route::prefix('currencies')->middleware('auth:sanctum')->name('currency.')->group(function (){
            Route::post('users/withdrawal/companies/{company_id}', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
            Route::get('users/companies/{company_id}/transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
+=======
+        // user routes
+        Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(function (){
+            Route::post('change/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
+            Route::post('verify/mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
+            Route::get('account/detail', [AccountInfoController::class, 'defaultCompany'])->name('default.company');
+            // companies
+            Route::prefix('companies/{company_id}')->middleware('auth:sanctum')->name('companies.')->group(function (){
+                Route::post('change/avatar', [ProfileController::class, 'updateProfile'])->name('update');
+                Route::post('exchange/coin', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
+                Route::post('exchange/currency', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
+                Route::post('withdrawal', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
+                Route::get('transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
+                Route::post('send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('gift.send');
+                Route::get('giftCards', [UserGiftCardController::class, 'index'])->name('gift.index');
+                Route::get('members', [UserController::class, 'getAllUser'])->name('user.index');
+                Route::get('search/user', [UserGiftCardController::class, 'searchUser'])->name('search.user');
+            });
+>>>>>>> develop
         });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){
@@ -110,23 +130,4 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             });
         });
         // final app routes
-
-
-    // Route::post('events/users/{user}', [EventController::class, 'store']);
-    // Route::post('users/{user}/groups/{group}', [GroupController::class, 'addUser']);
-    Route::post('medals/store', [MedalController::class, 'store']);
-    // Route::put('update/medals/{medal}', [MedalController::class, 'update']);
-        Route::post('medals/{medal}/questions/{question}', [MedalController::class, 'medalQuestion']);
-        Route::post('medals/{medal}/users/{user}/questions/{question}', [MedalController::class, 'medalUser']);
-
-
-        Route::get('questions/users/{user}', [HomeController::class, 'questions']);
-        Route::get('answers/questions/{question}', [HomeController::class, 'answerQuestions']);
-        Route::post('questions/{question}/users/{user}', [QuestionController::class, 'userType'])->name('type.user');
-        Route::get('questions/{question}/votes', [HomeController::class, 'countOfVotes']);
-        Route::post('users/{from_id}/users/{to_id}/gifts/{gift_id}', [UserGiftCardController::class, 'sendTo']);
-
-        // profile
-        Route::get('users/{user}/profile', [ProfileController::class, 'show']);
-        Route::put('users/{user}/profile', [ProfileController::class, 'update']);
 

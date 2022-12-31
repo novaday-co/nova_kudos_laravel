@@ -13,9 +13,9 @@ class GiftCardController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/admin/companies/{company_id}/giftCards",
+     *      path="/companies/{company_id}/giftCards",
      *      operationId="get all gift cards",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="get all giftcards",
      *      description="get all giftcards",
      *      security={ {"sanctum": {} }},
@@ -49,7 +49,7 @@ class GiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/giftCards")
+     *          @OA\JsonContent(ref="/companies/{company_id}/giftCards")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -73,9 +73,9 @@ class GiftCardController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/admin/companies/{company_id}/giftCards",
+     *      path="/companies/{company_id}/giftCards",
      *      operationId="store new gift card",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="store new gift card",
      *      description="store new gift card",
      *      security={ {"sanctum": {} }},
@@ -164,9 +164,9 @@ class GiftCardController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/admin/companies/{company_id}/giftCards/{giftCard}",
+     *      path="/companies/{company_id}/giftCards/{giftCard}",
      *      operationId="update gift card",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="update gift card",
      *      description="update gift card",
      *      security={ {"sanctum": {} }},
@@ -267,9 +267,9 @@ class GiftCardController extends Controller
 
     /**
      * @OA\Delete  (
-     *      path="/admin/companies/{company_id}/giftCards/{giftCard}",
+     *      path="/companies/{company_id}/giftCards/{giftCard}",
      *      operationId="delete gift card",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="delete gift card",
      *      description="delete gift card",
      *      security={ {"sanctum": {} }},

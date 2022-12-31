@@ -15,9 +15,9 @@ class MedalController extends Controller
 
     /**
      * @OA\Get (
-     *      path="/admin/companies/{company_id}/medals",
+     *      path="/companies/{company_id}/medals",
      *      operationId="get all medal",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="get all medal",
      *      description="get all medal",
      *      security={ {"sanctum": {} }},
@@ -51,7 +51,7 @@ class MedalController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/medals")
+     *          @OA\JsonContent(ref="/companies/{company_id}/medals")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -81,9 +81,9 @@ class MedalController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/admin/companies/{company_id}/medals",
+     *      path="/companies/{company_id}/medals",
      *      operationId="store new medal",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="store new medal",
      *      description="store new medal",
      *      security={ {"sanctum": {} }},
@@ -165,9 +165,9 @@ class MedalController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/admin/companies/{company_id}/medals/{medal_id}",
+     *      path="/companies/{company_id}/medals/{medal_id}",
      *      operationId="update medal",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="update medal",
      *      description="update medal",
      *      security={ {"sanctum": {} }},
@@ -221,7 +221,7 @@ class MedalController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/medals/{medal_id}")
+     *          @OA\JsonContent(ref="/companies/{company_id}/medals/{medal_id}")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -257,9 +257,9 @@ class MedalController extends Controller
 
     /**
      * @OA\Get (
-     *      path="/admin/companies/{company_id}/search/medal",
+     *      path="/companies/{company_id}/search/medal",
      *      operationId="search medal",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="search medal",
      *      description="search medal",
      *      security={ {"sanctum": {} }},
@@ -303,7 +303,7 @@ class MedalController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/search/medal")
+     *          @OA\JsonContent(ref="/companies/{company_id}/search/medal")
      *       ),
      *     @OA\Response(
      *          response=401,
