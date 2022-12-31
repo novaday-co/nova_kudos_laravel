@@ -14,20 +14,12 @@ class CoinController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/admin/companies/{company_id}/coin/system",
+     *      path="/companies/{company_id}/coin/system",
      *      operationId="get company coin and value system",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="get company coin and value system",
      *      description="get company coin and value system",
      *      security={ {"sanctum": {} }},
-     *         @OA\Parameter(
-     *          name="company_id",
-     *          in="path",
-     *          required=true,
-     *         @OA\Schema(
-     *           type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -46,10 +38,19 @@ class CoinController extends Controller
      *              type="string"
      *          )
      *      ),
+     *         @OA\Parameter(
+     *          name="company_id",
+     *          in="path",
+     *          required=true,
+     *          example=1,
+     *         @OA\Schema(
+     *           type="integer"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/lists")
+     *          @OA\JsonContent(ref="/companies/{company_id}/coin/system")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -77,20 +78,12 @@ class CoinController extends Controller
     }
     /**
      * @OA\Post(
-     *      path="/admin/companies/{company_id}/set/coin",
+     *      path="/companies/{company_id}/set/coin",
      *      operationId="update coin value",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="update coin value",
      *      description="update coin value",
      *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *          name="company_id",
-     *          in="path",
-     *          required=true,
-     *         @OA\Schema(
-     *           type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="locale",
      *          in="header",
@@ -118,6 +111,15 @@ class CoinController extends Controller
      *              type="string"
      *          )
      *      ),
+     *         @OA\Parameter(
+     *          name="company_id",
+     *          in="path",
+     *          required=true,
+     *          example=1,
+     *         @OA\Schema(
+     *           type="integer"
+     *          )
+     *      ),
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
@@ -131,7 +133,7 @@ class CoinController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/admin/companies/{company_id}/set/coin")
+     *          @OA\JsonContent(ref="/companies/{company_id}/set/coin")
      *       ),
      *     @OA\Response(
      *          response=401,

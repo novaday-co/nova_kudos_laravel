@@ -14,9 +14,9 @@ class ProductController extends Controller
 
     /**
      * @OA\Get (
-     *      path="/admin/companies/{company_id}/market/products",
+     *      path="/companies/{company_id}/market/products",
      *      operationId="get products of market",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="get products of market",
      *      description="get products of market",
      *      security={ {"sanctum": {} }},
@@ -50,7 +50,7 @@ class ProductController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/markets/products")
+     *          @OA\JsonContent(ref="/companies/{company_id}/markets/products")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -74,9 +74,9 @@ class ProductController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/admin/companies/{company_id}/market/products",
+     *      path="/companies/{company_id}/market/products",
      *      operationId="store new product",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="store new product",
      *      description="store new product",
      *      security={ {"sanctum": {} }},
@@ -124,7 +124,7 @@ class ProductController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/products")
+     *          @OA\JsonContent(ref="/companies/{company_id}/products")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -163,9 +163,9 @@ class ProductController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/admin/companies/{company_id}/market/products/{product}",
+     *      path="/companies/{company_id}/market/products/{product}",
      *      operationId="update product",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="update product",
      *      description="update product",
      *      security={ {"sanctum": {} }},
@@ -221,7 +221,7 @@ class ProductController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *     @OA\JsonContent(ref="/api/companies/{company_id}/market/products/{product}")
+     *     @OA\JsonContent(ref="/companies/{company_id}/market/products/{product}")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -265,9 +265,9 @@ class ProductController extends Controller
 
     /**
      * @OA\Delete (
-     *      path="/admin/companies/{company_id}/market/products/{product}",
+     *      path="/companies/{company_id}/market/products/{product}",
      *      operationId="delete product",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="delete product",
      *      description="delete product",
      *      security={ {"sanctum": {} }},
@@ -310,7 +310,7 @@ class ProductController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *     @OA\JsonContent(ref="/api/companies/{company_id}/market/products/{product}")
+     *     @OA\JsonContent(ref="/companies/{company_id}/market/products/{product}")
      *       ),
      *     @OA\Response(
      *          response=401,

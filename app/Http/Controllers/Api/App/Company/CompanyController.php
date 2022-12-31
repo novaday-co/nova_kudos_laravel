@@ -16,51 +16,7 @@ use App\Services\Image\ImageService;
 
 class CompanyController extends Controller
 {
-    /**
-     * @OA\Get (
-     *      path="/admin/companies/lists",
-     *      operationId="get company lists",
-     *      tags={"companies"},
-     *      summary="get company lists",
-     *      description="get company list",
-     *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/lists")
-     *       ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
-     *      ),
-     *     @OA\Response(
-     *          response=422,
-     *          description="error",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
+
     public function companyLists()
     {
         try {
@@ -72,59 +28,6 @@ class CompanyController extends Controller
         }
     }
 
-    /**
-     * @OA\Get (
-     *      path="/admin/companies/{company}/groups",
-     *      operationId="get company groups",
-     *      tags={"companies"},
-     *      summary="get company groups",
-     *      description="get company groups",
-     *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *          name="company",
-     *          in="path",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/lists")
-     *       ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
-     *      ),
-     *     @OA\Response(
-     *          response=422,
-     *          description="error",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
     public function companyGroups(Company $company)
     {
         try {
@@ -136,59 +39,6 @@ class CompanyController extends Controller
         }
     }
 
-    /**
-     * @OA\Get (
-     *      path="/admin/companies/{company}/users",
-     *      operationId="get all users of company",
-     *      tags={"companies"},
-     *      summary="get all users of company",
-     *      description="get all users of company",
-     *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *          name="company",
-     *          in="path",
-     *          required=true,
-     *         @OA\Schema(
-     *           type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/superAdmin/companies")
-     *       ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
-     *      ),
-     *     @OA\Response(
-     *          response=422,
-     *          description="error",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
     public function companyUsers(Company $company)
     {
         try {
@@ -200,54 +50,6 @@ class CompanyController extends Controller
         }
     }
 
-    /**
-     * @OA\Get  (
-     *      path="/admin/companies/{company}/owner/get",
-     *      operationId="get owner",
-     *      tags={"companies"},
-     *      summary="get owner",
-     *      description="get owner",
-     *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         description="company parameter",
-     *         in="path",
-     *         name="company",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *     ),
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company}/owner/get")
-     *       ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
     public function companyOwner(Company $company)
     {
         try
@@ -264,9 +66,9 @@ class CompanyController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/admin/companies/store",
+     *      path="/companies/store",
      *      operationId="store new company",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="store new company",
      *      description="store new company",
      *      security={ {"sanctum": {} }},
@@ -336,9 +138,9 @@ class CompanyController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/admin/companies/{company_id}/update",
+     *      path="/companies/{company_id}/update",
      *      operationId="update company",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="update company",
      *      description="update company",
      *      security={ {"sanctum": {} }},
@@ -383,7 +185,7 @@ class CompanyController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/superAdmin/companies/{company}/update")
+     *          @OA\JsonContent(ref="/companies/{company_id}/update")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -416,63 +218,6 @@ class CompanyController extends Controller
         }
     }
 
-    /**
-     * @OA\Post (
-     *      path="/admin/companies/{company}/owner/users/{user}",
-     *      operationId="add owner to company",
-     *      tags={"companies"},
-     *      summary="add owner to company",
-     *      description="add owner to company",
-     *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         description="company parameter",
-     *         in="path",
-     *         name="company",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *     ),
-     *     @OA\Parameter(
-     *          description="user parameter",
-     *          name="user",
-     *          in="path",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/superAdmin/companies/{company}/users/{user}")
-     *       ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
       public function addOwner(Company $company, User $user)
       {
          try {
@@ -489,63 +234,6 @@ class CompanyController extends Controller
          }
       }
 
-    /**
-     * @OA\Post (
-     *      path="/admin/companies/{company}/users/{user}",
-     *      operationId="add user to company",
-     *      tags={"companies"},
-     *      summary="add user to company",
-     *      description="add user to company",
-     *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         description="company parameter",
-     *         in="path",
-     *         name="company",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *     ),
-     *     @OA\Parameter(
-     *          description="user parameter",
-     *          name="user",
-     *          in="path",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/superAdmin/companies/{company}/users/{user}")
-     *       ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
     public function addUser(Company $company, User $user)
     {
         try {
@@ -557,63 +245,6 @@ class CompanyController extends Controller
         }
     }
 
-    /**
-     * @OA\Delete  (
-     *      path="/admin/companies/{company}/users/{user}",
-     *      operationId="remove user",
-     *      tags={"companies"},
-     *      summary="remove user",
-     *      description="remove user",
-     *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         description="company parameter",
-     *         in="path",
-     *         name="company",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *     ),
-     *     @OA\Parameter(
-     *          description="user parameter",
-     *          name="user",
-     *          in="path",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company}/users/{user}")
-     *       ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
     public function removeUser(Company $company, User $user)
     {
         try

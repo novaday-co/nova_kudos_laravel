@@ -14,9 +14,9 @@ class AdminBalanceController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/admin/companies/{company_id}/users/transactions",
+     *      path="/companies/{company_id}/users/transactions",
      *      operationId="get all transactions",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="get all transactions",
      *      description="get all transactions",
      *      security={ {"sanctum": {} }},
@@ -59,7 +59,7 @@ class AdminBalanceController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/users/transactions")
+     *          @OA\JsonContent(ref="/companies/{company_id}/users/transactions")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -88,9 +88,9 @@ class AdminBalanceController extends Controller
 
     /**
      * @OA\Post  (
-     *      path="/admin/companies/{company_id}/users/transactions/{transaction}/status",
+     *      path="/companies/{company_id}/users/transactions/{transaction}/status",
      *      operationId="change transaction status",
-     *      tags={"companies"},
+     *      tags={"Company"},
      *      summary="change transaction status",
      *      description="change transaction status",
      *      security={ {"sanctum": {} }},
@@ -154,7 +154,7 @@ class AdminBalanceController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/users/transactions/{transaction}/status")
+     *          @OA\JsonContent(ref="/companies/{company_id}/users/transactions/{transaction}/status")
      *       ),
      *     @OA\Response(
      *          response=401,
