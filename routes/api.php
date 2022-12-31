@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\App\Company\AccountBalance\BalanceController;
+use App\Http\Controllers\Api\App\Company\AccountInfo\AccountInfoController;
 use App\Http\Controllers\Api\App\Company\Exchange\ExchangeController;
 use App\Http\Controllers\Api\App\Company\GiftCard\UserGiftCardController;
 use App\Http\Controllers\Api\App\Company\Medal\MedalController;
@@ -42,6 +43,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(function (){
             Route::post('change/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
             Route::post('verify/mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
+            Route::get('account/detail', [AccountInfoController::class, 'defaultCompany'])->name('default.company');
             // companies
             Route::prefix('companies/{company_id}')->middleware('auth:sanctum')->name('companies.')->group(function (){
                 Route::post('change/avatar', [ProfileController::class, 'updateProfile'])->name('update');
