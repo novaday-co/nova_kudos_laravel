@@ -38,57 +38,6 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     Route::post('resend-otp', [AuthController::class, 'resendOtp'])->name('resend.otp');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 });
-
-<<<<<<< HEAD
-        // company routes
-        Route::prefix('companies')->middleware('auth:sanctum')->name('companies.')->group(function (){
-            // gift card
-            Route::get('{company_id}/giftCards/client', [UserGiftCardController::class, 'index'])->name('gift.user.index');
-            Route::post('{company_id}/send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('send.gift');
-            // user
-            // user
-            Route::get('{company_id}/users', [UserController::class, 'getAllUser'])->name('user.index');
-            Route::get('{company_id}/search/user', [UserGiftCardController::class, 'searchUser'])->name('search.user');
-        });
-        // user routes
-        Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(function (){
-            Route::post('exchange/coin/companies/{company_id}', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
-            Route::post('exchange/currency/companies/{company_id}', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
-        });
-        // account info routes
-        Route::prefix('account')->controller(AccountInfoController::class)->middleware('auth:sanctum')->name('account.info.')->group(function () {
-            Route::get('user/default-company', 'defaultCompany')->name('default.company');
-});
-        // profile routes
-        Route::prefix('profiles')->middleware('auth:sanctum')->name('profile.')->group(function (){
-           Route::post('users/companies/{company_id}/avatar', [ProfileController::class, 'updateProfile'])->name('update');
-            Route::post('users/update/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
-            Route::post('users/verify/mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
-        });
-
-        Route::prefix('currencies')->middleware('auth:sanctum')->name('currency.')->group(function (){
-           Route::post('users/withdrawal/companies/{company_id}', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
-           Route::get('users/companies/{company_id}/transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
-=======
-        // user routes
-        Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(function (){
-            Route::post('change/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
-            Route::post('verify/mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
-            Route::get('account/detail', [AccountInfoController::class, 'defaultCompany'])->name('default.company');
-            // companies
-            Route::prefix('companies/{company_id}')->middleware('auth:sanctum')->name('companies.')->group(function (){
-                Route::post('change/avatar', [ProfileController::class, 'updateProfile'])->name('update');
-                Route::post('exchange/coin', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
-                Route::post('exchange/currency', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
-                Route::post('withdrawal', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
-                Route::get('transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
-                Route::post('send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('gift.send');
-                Route::get('giftCards', [UserGiftCardController::class, 'index'])->name('gift.index');
-                Route::get('members', [UserController::class, 'getAllUser'])->name('user.index');
-                Route::get('search/user', [UserGiftCardController::class, 'searchUser'])->name('search.user');
-            });
->>>>>>> develop
-        });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){
             Route::post('companies/{company}', [GroupController::class, 'store'])->name('store');
