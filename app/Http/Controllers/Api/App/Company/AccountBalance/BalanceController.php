@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\App\Company\AccountBalance;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\Balance\BalanceRequest;
+use App\Http\Resources\Company\Withdrawal\WithDrawalResource;
 use App\Http\Resources\User\Balance\TransactionsResource;
 use App\Http\Resources\User\AccountInfo\DefaultCompanyUserResource;
 use App\Models\Company;
@@ -12,21 +13,12 @@ class BalanceController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/currencies/companies/{company_id}/users/transactions",
+     *      path="/users/companies/{company_id}/transactions",
      *      operationId="get user transactions",
-     *      tags={"users"},
+     *      tags={"User"},
      *      summary="get user transactions",
      *      description="get user transactions",
      *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="locale",
      *          in="header",
@@ -54,10 +46,19 @@ class BalanceController extends Controller
      *              type="string"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/currencies/companies/{company_id}/users/transactions")
+     *          @OA\JsonContent(ref="/users/companies/{company_id}/transactions")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -86,21 +87,12 @@ class BalanceController extends Controller
     }
     /**
      * @OA\Post(
-     *      path="/api/currencies/withdrawal/companies/{company_id}/users",
+     *      path="/users/companies/{company_id}/withdrawal",
      *      operationId="withdrawal currency",
-     *      tags={"users"},
+     *      tags={"User"},
      *      summary="withdrawal currency",
      *      description="withdrawal currency",
      *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="locale",
      *          in="header",
@@ -128,6 +120,15 @@ class BalanceController extends Controller
      *              type="string"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
@@ -144,7 +145,7 @@ class BalanceController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/currencies/withdrawal/companies/{company_id}/users")
+     *          @OA\JsonContent(ref="/users/companies/{company_id}/withdrawal")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -177,13 +178,13 @@ class BalanceController extends Controller
                         'transaction_type' => 'withdrawal',
                         'amount' => $attrs['amount']
                     ]);
+                    $userCompany = $userId->companies()->find($company_id);
+                    return WithDrawalResource::make($userCompany);
                 } if ($balance < $attrs['amount'])
                 {
                     return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
                 }
             }
-            $userCompany = $userId->companies()->find($company_id);
-                return DefaultCompanyUserResource::make($userCompany);
         } catch (\Exception $exception)
         {
             return $this->error([$exception->getMessage()], trans('messages.currency.withdrawal'), 422);
