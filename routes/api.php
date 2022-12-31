@@ -52,8 +52,8 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
             Route::post('companies/{company_id}/change/avatar', [ProfileController::class, 'updateProfile'])->name('update');
             Route::post('change/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
             Route::post('verify/mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
-            Route::post('exchange/coin/companies/{company_id}', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
-            Route::post('exchange/currency/companies/{company_id}', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
+            Route::post('companies/{company_id}/exchange/coin', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
+            Route::post('companies/{company_id}/exchange/currency', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
         });
 
         Route::prefix('currencies')->middleware('auth:sanctum')->name('currency.')->group(function (){
