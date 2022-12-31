@@ -77,9 +77,9 @@ class UserGiftCardController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/api/companies/{company_id}/send/giftCard",
+     *      path="/users/companies/{company_id}/send/giftCard",
      *      operationId="send gift card",
-     *      tags={"companies"},
+     *      tags={"User"},
      *      summary="send gift card",
      *      description="send gift card",
      *      security={ {"sanctum": {} }},
@@ -125,7 +125,7 @@ class UserGiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/companies/{company_id}/send/giftCard")
+     *          @OA\JsonContent(ref="/users/companies/{company_id}/send/giftCard")
      *       ),
      *     @OA\Response(
      *          response=401,

@@ -38,15 +38,6 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 });
 
-        // company routes
-        Route::prefix('companies')->middleware('auth:sanctum')->name('companies.')->group(function (){
-            // gift card
-            Route::post('{company_id}/send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('send.gift');
-            // user
-            // user
-            Route::get('{company_id}/users', [UserController::class, 'getAllUser'])->name('user.index');
-            Route::get('{company_id}/search/user', [UserGiftCardController::class, 'searchUser'])->name('search.user');
-        });
         // user routes
         Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(function (){
             Route::post('change/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
@@ -58,6 +49,9 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
                 Route::post('exchange/currency', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
                 Route::post('withdrawal', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
                 Route::get('transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
+                Route::post('send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('send.gift');
+                Route::get('members', [UserController::class, 'getAllUser'])->name('user.index');
+                Route::get('search/user', [UserGiftCardController::class, 'searchUser'])->name('search.user');
             });
         });
         // group routes
