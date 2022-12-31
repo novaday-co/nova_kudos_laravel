@@ -17,12 +17,13 @@ use App\Http\Controllers\Api\App\Company\CompanyController;
 use App\Http\Controllers\Api\App\Company\GiftCard\GiftCardController;
 use App\Http\Controllers\Api\App\Company\Medal\MedalController;
 use App\Http\Controllers\Api\App\Company\Product\ProductController;
+use App\Http\Controllers\Api\App\Company\User\UserController;
 use Illuminate\Support\Facades\Route;
 
  Route::prefix('companies')->name('company.')->group(function () {
      Route::get('lists', [CompanyController::class, 'companyLists'])->name('list');
      Route::get('{company}/groups', [CompanyController::class, 'companyGroups'])->name('group');
-     Route::get('{company}/users', [CompanyController::class, 'companyUsers'])->name('user');
+  //   Route::get('{company}/users', [CompanyController::class, 'companyUsers'])->name('user');
      Route::get('{company}/owner', [CompanyController::class, '']);
      Route::post('store', [CompanyController::class, 'store'])->name('store');
      Route::post('{company_id}/update', [CompanyController::class, 'update'])->name('update');
@@ -51,5 +52,7 @@ use Illuminate\Support\Facades\Route;
      Route::post('{company_id}/medals', [MedalController::class, 'store'])->name('medal.store');
      Route::post('{company_id}/medals/{medal_id}', [MedalController::class, 'update'])->name('medal.update');
      Route::get('{company_id}/search/medal', [MedalController::class, 'searchMedal'])->name('medal.search');
+
+
 });
 

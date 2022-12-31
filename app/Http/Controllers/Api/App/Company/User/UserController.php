@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\App\User;
+namespace App\Http\Controllers\Api\App\Company\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
 use App\Http\Requests\Admin\User\UserRequest;
-use App\Http\Resources\Admin\UserResource;
+use App\Http\Resources\Company\User\CompanyUserResource;
+use App\Models\Company;
 use App\Models\User;
 use App\Services\Image\ImageService;
 use Illuminate\Support\Facades\DB;
@@ -14,9 +15,9 @@ class UserController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/app/users/all",
+     *      path="/api/companies/{company_id}/users",
      *      operationId="get all users",
-     *      tags={"users"},
+     *      tags={"companies"},
      *      summary="get all users",
      *      description="get all users",
      *      security={ {"sanctum": {} }},
@@ -38,10 +39,19 @@ class UserController extends Controller
      *              type="string"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *          name="company_id",
+     *          in="path",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *      @OA\JsonContent(ref="/api/app/users/all")
+     *      @OA\JsonContent(ref="/admin/companies/{company_id}/users")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -57,10 +67,10 @@ class UserController extends Controller
      *      ),
      * )
      */
-    public function index()
+    public function getAllUser(Company $company_id)
     {
-        $users = User::latest()->paginate(15);
-        return UserResource::collection($users);
+        $users = $company_id->users()->latest()->paginate(10);
+        return CompanyUserResource::collection($users);
     }
 
     /**

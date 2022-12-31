@@ -15,7 +15,6 @@ class CompanyUserResource extends JsonResource
     public function toArray($request)
     {
         return [
-           // 'company_name' => $this->company_id,
            // 'company_avatar' => $this->avatar,
             'company_id' => $this->whenPivotLoaded('company_user', function (){
                 return $this->pivot->company_id;
@@ -32,21 +31,9 @@ class CompanyUserResource extends JsonResource
             'avatar' => $this->whenPivotLoaded('company_user', function (){
                 return asset('storage' . $this->pivot->avatar);
             }),
-            'coin_amount' => $this->whenPivotLoaded('company_user', function (){
-                return $this->pivot->coin_amount;
-            }),
-            'currency_amount' => $this->whenPivotLoaded('company_user', function (){
-                return $this->pivot->currency_amount;
-            }),
-            'notification_unread' => $this->whenPivotLoaded('company_user', function (){
-                return $this->pivot->notification_unread;
-            }),
-            'profile_complete' => $this->whenPivotLoaded('company_user', function (){
-                return $this->pivot->profile_complete;
-            }),
-            'roles' => $this->whenPivotLoaded('company_user', function (){
+            /*'roles' => $this->whenPivotLoaded('company_user', function (){
                 return $this->pivot->role_id;
-            }),
+            }),*/
         ];
     }
 }

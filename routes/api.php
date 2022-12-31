@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\App\Company\AccountBalance\BalanceController;
 use App\Http\Controllers\Api\App\Company\Exchange\ExchangeController;
 use App\Http\Controllers\Api\App\Company\GiftCard\UserGiftCardController;
 use App\Http\Controllers\Api\App\Company\Medal\MedalController;
+use App\Http\Controllers\Api\App\Company\User\UserController;
 use App\Http\Controllers\Api\App\Event\EventController;
 use App\Http\Controllers\Api\App\Group\GroupController;
 use App\Http\Controllers\Api\App\Home\HomeController;
@@ -11,7 +12,6 @@ use App\Http\Controllers\Api\App\Poll\AnswerController;
 use App\Http\Controllers\Api\App\Poll\QuestionController;
 use App\Http\Controllers\Api\App\Poll\VoteController;
 use App\Http\Controllers\Api\App\Profile\ProfileController;
-use App\Http\Controllers\Api\App\User\UserController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,16 +42,13 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         Route::prefix('companies')->middleware('auth:sanctum')->name('companies.')->group(function (){
             // gift card
             Route::post('{company_id}/send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('send.gift');
-
-            // search user
+            // user
+            // user
+            Route::get('{company_id}/users', [UserController::class, 'getAllUser'])->name('user.index');
             Route::get('{company_id}/search/user', [UserGiftCardController::class, 'searchUser'])->name('search.user');
         });
         // user routes
         Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(function (){
-            Route::get('all', [UserController::class, 'index'])->name('all');
-            Route::post('store', [UserController::class, 'store'])->name('store');
-            Route::put('update/{user}', [UserController::class, 'update'])->name('update');
-            Route::delete('delete/{user}', [UserController::class, 'destroy'])->name('destroy');
             Route::post('exchange/coin/companies/{company_id}', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
             Route::post('exchange/currency/companies/{company_id}', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
         });
