@@ -42,6 +42,7 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
         // company routes
         Route::prefix('companies')->middleware('auth:sanctum')->name('companies.')->group(function (){
             // gift card
+            Route::get('{company_id}/giftCards/client', [UserGiftCardController::class, 'index'])->name('gift.user.index');
             Route::post('{company_id}/send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('send.gift');
             // user
             // user
