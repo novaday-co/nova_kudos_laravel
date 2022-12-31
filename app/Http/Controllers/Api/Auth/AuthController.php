@@ -15,7 +15,7 @@ class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/api/authentication/login",
+     *      path="/authentication/login",
      *      operationId="login",
      *      tags={"Login"},
      *      summary="login",
@@ -61,7 +61,7 @@ class AuthController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="authentication/login-register")
+     *          @OA\JsonContent(ref=""/authentication/login"")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -103,7 +103,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/authentication/check-otp",
+     *      path="/authentication/check-otp",
      *      operationId="check otp",
      *      tags={"Login"},
      *      summary="check otp",
@@ -150,7 +150,7 @@ class AuthController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *     @OA\JsonContent(ref="/api/authentication/check-otp")
+     *     @OA\JsonContent(ref="/authentication/check-otp")
      *       ),
      *     @OA\Response(
      *          response=400,
@@ -184,7 +184,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/authentication/resend-otp",
+     *      path="/authentication/resend-otp",
      *      operationId="resend otp code",
      *      tags={"Login"},
      *      summary="resend otp code",
@@ -230,7 +230,7 @@ class AuthController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/authentication/resend-otp")
+     *          @OA\JsonContent(ref="/authentication/resend-otp")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -271,7 +271,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/authentication/logout",
+     *      path="/authentication/logout",
      *      operationId="logout",
      *      tags={"Login"},
      *      summary="logout",
@@ -307,7 +307,7 @@ class AuthController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/authentication/logout")
+     *          @OA\JsonContent(ref="/authentication/logout")
      *       ),
      *     @OA\Response(
      *          response=401,
