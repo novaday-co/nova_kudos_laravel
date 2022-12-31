@@ -73,63 +73,7 @@ class UserController extends Controller
         return CompanyUserResource::collection($users);
     }
 
-    /**
-     * @OA\Post(
-     *      path="/api/admin/users/store",
-     *      operationId="store new user",
-     *      tags={"users"},
-     *      summary="store new user",
-     *      description="store new user",
-     *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\RequestBody(
-     *          required=true,
-     *          @OA\MediaType(
-     *              mediaType="multipart/form-data",
-     *              @OA\Schema(
-     *                  @OA\Property(property="first_name", type="text", format="text", example="yasin"),
-     *                  @OA\Property(property="last_name", type="text", format="text", example="baghban"),
-     *                   required={"mobile"},
-     *                  @OA\Property(property="mobile", type="text", format="text", example="091010101010"),
-     *                  @OA\Property(property="avatar", type="file", format="text"),
-     *               ),
-     *           ),
-     *       ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
-     *      ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="error",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
+
     public function store(UserRequest $request, ImageService $imageService)
     {
         try
@@ -157,71 +101,6 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    /**
-     * @OA\Put (
-     *      path="/api/admin/users/update/{user}",
-     *      operationId="update user",
-     *      tags={"users"},
-     *      summary="update user",
-     *      description="update user",
-     *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *          name="id",
-     *          in="path",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\RequestBody(
-     *          required=true,
-     *          @OA\MediaType(
-     *              mediaType="multipart/form-data",
-     *              @OA\Schema(
-     *                  required={"first_name"},
-     *                  @OA\Property(property="first_name", type="text", format="text", example="yasin"),
-     *                  @OA\Property(property="last_name", type="text", format="text", example="baghban"),
-     *                  @OA\Property(property="mobile", type="text", format="text", example="09354068701"),
-     *                  @OA\Property(property="avatar", type="text", format="text"),
-     *               ),
-     *           ),
-     *       ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
-     *      ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="error",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
 
     public function update(UpdateUserRequest $request, User $user, ImageService $imageService)
     {
@@ -248,50 +127,6 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    /**
-     * @OA\Delete(
-     *      path="/api/admin/users/delete/{user}",
-     *      operationId="delete user",
-     *      tags={"users"},
-     *      summary="delete user",
-     *      description="delete user",
-     *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *          name="id",
-     *          in="path",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
 
     public function destroy(User $user)
     {
