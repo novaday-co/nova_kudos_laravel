@@ -15,11 +15,11 @@ class UserController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/companies/{company_id}/users",
+     *      path="/users/companies/{company_id}/members",
      *      operationId="get all users",
-     *      tags={"companies"},
+     *      tags={"User"},
      *      summary="get all users",
-     *      description="get all users",
+     *      description="get all users company",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="Accept",
@@ -51,7 +51,7 @@ class UserController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *      @OA\JsonContent(ref="/admin/companies/{company_id}/users")
+     *      @OA\JsonContent(ref="/users/companies/{company_id}/members")
      *       ),
      *     @OA\Response(
      *          response=401,

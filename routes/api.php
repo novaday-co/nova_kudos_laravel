@@ -49,7 +49,8 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
                 Route::post('exchange/currency', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
                 Route::post('withdrawal', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
                 Route::get('transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
-                Route::post('send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('send.gift');
+                Route::post('send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('gift.send');
+                Route::get('giftCards', [UserGiftCardController::class, 'index'])->name('gift.index');
                 Route::get('members', [UserController::class, 'getAllUser'])->name('user.index');
                 Route::get('search/user', [UserGiftCardController::class, 'searchUser'])->name('search.user');
             });

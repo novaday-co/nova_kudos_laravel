@@ -16,11 +16,11 @@ class UserGiftCardController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/api/companies/{company_id}/giftCards/client",
-     *      operationId="get all gift client",
-     *      tags={"companies"},
-     *      summary="get all gift client",
-     *      description="get all gift client",
+     *      path="/users/companies/{company_id}/giftCards",
+     *      operationId="get all gift User",
+     *      tags={"User"},
+     *      summary="get all gift User",
+     *      description="get all gift User",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
      *          name="Accept",
@@ -52,7 +52,7 @@ class UserGiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/admin/companies/{company_id}/giftCards/client")
+     *          @OA\JsonContent(ref="/users/companies/{company_id}/giftCards")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -172,9 +172,9 @@ class UserGiftCardController extends Controller
 
     /**
      * @OA\Get (
-     *      path="/api/companies/{company_id}/search/user",
+     *      path="/users/companies/{company_id}/search/user",
      *      operationId="search user",
-     *      tags={"companies"},
+     *      tags={"User"},
      *      summary="search user",
      *      description="search user",
      *      security={ {"sanctum": {} }},
@@ -218,7 +218,7 @@ class UserGiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/api/companies/{company_id}/search/user")
+     *          @OA\JsonContent(ref="/users/companies/{company_id}/search/user")
      *       ),
      *     @OA\Response(
      *          response=401,
