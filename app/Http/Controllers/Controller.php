@@ -15,6 +15,10 @@ use Illuminate\Routing\Controller as BaseController;
  *         title="Nova Kudos",
  *         description="Demo Nova Kudos Api",
  *     )
+ * @OA\Server(
+ *      url="https://sandbox-kudos.novaday.ir/api-api lists",
+ *      description="Kudos Api"
+ * )
  */
 
 class Controller extends BaseController

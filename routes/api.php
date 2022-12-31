@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\App\Company\AccountBalance\BalanceController;
+use App\Http\Controllers\Api\App\Company\AccountInfo\AccountInfoController;
 use App\Http\Controllers\Api\App\Company\Exchange\ExchangeController;
 use App\Http\Controllers\Api\App\Company\GiftCard\UserGiftCardController;
 use App\Http\Controllers\Api\App\Company\Medal\MedalController;
