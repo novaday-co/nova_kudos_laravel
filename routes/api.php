@@ -38,6 +38,25 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
     Route::post('resend-otp', [AuthController::class, 'resendOtp'])->name('resend.otp');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 });
+
+        // user routes
+        Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(function (){
+            Route::post('change/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
+            Route::post('verify/mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
+            Route::get('user/detail', [AccountInfoController::class, 'defaultCompany'])->name('default.company');
+            // companies
+            Route::prefix('companies/{company_id}')->middleware('auth:sanctum')->name('companies.')->group(function (){
+                Route::post('change/avatar', [ProfileController::class, 'updateProfile'])->name('update');
+                Route::post('exchange/coin', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
+                Route::post('exchange/currency', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
+                Route::post('withdrawal', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
+                Route::get('transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
+                Route::post('send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('gift.send');
+                Route::get('giftCards', [UserGiftCardController::class, 'index'])->name('gift.index');
+                Route::get('members', [UserController::class, 'getAllUser'])->name('user.index');
+                Route::get('search/user', [UserGiftCardController::class, 'searchUser'])->name('search.user');
+            });
+        });
         // group routes
         Route::prefix('groups')->name('group.')->group(function (){
             Route::post('companies/{company}', [GroupController::class, 'store'])->name('store');
