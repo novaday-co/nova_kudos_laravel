@@ -16,7 +16,7 @@ use Illuminate\Routing\Controller as BaseController;
  *         description="Demo Nova Kudos Api",
  *     )
  * @OA\Server(
- *      url="https://sandbox-kudos.novaday.ir/",
+ *      url="https://sandbox-kudos.novaday.ir/api",
  *      description="Kudos Api"
  * )
  */
