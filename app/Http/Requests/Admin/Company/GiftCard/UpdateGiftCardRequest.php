@@ -25,7 +25,7 @@ class UpdateGiftCardRequest extends FormRequest
     {
         return [
             'title' => ['sometimes', 'required', 'string'],
-            'avatar' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
+            'avatar' => ['nullable', 'file', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
             'coin' => ['sometimes', 'required', 'integer'],
             'expiration_date' => ['sometimes', 'date']
         ];

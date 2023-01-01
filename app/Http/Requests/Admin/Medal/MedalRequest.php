@@ -25,7 +25,7 @@ class MedalRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'avatar' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
+            'avatar' => ['required', 'mimes:png,jpeg,jpg,gif,svg,webp'],
             'coin' => ['required', 'numeric', 'integer'],
         ];
     }

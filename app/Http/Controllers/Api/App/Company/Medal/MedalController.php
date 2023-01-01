@@ -48,6 +48,15 @@ class MedalController extends Controller
      *      type="integer"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *          name="per_page",
+     *          in="query",
+     *          required=false,
+     *          example=10,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
@@ -67,9 +76,13 @@ class MedalController extends Controller
      *      ),
      * )
      */
-    public function index(Company $company_id)
+    public function index(Request $request, Company $company_id)
     {
         try {
+            if ($request->has('per_page')) {
+                $medals = $company_id->medals()->latest()->paginate((int)$request->per_page);
+                return MedalResource::collection($medals);
+            }
             $medals = $company_id->medals()->latest()->paginate(10);
             return MedalResource::collection($medals);
         } catch (\Exception $exception)

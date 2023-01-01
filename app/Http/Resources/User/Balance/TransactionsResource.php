@@ -18,7 +18,7 @@ class TransactionsResource extends JsonResource
             'amount' => $this->amount,
             'transaction_type' => exchangeTransactionType($this->transaction_type),
             'status' => exchangeStatus($this->status),
-            'date' => dateTime($this->created_at)
+            'date' => $this->created_at
         ];
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Resources\Company\Withdrawal\WithDrawalResource;
 use App\Http\Resources\User\Balance\TransactionsResource;
 use App\Http\Resources\User\AccountInfo\DefaultCompanyUserResource;
 use App\Models\Company;
+use Illuminate\Http\Request;
 
 class BalanceController extends Controller
 {
@@ -55,6 +56,15 @@ class BalanceController extends Controller
      *      type="integer"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *          name="per_page",
+     *          in="query",
+     *          required=false,
+     *          example=10,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
@@ -74,10 +84,14 @@ class BalanceController extends Controller
      *      ),
      * )
      */
-    public function getUserTransaction(Company $company_id)
+    public function getUserTransaction(Request $request, Company $company_id)
     {
         try {
             $userId = auth()->user()->id;
+            if ($request->has('per_page')) {
+                $transactions = $company_id->companyUserTransactions()->where('user_id', $userId)->latest()->paginate((int) $request->per_page);
+                return TransactionsResource::collection($transactions);
+            }
             $transactions = $company_id->companyUserTransactions()->where('user_id', $userId)->latest()->paginate(10);
             return TransactionsResource::collection($transactions);
         } catch (\Exception $exception)

@@ -27,7 +27,7 @@ class ProductRequest extends FormRequest
             'name' => ['required', 'string'],
             'currency' => ['required', 'integer'],
             'amount' => ['required', 'integer'],
-            'avatar' => ['sometimes', 'image', 'mimes:png,jpeg,jpg,gif,svg,webp'],
+            'avatar' => ['nullable', 'mimes:png,jpeg,jpg,gif,svg,webp'],
             'expiration_date' => ['sometimes', 'date', 'after:today'],
         ];
     }

@@ -56,6 +56,15 @@ class AdminBalanceController extends Controller
      *              type="string"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *          name="per_page",
+     *          in="query",
+     *          required=false,
+     *          example=10,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
@@ -75,10 +84,15 @@ class AdminBalanceController extends Controller
      *      ),
      * )
      */
-    public function getTransactionUsers(Company $company_id)
+    public function getTransactionUsers(Request $request ,Company $company_id)
     {
         try {
-            $transactions= $company_id->companyUserTransactions()->latest()->paginate(10);
+            if ($request->has('per_page'))
+            {
+                $transactions= $company_id->companyUserTransactions()->latest()->paginate((int) $request->per_page);
+                return TransactionUserResource::collection($transactions);
+            }
+            $transactions = $company_id->companyUserTransactions()->latest()->paginate(10);
             return TransactionUserResource::collection($transactions);
         } catch (\Exception $exception)
         {

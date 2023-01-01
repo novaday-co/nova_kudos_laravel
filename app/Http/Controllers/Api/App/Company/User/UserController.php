@@ -9,6 +9,7 @@ use App\Http\Resources\Company\User\CompanyUserResource;
 use App\Models\Company;
 use App\Models\User;
 use App\Services\Image\ImageService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -48,6 +49,15 @@ class UserController extends Controller
      *              type="integer"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *          name="per_page",
+     *          in="query",
+     *          required=false,
+     *          example=10,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
@@ -67,8 +77,12 @@ class UserController extends Controller
      *      ),
      * )
      */
-    public function getAllUser(Company $company_id)
+    public function getAllUser(Request $request, Company $company_id)
     {
+        if ($request->has('per_page')) {
+            $users = $company_id->users()->latest()->paginate((int) $request->per_page);
+            return CompanyUserResource::collection($users);
+        }
         $users = $company_id->users()->latest()->paginate(10);
         return CompanyUserResource::collection($users);
     }
