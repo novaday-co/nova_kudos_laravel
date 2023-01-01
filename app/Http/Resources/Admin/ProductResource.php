@@ -17,15 +17,15 @@ class ProductResource extends JsonResource
         return [
             'id' => $this->id,
             'company_name' => $this->company->name,
-            'company_avatar' => $this->company->avatar,
+            'company_avatar' => asset('storage' . $this->company->avatar),
             'product_name' => $this->name,
             'product_currency' => $this->currency,
             'product_coin' => $this->coin,
             'product_amount' => $this->amount,
-            'product_avatar' => $this->avatar,
-            'product_expiration_date' => dateTime($this->expiration_date),
-            'product_created_at' => dateTime($this->created_at),
-            'product_updated_at' => dateTime($this->updated_at),
+            'product_avatar' => asset('storage' . $this->avatar),
+            'product_expiration_date' => $this->expiration_date,
+            'product_created_at' => $this->created_at,
+            'product_updated_at' => $this->updated_at,
         ];
     }
 }

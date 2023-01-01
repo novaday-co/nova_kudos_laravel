@@ -20,7 +20,7 @@ class GiftCardResource extends JsonResource
             'avatar' => asset('storage' . $this->avatar),
             'coin' => $this->coin,
             'company_name' => $this->company->name,
-            'expiration_date' => dateTime($this->expiration_date),
+            'expiration_date' => $this->expiration_date,
         ];
     }
 }

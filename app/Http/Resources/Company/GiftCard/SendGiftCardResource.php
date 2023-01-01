@@ -23,8 +23,8 @@ class SendGiftCardResource extends JsonResource
             'from_id' => $this->fromId ? $this->fromId->mobile : $this->from_id,
             'to_id' => $this->toId ? $this->toId->mobile : $this->to_id,
             'message' => $this->message,
-            'created_at' => dateTime($this->created_at),
-            'updated_at' => dateTime($this->updated_at),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
