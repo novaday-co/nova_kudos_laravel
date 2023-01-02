@@ -93,29 +93,27 @@ class ExchangeController extends Controller
         {
             $attrs = $request->validated();
             $userId = auth()->user();
+            $user = $userId->companies()->where('user_id', $userId->id)->first();
             $coin_value = $company_id->coin->coin_value;
-            foreach ($company_id->users as $user)
+            $coin_balance = $user->pivot->coin_amount;
+            $currency_balance = $user->pivot->currency_amount;
+            if ($coin_balance >= $attrs['amount'])
             {
-                $coin_balance = $user->pivot->coin_amount;
-                $currency_balance = $user->pivot->currency_amount;
-                if ($coin_balance >= $attrs['amount'])
-                {
-                    $exchange = $attrs['amount'] * $coin_value;
-                    $coin_balance -= $attrs['amount'];
-                    $currency_balance += $exchange;
-                    $company_id->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
-                    $company_id->companyUserTransactions()->create([
-                        'user_id' => $userId->id,
-                        'transaction_type' => 'ToCurrency',
-                        'amount' => $exchange
-                    ]);
-                } if ($coin_balance < $attrs['amount'])
-                    {
-                        return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
-                    }
-                $userCompany = $userId->companies()->findOrFail($company_id->id);
-                return ExchangeResource::make($userCompany);
+                $exchange = $attrs['amount'] * $coin_value;
+                $coin_balance -= $attrs['amount'];
+                $currency_balance += $exchange;
+                $company_id->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
+                $company_id->companyUserTransactions()->create([
+                    'user_id' => $userId->id,
+                    'transaction_type' => 'ToCurrency',
+                    'amount' => $exchange
+                ]);
+            } if ($coin_balance < $attrs['amount'])
+            {
+                return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
             }
+            $userCompany = $userId->companies()->findOrFail($company_id->id);
+            return ExchangeResource::make($userCompany);
         } catch (\Exception $exception)
         {
             return $this->error([$exception->getMessage()], trans('messages.currency.invalid.exchange'), 422);
@@ -204,33 +202,32 @@ class ExchangeController extends Controller
         {
             $attrs = $request->validated();
             $userId = auth()->user();
+            $user = $userId->companies()->where('user_id', $userId->id)->first();
             $coin_value = $company_id->coin->coin_value;
-            foreach ($company_id->users as $user)
+            $coin_balance = $user->pivot->coin_amount;
+            $currency_balance = $user->pivot->currency_amount;
+            if ($currency_balance >= $attrs['amount'])
             {
-                $coin_balance = $user->pivot->coin_amount;
-                $currency_balance = $user->pivot->currency_amount;
-                if ($currency_balance >= $attrs['amount'])
-                {
-                    if ($coin_value > $attrs['amount'])
-                        return $this->error([trans('messages.currency.invalid.coin_value')], trans('messages.currency.invalid.coin_value'), 422);
-                    $exchange = $attrs['amount'] / $coin_value;
-                    $additionalAmount = $attrs['amount'] - $coin_value * $exchange;
-                    $currency_balance -= $attrs['amount'];
-                    $currency_balance += $additionalAmount;
-                    $coin_balance += round($exchange);
-                    $company_id->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
-                    $company_id->companyUserTransactions()->create([
-                        'user_id' => $userId->id,
-                        'transaction_type' => 'ToCoin',
-                        'amount' => $exchange
-                    ]);
-                } if ($currency_balance < $attrs['amount'])
+                if ($coin_value > $attrs['amount'])
+                    return $this->error([trans('messages.currency.invalid.coin_value')], trans('messages.currency.invalid.coin_value'), 422);
+                $exchange = $attrs['amount'] / $coin_value;
+                $additionalAmount = $attrs['amount'] - $coin_value * $exchange;
+                $currency_balance -= $attrs['amount'];
+                $currency_balance += $additionalAmount;
+                $coin_balance += round($exchange);
+                $company_id->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
+                $company_id->companyUserTransactions()->create([
+                    'user_id' => $userId->id,
+                    'transaction_type' => 'ToCoin',
+                    'amount' => $exchange
+                ]);
+            } if ($currency_balance < $attrs['amount'])
                     {
                         return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
                     }
                 $userCompany = $userId->companies()->findOrFail($company_id->id);
                 return ExchangeResource::make($userCompany);
-            }
+
         } catch (\Exception $exception)
         {
             return $this->error([$exception->getMessage()], trans('messages.currency.invalid.exchange'), 422);

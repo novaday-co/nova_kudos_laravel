@@ -180,24 +180,22 @@ class BalanceController extends Controller
         try {
             $attrs = $request->validated();
             $userId = auth()->user();
-            foreach ($company_id->users as $user)
+            $user = $userId->companies()->where('user_id', $userId->id)->first();
+            $balance = $user->pivot->currency_amount;
+            if ($balance >= $attrs['amount'])
             {
-                $balance = $user->pivot->currency_amount;
-                if ($balance >= $attrs['amount'])
-                {
-                    $balance -= $attrs['amount'];
-                    $company_id->users()->updateExistingPivot($userId, array('currency_amount' => $balance));
-                    $company_id->companyUserTransactions()->create([
-                        'user_id' => $userId->id,
-                        'transaction_type' => 'withdrawal',
-                        'amount' => $attrs['amount']
-                    ]);
-                    $userCompany = $userId->companies()->find($company_id);
-                    return WithDrawalResource::make($userCompany);
-                } if ($balance < $attrs['amount'])
-                {
-                    return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
-                }
+                $balance -= $attrs['amount'];
+                $company_id->users()->updateExistingPivot($userId, array('currency_amount' => $balance));
+                $company_id->companyUserTransactions()->create([
+                    'user_id' => $userId->id,
+                    'transaction_type' => 'withdrawal',
+                    'amount' => $attrs['amount']
+                ]);
+                $userCompany = $userId->companies()->find($company_id);
+                return WithDrawalResource::make($userCompany);
+            } else if ($balance < $attrs['amount'])
+            {
+                return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
             }
         } catch (\Exception $exception)
         {
