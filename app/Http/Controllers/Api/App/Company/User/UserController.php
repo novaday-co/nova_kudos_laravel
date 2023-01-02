@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Services\Image\ImageService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -50,10 +51,19 @@ class UserController extends Controller
      *          )
      *      ),
      *      @OA\Parameter(
-     *          name="per_page",
+     *          name="page",
      *          in="query",
      *          required=false,
-     *          example=10,
+     *          example=2,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="query_count",
+     *          in="query",
+     *          required=false,
+     *          example=5,
      *          @OA\Schema(
      *              type="integer"
      *          )
@@ -79,8 +89,15 @@ class UserController extends Controller
      */
     public function getAllUser(Request $request, Company $company_id)
     {
-        if ($request->has('per_page')) {
-            $users = $company_id->users()->latest()->paginate((int) $request->per_page);
+        if ($request->has('page'))
+        {
+            $currentPage = $request->page;
+            Paginator::currentPageResolver(function () use ($currentPage) {
+                return $currentPage;
+            });
+        }
+        if ($request->has('query_count')) {
+            $users = $company_id->users()->latest()->paginate((int) $request->query_count);
             return CompanyUserResource::collection($users);
         }
         $users = $company_id->users()->latest()->paginate(10);

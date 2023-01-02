@@ -9,6 +9,7 @@ use App\Http\Resources\User\Balance\TransactionsResource;
 use App\Models\Company;
 use App\Models\CompanyUserTransaction;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class AdminBalanceController extends Controller
 {
@@ -57,10 +58,19 @@ class AdminBalanceController extends Controller
      *          )
      *      ),
      *      @OA\Parameter(
-     *          name="per_page",
+     *          name="page",
      *          in="query",
      *          required=false,
-     *          example=10,
+     *          example=2,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="query_count",
+     *          in="query",
+     *          required=false,
+     *          example=5,
      *          @OA\Schema(
      *              type="integer"
      *          )
@@ -87,9 +97,16 @@ class AdminBalanceController extends Controller
     public function getTransactionUsers(Request $request ,Company $company_id)
     {
         try {
-            if ($request->has('per_page'))
+            if ($request->has('page'))
             {
-                $transactions= $company_id->companyUserTransactions()->latest()->paginate((int) $request->per_page);
+                $currentPage = $request->page;
+                Paginator::currentPageResolver(function () use ($currentPage) {
+                    return $currentPage;
+                });
+            }
+            if ($request->has('query_count'))
+            {
+                $transactions= $company_id->companyUserTransactions()->latest()->paginate((int) $request->query_count);
                 return TransactionUserResource::collection($transactions);
             }
             $transactions = $company_id->companyUserTransactions()->latest()->paginate(10);

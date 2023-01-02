@@ -9,6 +9,7 @@ use App\Http\Resources\User\Balance\TransactionsResource;
 use App\Http\Resources\User\AccountInfo\DefaultCompanyUserResource;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 
 class BalanceController extends Controller
 {
@@ -57,10 +58,19 @@ class BalanceController extends Controller
      *          )
      *      ),
      *      @OA\Parameter(
-     *          name="per_page",
+     *          name="page",
      *          in="query",
      *          required=false,
-     *          example=10,
+     *          example=2,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="query_count",
+     *          in="query",
+     *          required=false,
+     *          example=5,
      *          @OA\Schema(
      *              type="integer"
      *          )
@@ -88,8 +98,15 @@ class BalanceController extends Controller
     {
         try {
             $userId = auth()->user()->id;
-            if ($request->has('per_page')) {
-                $transactions = $company_id->companyUserTransactions()->where('user_id', $userId)->latest()->paginate((int) $request->per_page);
+            if ($request->has('page'))
+            {
+                $currentPage = $request->page;
+                Paginator::currentPageResolver(function () use ($currentPage) {
+                    return $currentPage;
+                });
+            }
+            if ($request->has('query_count')) {
+                $transactions = $company_id->companyUserTransactions()->where('user_id', $userId)->latest()->paginate((int) $request->query_count);
                 return TransactionsResource::collection($transactions);
             }
             $transactions = $company_id->companyUserTransactions()->where('user_id', $userId)->latest()->paginate(10);
