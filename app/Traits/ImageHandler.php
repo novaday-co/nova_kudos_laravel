@@ -11,18 +11,56 @@ trait ImageHandler
     /**
      * upload images with this function
      */
-    public function uploadImage($file, $path)
+    public function uploadImage($request, $path, string $inputName = 'avatar')
     {
-        if ($file)
+        $requestFile = $request->file($inputName);
+        try {
+            if ($requestFile)
+            {
+                $extension = $requestFile->getClientOriginalExtension();
+                $file_name = date('Y')
+                    . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR
+                    . date('d') . DIRECTORY_SEPARATOR . time() . '.' . $extension;
+                $fix_name = $file_name;
+                $pathAddress = $requestFile->storeAs($path, $fix_name, 'public');
+                $fixAddress = str_replace('\\', '/', $pathAddress);
+                $final_path = '/' . $fixAddress;
+                Image::make($requestFile->getRealPath());
+                return $final_path;
+            }
+            return true;
+        } catch (\Exception $exception)
         {
-            $extension = $file->getClientOriginalExtension();
-            $file_name = date('Y')
-                . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR
-                . date('d') . DIRECTORY_SEPARATOR . time() . '.' . $extension;
-            $pathAddress = $file->storeAs($path, $file_name, 'public');
-            $final_path = '/' . $pathAddress;
-            Image::make($file->getRealPath());
-            return $final_path;
-       }
+            return $exception->getMessage();
+        }
+    }
+
+    public function checkImage($file)
+    {
+        try {
+            if ($file)
+            {
+                $this->deleteImage($file);
+            }
+            return true;
+        } catch (\Exception $exception)
+        {
+            return $exception->getMessage();
+        }
+    }
+
+    public function deleteImage($file)
+    {
+        try {
+            if ($file)
+            {
+                Storage::delete('public' . $file);
+            }
+            return true;
+        } catch (\Exception $exception)
+        {
+            report($exception);
+        }
+        return $exception->getMessage();
     }
 }
