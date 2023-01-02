@@ -201,6 +201,10 @@ class BalanceController extends Controller
             $userId = auth()->user();
             $user = $userId->companies()->where('user_id', $userId->id)->first();
             $balance = $user->pivot->currency_amount;
+            if ($company_id->withdrawal_permission !== 'enable')
+                return $this->error([trans('messages.company.setting.permission.invalid')], trans('messages.company.setting.permission.invalid'), 500);
+            if ($company_id->min_withdrawal < $attrs['amount'])
+                return $this->error([trans('messages.company.setting.min.invalid')], trans('messages.company.setting.min.invalid'), 500);
             if ($balance >= $attrs['amount'])
             {
                 $balance -= $attrs['amount'];

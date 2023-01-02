@@ -4,11 +4,9 @@ use App\Traits\ApiResponser;
 function validatePermission($companyPermission)
 {
     try {
-        $input = 'enable';
-        if ($companyPermission !== $input){
-            return trans('messages.company.permission.invalid');
+        if ($companyPermission !== 'enable'){
+            return response()->json([trans('messages.company.setting.permission.invalid')]);
         }
-        return true;
     } catch (Exception $exception)
     {
         return $exception->getMessage();
