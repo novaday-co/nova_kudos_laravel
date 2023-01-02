@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\App\Company;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Company\Setting\CompanySettingRequest;
 use App\Http\Requests\Admin\Company\UpdateCompanyRequest;
 use App\Http\Requests\SuperAdmin\Company\CompanyRequest;
 use App\Http\Resources\Admin\GroupResource;
+use App\Http\Resources\Company\Setting\CompanySettingResource;
 use App\Http\Resources\SuperAdmin\CompanyResource;
 use App\Http\Resources\SuperAdmin\OwnerCompanyResource;
 use App\Http\Resources\UserResource;
@@ -215,6 +217,87 @@ class CompanyController extends Controller
             return CompanyResource::make($company_id);
         } catch (\Exception $e) {
             return $this->error([$e->getMessage()], trans('messages.company.invalid.request'), 422);
+        }
+    }
+
+    /**
+     * @OA\Post (
+     *      path="/companies/{company_id}/setting",
+     *      operationId="update company setting",
+     *      tags={"Company"},
+     *      summary="update company setting",
+     *      description="update company setting",
+     *      security={ {"sanctum": {} }},
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *    @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
+     *     @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  @OA\Property(property="withdrawal_permission", type="text", format="text", example="enable"),
+     *                   required={"withdrawal_permission", "min_withdrawal"},
+     *                  @OA\Property(property="min_withdrawal", type="text", format="text", example=200000),
+     *               ),
+     *           ),
+     *       ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="/companies/{company_id}/setting")
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="validation error",
+     *      ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="error",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
+
+    public function setSetting(CompanySettingRequest $request, Company $company_id)
+    {
+        try {
+          $attrs = $request->validated();
+          $company_id->updateOrFail([
+              'withdrawal_permission' => $attrs['withdrawal_permission'],
+              'min_withdrawal' => $attrs['min_withdrawal'],
+          ]);
+          return CompanySettingResource::make($company_id);
+        } catch (\Exception $exception)
+        {
+            return $this->error([trans('messages.company.setting.invalid.request')], trans('messages.company.setting.invalid.request'), 500);
         }
     }
 
