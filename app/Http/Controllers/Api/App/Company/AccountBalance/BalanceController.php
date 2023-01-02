@@ -10,6 +10,7 @@ use App\Http\Resources\User\AccountInfo\DefaultCompanyUserResource;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
 
 class BalanceController extends Controller
 {
@@ -195,6 +196,7 @@ class BalanceController extends Controller
     public function withdrawalCurrency(BalanceRequest $request, Company $company_id)
     {
         try {
+            DB::beginTransaction();
             $attrs = $request->validated();
             $userId = auth()->user();
             $user = $userId->companies()->where('user_id', $userId->id)->first();
@@ -209,9 +211,11 @@ class BalanceController extends Controller
                     'amount' => $attrs['amount']
                 ]);
                 $userCompany = $userId->companies()->find($company_id);
+                DB::commit();
                 return WithDrawalResource::make($userCompany);
             } else if ($balance < $attrs['amount'])
             {
+                    DB::rollBack();
                 return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
             }
         } catch (\Exception $exception)

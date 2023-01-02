@@ -11,6 +11,7 @@ use App\Http\Resources\Company\User\Search\UserSearchResource;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserGiftCardController extends Controller
 {
@@ -144,28 +145,31 @@ class UserGiftCardController extends Controller
     public function sendGiftCard(SendGiftRequest $request, Company $company_id)
     {
         try {
+            DB::beginTransaction();
             $attrs = $request->validated();
             $from_id = $company_id->users()->where('user_id', auth()->user()->id)->first();
             $to_id = $company_id->users()->findOrFail($attrs['to_id']);
             $gift_id = $company_id->giftCards()->findOrFail($attrs['gift_id']);
             $coin_balance = $from_id->pivot->coin_amount;
-                if ($coin_balance < $gift_id->coin)
-                    return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
-                $gift = $company_id->companyUserGiftTransaction()->create([
-                    'from_id' => auth()->user()->id,
-                    'to_id' => $to_id->id,
-                    'gift_id' => $gift_id->id,
-                    'message' => $attrs['message']
+            if ($coin_balance < $gift_id->coin)
+                return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
+            $gift = $company_id->companyUserGiftTransaction()->create([
+                'from_id' => auth()->user()->id,
+                'to_id' => $to_id->id,
+                'gift_id' => $gift_id->id,
+                'message' => $attrs['message']
                 ]);
                 $gift->load(['company.users' => function($query) use($from_id, $to_id) {
                     $query->whereIn('user_id', [$from_id->id, $to_id->id]);
                 }]);
                 $coin_balance -= $gift_id->coin;
                 $company_id->users()->updateExistingPivot(auth()->user(), array('coin_amount' => $coin_balance));
+                DB::commit();
                 return $this->success([SendGiftCardResource::make($gift)], trans('messages.company.giftCard.send'));
 //            }
         } catch (\Exception $exception)
         {
+            DB::rollBack();
             return $this->error([$exception->getMessage()], trans('messages.company.giftCard.invalid.request'), 422);
         }
     }

@@ -8,6 +8,7 @@ use App\Http\Resources\Company\Exchange\ExchangeResource;
 use App\Http\Resources\Company\User\CompanyUserResource;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ExchangeController extends Controller
 {
@@ -91,6 +92,7 @@ class ExchangeController extends Controller
     {
         try
         {
+            DB::beginTransaction();
             $attrs = $request->validated();
             $userId = auth()->user();
             $user = $userId->companies()->where('user_id', $userId->id)->first();
@@ -113,9 +115,11 @@ class ExchangeController extends Controller
                 return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
             }
             $userCompany = $userId->companies()->findOrFail($company_id->id);
+            DB::commit();
             return ExchangeResource::make($userCompany);
         } catch (\Exception $exception)
         {
+            DB::rollBack();
             return $this->error([$exception->getMessage()], trans('messages.currency.invalid.exchange'), 422);
         }
     }
@@ -200,6 +204,7 @@ class ExchangeController extends Controller
     {
         try
         {
+            DB::beginTransaction();
             $attrs = $request->validated();
             $userId = auth()->user();
             $user = $userId->companies()->where('user_id', $userId->id)->first();
@@ -225,11 +230,13 @@ class ExchangeController extends Controller
                     {
                         return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
                     }
-                $userCompany = $userId->companies()->findOrFail($company_id->id);
-                return ExchangeResource::make($userCompany);
+            $userCompany = $userId->companies()->findOrFail($company_id->id);
+            DB::commit();
+            return ExchangeResource::make($userCompany);
 
         } catch (\Exception $exception)
         {
+            DB::rollBack();
             return $this->error([$exception->getMessage()], trans('messages.currency.invalid.exchange'), 422);
         }
     }
