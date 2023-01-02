@@ -244,13 +244,11 @@ class GiftCardController extends Controller
         try
         {
             $attrs = $request->validated();
-            if ($request->hasFile('avatar'))
-            {
-                $avatar = $this->uploadImage($request->file('avatar'), 'images' . DIRECTORY_SEPARATOR . 'companies'
-                    . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'giftCard');
-                $attrs['avatar'] = $avatar;
-            }
             $gift = $company_id->giftCards()->findOrFail($giftCard->id);
+            $this->checkImage($giftCard->avatar);
+            $avatar = $this->uploadImage($request, 'images' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . 'company'
+                . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'giftcard');
+            $attrs['avatar'] = $avatar;
             $gift->update([
                 'title' => $attrs['title'],
                 'coin' => $attrs['coin'],
