@@ -55,6 +55,8 @@ use Illuminate\Support\Facades\Route;
          Route::post('medals', [MedalController::class, 'store'])->name('medal.store');
          Route::post('medals/{medal_id}', [MedalController::class, 'update'])->name('medal.update');
          Route::get('search/medal', [MedalController::class, 'searchMedal'])->name('medal.search');
+
+         Route::post('setting', [CompanyController::class, 'setSetting'])->name('setting');
      });
 
 
