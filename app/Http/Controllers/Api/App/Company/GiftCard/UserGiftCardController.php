@@ -14,66 +14,6 @@ use Illuminate\Http\Request;
 
 class UserGiftCardController extends Controller
 {
-    /**
-     * @OA\Get (
-     *      path="/users/companies/{company_id}/giftCards",
-     *      operationId="get all gift User",
-     *      tags={"User"},
-     *      summary="get all gift User",
-     *      description="get all gift User",
-     *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/giftCards")
-     *       ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
-     *      ),
-     *     @OA\Response(
-     *          response=422,
-     *          description="error",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
-
-    public function index(Company $company_id)
-    {
-        $gifts = $company_id->giftCards;
-        return GiftCardResource::collection($gifts);
-    }
 
     /**
      * @OA\Post (
@@ -149,21 +89,20 @@ class UserGiftCardController extends Controller
             $to_id = $company_id->users()->findOrFail($attrs['to_id']);
             $gift_id = $company_id->giftCards()->findOrFail($attrs['gift_id']);
             $coin_balance = $from_id->pivot->coin_amount;
-                if ($coin_balance < $gift_id->coin)
-                    return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
-                $gift = $company_id->companyUserGiftTransaction()->create([
-                    'from_id' => auth()->user()->id,
-                    'to_id' => $to_id->id,
-                    'gift_id' => $gift_id->id,
-                    'message' => $attrs['message']
-                ]);
-                $gift->load(['company.users' => function($query) use($from_id, $to_id) {
-                    $query->whereIn('user_id', [$from_id->id, $to_id->id]);
-                }]);
-                $coin_balance -= $gift_id->coin;
-                $company_id->users()->updateExistingPivot(auth()->user(), array('coin_amount' => $coin_balance));
-                return $this->success([SendGiftCardResource::make($gift)], trans('messages.company.giftCard.send'));
-//            }
+            if ($coin_balance < $gift_id->coin)
+                return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
+            $gift = $company_id->companyUserGiftTransaction()->create([
+                'from_id' => auth()->user()->id,
+                'to_id' => $to_id->id,
+                'gift_id' => $gift_id->id,
+                'message' => $attrs['message']
+            ]);
+            $gift->load(['company.users' => function($query) use($from_id, $to_id) {
+                $query->whereIn('user_id', [$from_id->id, $to_id->id]);
+            }]);
+            $coin_balance -= $gift_id->coin;
+            $company_id->users()->updateExistingPivot(auth()->user(), array('coin_amount' => $coin_balance));
+            return $this->success([SendGiftCardResource::make($gift)], trans('messages.company.giftCard.send'));
         } catch (\Exception $exception)
         {
             return $this->error([$exception->getMessage()], trans('messages.company.giftCard.invalid.request'), 422);
@@ -172,9 +111,9 @@ class UserGiftCardController extends Controller
 
     /**
      * @OA\Get (
-     *      path="/users/companies/{company_id}/search/user",
+     *      path="/companies/{company_id}/search/user",
      *      operationId="search user",
-     *      tags={"User"},
+     *      tags={"Company"},
      *      summary="search user",
      *      description="search user",
      *      security={ {"sanctum": {} }},
@@ -218,7 +157,7 @@ class UserGiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/search/user")
+     *          @OA\JsonContent(ref="/companies/{company_id}/search/user")
      *       ),
      *     @OA\Response(
      *          response=401,
