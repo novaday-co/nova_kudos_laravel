@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\App\Coin\CoinController;
 use App\Http\Controllers\Api\App\Company\AccountBalance\AdminBalanceController;
 use App\Http\Controllers\Api\App\Company\CompanyController;
 use App\Http\Controllers\Api\App\Company\GiftCard\GiftCardController;
+use App\Http\Controllers\Api\App\Company\GiftCard\UserGiftCardController;
 use App\Http\Controllers\Api\App\Company\Medal\MedalController;
 use App\Http\Controllers\Api\App\Company\Product\ProductController;
 use App\Http\Controllers\Api\App\Company\User\UserController;
@@ -39,6 +40,12 @@ use Illuminate\Support\Facades\Route;
          Route::get('coin/system', [CoinController::class, 'getValueOfSystem'])->name('value.coin');
          Route::get('users/transactions', [AdminBalanceController::class, 'getTransactionUsers'])->name('transaction');
          Route::post('users/transactions/{transaction}/status', [AdminBalanceController::class, 'updateTransactionStatus'])->name('change.status');
+
+         // member
+         Route::get('members', [UserController::class, 'getAllUser'])->name('user.index');
+
+         // search user
+         Route::get('search/user', [UserGiftCardController::class, 'searchUser'])->name('search.user');
 
          Route::get('market/products', [ProductController::class, 'index'])->name('product.index');
          Route::post('market/products', [ProductController::class, 'store'])->name('product.store');

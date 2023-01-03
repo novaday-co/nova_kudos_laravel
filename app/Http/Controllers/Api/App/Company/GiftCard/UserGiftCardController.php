@@ -11,70 +11,9 @@ use App\Http\Resources\Company\User\Search\UserSearchResource;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class UserGiftCardController extends Controller
 {
-    /**
-     * @OA\Get (
-     *      path="/users/companies/{company_id}/giftCards",
-     *      operationId="get all gift User",
-     *      tags={"User"},
-     *      summary="get all gift User",
-     *      description="get all gift User",
-     *      security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *          name="Accept",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Content-Type",
-     *          in="header",
-     *          required=true,
-     *          example="application/json",
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/giftCards")
-     *       ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="validation error",
-     *      ),
-     *     @OA\Response(
-     *          response=422,
-     *          description="error",
-     *       ),
-     *     @OA\Response(
-     *          response=500,
-     *          description="server error",
-     *      ),
-     * )
-     */
-
-    public function index(Company $company_id)
-    {
-        $gifts = $company_id->giftCards;
-        return GiftCardResource::collection($gifts);
-    }
 
     /**
      * @OA\Post (
@@ -145,7 +84,6 @@ class UserGiftCardController extends Controller
     public function sendGiftCard(SendGiftRequest $request, Company $company_id)
     {
         try {
-            DB::beginTransaction();
             $attrs = $request->validated();
             $from_id = $company_id->users()->where('user_id', auth()->user()->id)->first();
             $to_id = $company_id->users()->findOrFail($attrs['to_id']);
@@ -158,27 +96,24 @@ class UserGiftCardController extends Controller
                 'to_id' => $to_id->id,
                 'gift_id' => $gift_id->id,
                 'message' => $attrs['message']
-                ]);
-                $gift->load(['company.users' => function($query) use($from_id, $to_id) {
-                    $query->whereIn('user_id', [$from_id->id, $to_id->id]);
-                }]);
-                $coin_balance -= $gift_id->coin;
-                $company_id->users()->updateExistingPivot(auth()->user(), array('coin_amount' => $coin_balance));
-                DB::commit();
-                return $this->success([SendGiftCardResource::make($gift)], trans('messages.company.giftCard.send'));
-//            }
+            ]);
+            $gift->load(['company.users' => function($query) use($from_id, $to_id) {
+                $query->whereIn('user_id', [$from_id->id, $to_id->id]);
+            }]);
+            $coin_balance -= $gift_id->coin;
+            $company_id->users()->updateExistingPivot(auth()->user(), array('coin_amount' => $coin_balance));
+            return $this->success([SendGiftCardResource::make($gift)], trans('messages.company.giftCard.send'));
         } catch (\Exception $exception)
         {
-            DB::rollBack();
             return $this->error([$exception->getMessage()], trans('messages.company.giftCard.invalid.request'), 422);
         }
     }
 
     /**
      * @OA\Get (
-     *      path="/users/companies/{company_id}/search/user",
+     *      path="/companies/{company_id}/search/user",
      *      operationId="search user",
-     *      tags={"User"},
+     *      tags={"Company"},
      *      summary="search user",
      *      description="search user",
      *      security={ {"sanctum": {} }},
@@ -222,7 +157,7 @@ class UserGiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/search/user")
+     *          @OA\JsonContent(ref="/companies/{company_id}/search/user")
      *       ),
      *     @OA\Response(
      *          response=401,

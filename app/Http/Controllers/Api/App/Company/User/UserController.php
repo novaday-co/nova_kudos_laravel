@@ -17,9 +17,9 @@ class UserController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/users/companies/{company_id}/members",
+     *      path="/companies/{company_id}/members",
      *      operationId="get all users",
-     *      tags={"User"},
+     *      tags={"Company"},
      *      summary="get all users",
      *      description="get all users company",
      *      security={ {"sanctum": {} }},
@@ -71,7 +71,7 @@ class UserController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *      @OA\JsonContent(ref="/users/companies/{company_id}/members")
+     *      @OA\JsonContent(ref="/companies/{company_id}/members")
      *       ),
      *     @OA\Response(
      *          response=401,
