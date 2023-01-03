@@ -19,7 +19,7 @@ class ProfileController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/users/companies/{company_id}/change/avatar",
+     *      path="/users/companies/{company_id}/change-avatar",
      *      operationId="change avatar user",
      *      tags={"User"},
      *      summary="change avatar user",
@@ -74,7 +74,7 @@ class ProfileController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/change/avatar")
+     *          @OA\JsonContent(ref="/users/companies/{company_id}/change-avatar")
      *       ),
      *     @OA\Response(
      *          response=401,

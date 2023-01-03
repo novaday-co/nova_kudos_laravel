@@ -46,7 +46,7 @@ Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(functio
     Route::get('account/detail', [AccountInfoController::class, 'defaultCompany'])->name('default.company');
     // companies
     Route::prefix('companies/{company_id}')->middleware('auth:sanctum')->name('companies.')->group(function (){
-        Route::post('change/avatar', [ProfileController::class, 'updateProfile'])->name('update');
+        Route::post('change-avatar', [ProfileController::class, 'updateProfile'])->name('update');
         Route::post('exchange/coin', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
         Route::post('exchange/currency', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
         Route::post('withdrawal', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
