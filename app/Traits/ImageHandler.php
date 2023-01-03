@@ -60,7 +60,7 @@ trait ImageHandler
         } catch (\Exception $exception)
         {
             report($exception);
+            return $exception->getMessage();
         }
-        return $exception->getMessage();
     }
 }
