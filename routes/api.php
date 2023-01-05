@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\App\Company\AccountInfo\AccountInfoController;
 use App\Http\Controllers\Api\App\Company\Exchange\ExchangeController;
 use App\Http\Controllers\Api\App\Company\GiftCard\UserGiftCardController;
 use App\Http\Controllers\Api\App\Company\Medal\MedalController;
+use App\Http\Controllers\Api\App\Company\Product\UserProductController;
 use App\Http\Controllers\Api\App\Company\User\UserController;
 use App\Http\Controllers\Api\App\Event\EventController;
 use App\Http\Controllers\Api\App\Group\GroupController;

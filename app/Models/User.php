@@ -101,4 +101,9 @@ class User extends Authenticatable
         return $this->hasMany(GiftUserTransaction::class);
     }
 
+    public function companyUserProductTransactions(): HasMany
+    {
+        return $this->hasMany(CompanyUserProductTransaction::class);
+    }
+
 }
