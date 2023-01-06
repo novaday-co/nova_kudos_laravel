@@ -16,7 +16,7 @@ class UserProductController extends Controller
 
     /**
      * @OA\Post   (
-     *      path="/users/companies/{company_id}/products/{product_id}",
+     *      path="/users/products/{product_id}",
      *      operationId="buy  product",
      *      tags={"User"},
      *      summary="buy product",
@@ -41,15 +41,6 @@ class UserProductController extends Controller
      *          )
      *      ),
      *     @OA\Parameter(
-     *          name="company_id",
-     *          in="path",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *     @OA\Parameter(
      *          name="product_id",
      *          in="path",
      *          required=true,
@@ -61,7 +52,7 @@ class UserProductController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/products/{product_id}")
+     *          @OA\JsonContent(ref="/users/products/{product_id}")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -77,21 +68,22 @@ class UserProductController extends Controller
      *      ),
      * )
      */
-    public function addProduct(Company $company_id, Product $product_id)
+    public function addProduct(Product $product_id)
     {
         DB::beginTransaction();
-        $user = $company_id->users()->where('user_id', auth()->id())->firstOrFail();
-        $product = $company_id->products()->where('id', $product_id->id)->firstOrFail();
-        $user_balance = $user->pivot->coin_amount;
+        $userId = auth()->user();
+        $company_user = $userId->companies()->where('company_id', $userId->default_company)->firstOrFail();
+        $product = $company_user->products()->where('id', $product_id->id)->firstOrFail();
+        $user_balance = $company_user->pivot->coin_amount;
         if ($user_balance >= $product->coin)
         {
             if ($product->amount > 0)
             {
                 $user_balance -= $product->coin;
                 $tracking_code = Str::random(10);
-                $company_id->users()->updateExistingPivot($user, array('coin_amount' => $user_balance));
+                $company_user->users()->updateExistingPivot($userId->id, array('coin_amount' => $user_balance));
                 $product->update(array('amount' => $product_id->amount - 1));
-               $trans = $company_id->companyUserProductTransaction()->create([
+               $trans = $company_user->companyUserProductTransaction()->create([
                     'user_id' => auth()->id(),
                     'product_id' => $product->id,
                     'tracking_code' => $tracking_code

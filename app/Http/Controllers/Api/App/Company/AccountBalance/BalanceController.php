@@ -16,7 +16,7 @@ class BalanceController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/users/companies/{company_id}/transactions",
+     *      path="/users/transaction-currencies",
      *      operationId="get user transactions",
      *      tags={"User"},
      *      summary="get user transactions",
@@ -50,15 +50,6 @@ class BalanceController extends Controller
      *          )
      *      ),
      *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
      *          name="page",
      *          in="query",
      *          required=false,
@@ -79,7 +70,7 @@ class BalanceController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/transactions")
+     *          @OA\JsonContent(ref="/users/transaction-currencies")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -95,10 +86,11 @@ class BalanceController extends Controller
      *      ),
      * )
      */
-    public function getUserTransaction(Request $request, Company $company_id)
+    public function getUserTransaction(Request $request)
     {
         try {
-            $userId = auth()->user()->id;
+            $userId = auth()->user();
+            $company_user = $userId->companies()->where('company_id', $userId->default_company)->firstOrFail();
             if ($request->has('page'))
             {
                 $currentPage = $request->page;
@@ -107,10 +99,10 @@ class BalanceController extends Controller
                 });
             }
             if ($request->has('query_count')) {
-                $transactions = $company_id->companyUserTransactions()->where('user_id', $userId)->latest()->paginate((int) $request->query_count);
+                $transactions = $company_user->companyUserTransactions()->latest()->paginate((int) $request->query_count);
                 return TransactionsResource::collection($transactions);
             }
-            $transactions = $company_id->companyUserTransactions()->where('user_id', $userId)->latest()->paginate(10);
+            $transactions = $company_user->companyUserTransactions()->latest()->paginate(10);
             return TransactionsResource::collection($transactions);
         } catch (\Exception $exception)
         {
@@ -119,7 +111,7 @@ class BalanceController extends Controller
     }
     /**
      * @OA\Post(
-     *      path="/users/companies/{company_id}/withdrawal",
+     *      path="/users/withdrawal-currency",
      *      operationId="withdrawal currency",
      *      tags={"User"},
      *      summary="withdrawal currency",
@@ -152,15 +144,6 @@ class BalanceController extends Controller
      *              type="string"
      *          )
      *      ),
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
@@ -177,7 +160,7 @@ class BalanceController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/withdrawal")
+     *          @OA\JsonContent(ref="/users/withdrawal-currency")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -193,28 +176,32 @@ class BalanceController extends Controller
      *      ),
      * )
      */
-    public function withdrawalCurrency(BalanceRequest $request, Company $company_id)
+    public function withdrawalCurrency(BalanceRequest $request)
     {
         try {
             DB::beginTransaction();
             $attrs = $request->validated();
             $userId = auth()->user();
-            $user = $userId->companies()->where('user_id', $userId->id)->first();
-            $balance = $user->pivot->currency_amount;
-            if ($company_id->withdrawal_permission !== 'enable')
+            $company_user = $userId->companies()->where('company_id', $userId->default_company)->firstOrFail();
+            $balance = $company_user->pivot->currency_amount;
+            if ($company_user->withdrawal_permission !== 'enable')
+            {
                 return $this->error([trans('messages.company.setting.permission.invalid')], trans('messages.company.setting.permission.invalid'), 500);
-            if ($company_id->min_withdrawal < $attrs['amount'])
+            }
+            if ($company_user->min_withdrawal > $attrs['amount'])
+            {
                 return $this->error([trans('messages.company.setting.min.invalid')], trans('messages.company.setting.min.invalid'), 500);
+            }
             if ($balance >= $attrs['amount'])
             {
                 $balance -= $attrs['amount'];
-                $company_id->users()->updateExistingPivot($userId, array('currency_amount' => $balance));
-                $company_id->companyUserTransactions()->create([
+                $company_user->users()->updateExistingPivot($userId, array('currency_amount' => $balance));
+                $company_user->companyUserTransactions()->create([
                     'user_id' => $userId->id,
                     'transaction_type' => 'withdrawal',
                     'amount' => $attrs['amount']
                 ]);
-                $userCompany = $userId->companies()->find($company_id);
+                $userCompany = $userId->companies()->where('company_id', $userId->default_company)->firstOrFail();
                 DB::commit();
                 return WithDrawalResource::make($userCompany);
             } else if ($balance < $attrs['amount'])

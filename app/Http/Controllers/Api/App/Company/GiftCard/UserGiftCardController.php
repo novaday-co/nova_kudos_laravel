@@ -17,7 +17,7 @@ class UserGiftCardController extends Controller
 
     /**
      * @OA\Post (
-     *      path="/users/companies/{company_id}/send/giftCard",
+     *      path="/users/send-gift-card",
      *      operationId="send gift card",
      *      tags={"User"},
      *      summary="send gift card",
@@ -41,15 +41,6 @@ class UserGiftCardController extends Controller
      *              type="string"
      *          )
      *      ),
-     *    @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
      *     @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
@@ -65,7 +56,7 @@ class UserGiftCardController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/send/giftCard")
+     *          @OA\JsonContent(ref="/users/send-gift-card")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -81,27 +72,28 @@ class UserGiftCardController extends Controller
      *      ),
      * )
      */
-    public function sendGiftCard(SendGiftRequest $request, Company $company_id)
+    public function sendGiftCard(SendGiftRequest $request)
     {
         try {
             $attrs = $request->validated();
-            $from_id = $company_id->users()->where('user_id', auth()->user()->id)->first();
-            $to_id = $company_id->users()->findOrFail($attrs['to_id']);
-            $gift_id = $company_id->giftCards()->findOrFail($attrs['gift_id']);
-            $coin_balance = $from_id->pivot->coin_amount;
+            $userId = auth()->user();
+            $company_user = $userId->companies()->where('company_id', $userId->default_company)->firstOrFail();
+            $to_id = $company_user->users()->findOrFail($attrs['to_id']);
+            $gift_id = $company_user->giftCards()->findOrFail($attrs['gift_id']);
+            $coin_balance = $company_user->pivot->coin_amount;
             if ($coin_balance < $gift_id->coin)
                 return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 422);
-            $gift = $company_id->companyUserGiftTransaction()->create([
+            $gift = $company_user->companyUserGiftTransaction()->create([
                 'from_id' => auth()->user()->id,
                 'to_id' => $to_id->id,
                 'gift_id' => $gift_id->id,
                 'message' => $attrs['message']
             ]);
-            $gift->load(['company.users' => function($query) use($from_id, $to_id) {
-                $query->whereIn('user_id', [$from_id->id, $to_id->id]);
+            $gift->load(['company.users' => function($query) use($company_user, $to_id) {
+                $query->whereIn('user_id', [$company_user->id, $to_id->id]);
             }]);
             $coin_balance -= $gift_id->coin;
-            $company_id->users()->updateExistingPivot(auth()->user(), array('coin_amount' => $coin_balance));
+            $company_user->users()->updateExistingPivot(auth()->user(), array('coin_amount' => $coin_balance));
             return $this->success([SendGiftCardResource::make($gift)], trans('messages.company.giftCard.send'));
         } catch (\Exception $exception)
         {

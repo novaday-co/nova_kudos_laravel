@@ -14,7 +14,7 @@ class ExchangeController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/users/companies/{company_id}/exchange/currency",
+     *      path="/users/exchange-currency",
      *      operationId="exchange coin to currency",
      *      tags={"User"},
      *      summary="exchange coin to currency",
@@ -45,15 +45,6 @@ class ExchangeController extends Controller
      *          example="application/json",
      *          @OA\Schema(
      *              type="string"
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
      *          )
      *      ),
      *     @OA\RequestBody(
@@ -88,24 +79,24 @@ class ExchangeController extends Controller
      *      ),
      * )
      */
-    public function exchangeCurrency(ExchangeRequest $request, Company $company_id)
+    public function exchangeCurrency(ExchangeRequest $request)
     {
         try
         {
             DB::beginTransaction();
             $attrs = $request->validated();
             $userId = auth()->user();
-            $user = $userId->companies()->where('user_id', $userId->id)->first();
-            $coin_value = $company_id->coin->coin_value;
-            $coin_balance = $user->pivot->coin_amount;
-            $currency_balance = $user->pivot->currency_amount;
+            $company_user = $userId->companies()->where('company_id', $userId->default_company)->firstOrFail();
+            $coin_value = $company_user->coin->coin_value;
+            $coin_balance = $company_user->pivot->coin_amount;
+            $currency_balance = $company_user->pivot->currency_amount;
             if ($coin_balance >= $attrs['amount'])
             {
                 $exchange = $attrs['amount'] * $coin_value;
                 $coin_balance -= $attrs['amount'];
                 $currency_balance += $exchange;
-                $company_id->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
-                $company_id->companyUserTransactions()->create([
+                $company_user->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
+                $company_user->companyUserTransactions()->create([
                     'user_id' => $userId->id,
                     'transaction_type' => 'ToCurrency',
                     'amount' => $exchange
@@ -114,7 +105,7 @@ class ExchangeController extends Controller
             {
                 return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
             }
-            $userCompany = $userId->companies()->findOrFail($company_id->id);
+            $userCompany = $userId->companies()->where('company_id', $userId->default_company)->firstOrFail();
             DB::commit();
             return ExchangeResource::make($userCompany);
         } catch (\Exception $exception)
@@ -126,7 +117,7 @@ class ExchangeController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/users/companies/{company_id}/exchange/coin",
+     *      path="/users/exchange-coin",
      *      operationId="exchange currency to coin",
      *      tags={"User"},
      *      summary="exchange currency to coin",
@@ -159,15 +150,6 @@ class ExchangeController extends Controller
      *              type="string"
      *          )
      *      ),
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
@@ -184,7 +166,7 @@ class ExchangeController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/exchange/coin")
+     *          @OA\JsonContent(ref="/users/exchange-coin")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -200,17 +182,17 @@ class ExchangeController extends Controller
      *      ),
      * )
      */
-    public function exchangeCoin(ExchangeRequest $request, Company $company_id)
+    public function exchangeCoin(ExchangeRequest $request)
     {
         try
         {
             DB::beginTransaction();
             $attrs = $request->validated();
             $userId = auth()->user();
-            $user = $userId->companies()->where('user_id', $userId->id)->first();
-            $coin_value = $company_id->coin->coin_value;
-            $coin_balance = $user->pivot->coin_amount;
-            $currency_balance = $user->pivot->currency_amount;
+            $company_user = $userId->companies()->where('company_id', $userId->default_company)->firstOrFail();
+            $coin_value = $company_user->coin->coin_value;
+            $coin_balance = $company_user->pivot->coin_amount;
+            $currency_balance = $company_user->pivot->currency_amount;
             if ($currency_balance >= $attrs['amount'])
             {
                 if ($coin_value > $attrs['amount'])
@@ -220,8 +202,8 @@ class ExchangeController extends Controller
                 $currency_balance -= $attrs['amount'];
                 $currency_balance += $additionalAmount;
                 $coin_balance += round($exchange);
-                $company_id->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
-                $company_id->companyUserTransactions()->create([
+                $company_user->users()->updateExistingPivot($userId, array('coin_amount' => $coin_balance, 'currency_amount' => $currency_balance));
+                $company_user->companyUserTransactions()->create([
                     'user_id' => $userId->id,
                     'transaction_type' => 'ToCoin',
                     'amount' => $exchange
@@ -230,7 +212,7 @@ class ExchangeController extends Controller
                     {
                         return $this->error([trans('messages.currency.invalid.balance')],trans('messages.currency.invalid.balance'), 422);
                     }
-            $userCompany = $userId->companies()->findOrFail($company_id->id);
+            $userCompany = $userId->companies()->where('company_id', $userId->default_company)->firstOrFail();
             DB::commit();
             return ExchangeResource::make($userCompany);
 

@@ -19,7 +19,7 @@ class ProfileController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/users/companies/{company_id}/change-avatar",
+     *      path="/users/change-avatar",
      *      operationId="change avatar user",
      *      tags={"User"},
      *      summary="change avatar user",
@@ -52,15 +52,6 @@ class ProfileController extends Controller
      *              type="string"
      *          )
      *      ),
-     *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *     example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
      *         @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
@@ -74,7 +65,7 @@ class ProfileController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/companies/{company_id}/change-avatar")
+     *          @OA\JsonContent(ref="/users/change-avatar")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -90,19 +81,19 @@ class ProfileController extends Controller
      *      ),
      * )
      */
-    public function updateProfile(UpdateAvatarRequest $request, Company $company_id)
+    public function updateProfile(UpdateAvatarRequest $request)
     {
         try
         {
             $user_id = auth()->user();
             $attrs = $request->validated();
-            $user = $user_id->companies()->where('user_id', $user_id->id)->first();
+            $user = $user_id->companies()->where('company_id', $user_id->default_company)->firstOrFail();
             $this->checkImage($user->pivot->avatar);
             $avatar = $this->uploadImage($request, 'images' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . 'company'
-            . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'avatar');
+            . DIRECTORY_SEPARATOR . $user_id->default_company . DIRECTORY_SEPARATOR . 'avatar');
             $attrs['avatar'] = $avatar;
-            $company_id->users()->updateExistingPivot($user_id, array('avatar' => $attrs['avatar']));
-            $user_company = $user_id->companies()->findOrFail($company_id->id);
+            $user_id->companies()->updateExistingPivot($user_id->default_company, array('avatar' => $attrs['avatar']));
+            $user_company = $user_id->companies()->findOrFail($user_id->default_company);
             return CompanyUserResource::make($user_company);
         } catch (\Exception $e)
         {
@@ -112,7 +103,7 @@ class ProfileController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/users/change/mobile",
+     *      path="/users/change-mobile",
      *      operationId="change user mobile",
      *      tags={"User"},
      *      summary="change user mobile",
@@ -158,7 +149,7 @@ class ProfileController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/change/mobile")
+     *          @OA\JsonContent(ref="/users/change-mobile")
      *       ),
      *     @OA\Response(
      *          response=401,
@@ -204,7 +195,7 @@ class ProfileController extends Controller
     }
     /**
      * @OA\Post(
-     *      path="/users/verify/mobile",
+     *      path="/users/verify-mobile",
      *      operationId="verify user mobile",
      *      tags={"User"},
      *      summary="verify user mobile",
@@ -251,7 +242,7 @@ class ProfileController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/verify/mobile")
+     *          @OA\JsonContent(ref="/users/verify-mobile")
      *       ),
      *     @OA\Response(
      *          response=401,

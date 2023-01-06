@@ -43,17 +43,19 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
 
         // user routes
         Route::prefix('users')->middleware('auth:sanctum')->name('user.')->group(function (){
-            Route::post('change/mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
-            Route::post('verify/mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
-            Route::get('account/detail', [AccountInfoController::class, 'defaultCompany'])->name('default.company');
+            Route::post('change-mobile', [ProfileController::class, 'updateMobile'])->name('update.mobile');
+            Route::post('verify-mobile', [ProfileController::class, 'verifyMobile'])->name('verify.mobile');
+            Route::get('account-detail', [AccountInfoController::class, 'defaultCompany'])->name('default.company');
+            Route::post('change-avatar', [ProfileController::class, 'updateProfile'])->name('update');
+            // exchange
+            Route::post('exchange-coin', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
+            Route::post('exchange-currency', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
+            Route::post('withdrawal-currency', [BalanceController::class, 'withdrawalCurrency'])->name('withdrawal');
+            Route::get('transaction-currencies', [BalanceController::class, 'getUserTransaction'])->name('transaction');
+            Route::post('products/{product_id}', [UserProductController::class, 'addProduct'])->name('add.product');
+            Route::post('send-gift-card', [UserGiftCardController::class, 'sendGiftCard'])->name('gift.send');
             // companies
             Route::prefix('companies/{company_id}')->middleware('auth:sanctum')->name('companies.')->group(function (){
-                Route::post('change-avatar', [ProfileController::class, 'updateProfile'])->name('update');
-                Route::post('exchange/coin', [ExchangeController::class, 'exchangeCoin'])->name('exchange.coin');
-                Route::post('exchange/currency', [ExchangeController::class, 'exchangeCurrency'])->name('exchange.currency');
-                Route::post('withdrawal', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
-                Route::get('transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
-                Route::post('send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('gift.send');
 
                 Route::get('change-default-company', [CompanyController::class, 'changeDefaultCompany'])->name('change.default.company');
             });

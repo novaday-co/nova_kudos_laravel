@@ -10,7 +10,7 @@ class AccountInfoController extends Controller
 {
     /**
      * @OA\Get (
-     *      path="/users/account/detail",
+     *      path="/users/account-detail",
      *      operationId="get default company",
      *      tags={"User"},
      *      summary="get default company",
@@ -46,7 +46,7 @@ class AccountInfoController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="/users/account/detail")
+     *          @OA\JsonContent(ref="/users/account-detail")
      *       ),
      *     @OA\Response(
      *          response=401,
