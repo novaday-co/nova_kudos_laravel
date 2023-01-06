@@ -207,20 +207,19 @@ class AdminBalanceController extends Controller
             $attrs = $request->validated();
             $companyTransaction = $company_id->companyUserTransactions()->findOrFail($transaction->id);
             $userId = auth()->user();
-            foreach ($company_id->users as $user)
+            $company_user = $userId->companies()->where('company_id', $company_id->id)->firstOrFail();
+            $balance = $company_user->pivot->currency_amount;
+            if ($companyTransaction->status == 'pending' &&  $attrs['status'] == 'done')
             {
-                $balance = $user->pivot->currency_amount;
-                switch ($attrs['status']){
-                    case 'done':
-                    case 'pending':
-                        $companyTransaction->status = $attrs['status'];
-                        $balance -= $companyTransaction->amount;
-                        break;
-                    case 'failed':
-                        $companyTransaction->status = $attrs['status'];
-                        $balance += $companyTransaction->amount;
-                        break;
-                }
+                $companyTransaction->status = $attrs['status'];
+            } if ($companyTransaction->status == 'pending' || $companyTransaction->status == 'done' && $attrs['status'] == 'failed')
+            {
+                $balance += $companyTransaction->amount;
+                $companyTransaction->status = $attrs['status'];
+            } if ($companyTransaction->status == 'failed' && $attrs['status'] == 'done' || $attrs['status'] == 'pending')
+            {
+                $balance -= $companyTransaction->amount;
+                $companyTransaction->status = $attrs['status'];
             }
             $status = $companyTransaction->save();
             $company_id->users()->updateExistingPivot($userId, array('currency_amount' => $balance));
