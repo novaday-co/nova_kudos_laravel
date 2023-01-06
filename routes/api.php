@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Api\App\Company\AccountBalance\BalanceController;
 use App\Http\Controllers\Api\App\Company\AccountInfo\AccountInfoController;
+use App\Http\Controllers\Api\App\Company\CompanyController;
 use App\Http\Controllers\Api\App\Company\Exchange\ExchangeController;
 use App\Http\Controllers\Api\App\Company\GiftCard\UserGiftCardController;
 use App\Http\Controllers\Api\App\Company\Medal\MedalController;
+use App\Http\Controllers\Api\App\Company\Product\UserProductController;
 use App\Http\Controllers\Api\App\Company\User\UserController;
 use App\Http\Controllers\Api\App\Event\EventController;
 use App\Http\Controllers\Api\App\Group\GroupController;
@@ -52,6 +54,8 @@ Route::prefix('authentication')->name('authentication.')->group(function (){
                 Route::post('withdrawal', [BalanceController::class, 'withdrawalCurrency'])->name('user.withdrawal');
                 Route::get('transactions', [BalanceController::class, 'getUserTransaction'])->name('user.transaction');
                 Route::post('send/giftCard', [UserGiftCardController::class, 'sendGiftCard'])->name('gift.send');
+
+                Route::get('change-default-company', [CompanyController::class, 'changeDefaultCompany'])->name('change.default.company');
             });
         });
         // group routes

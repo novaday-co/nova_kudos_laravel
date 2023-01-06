@@ -74,4 +74,9 @@ class Company extends Model
     {
         return $this->hasMany(Medal::class);
     }
+
+    public function companyUserProductTransaction(): HasMany
+    {
+        return $this->hasMany(CompanyUserProductTransaction::class);
+    }
 }

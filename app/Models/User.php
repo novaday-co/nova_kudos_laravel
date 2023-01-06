@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public function defaultCompany(): HasOne
     {
-        return $this->hasOne(CompanyUser::class);
+        return $this->hasOne(CompanyUser::class, 'company_id', 'default_company');
     }
 
     public function groups(): BelongsToMany
@@ -99,6 +99,11 @@ class User extends Authenticatable
     public function reciveGift(): HasMany
     {
         return $this->hasMany(GiftUserTransaction::class);
+    }
+
+    public function companyUserProductTransactions(): HasMany
+    {
+        return $this->hasMany(CompanyUserProductTransaction::class);
     }
 
 }
