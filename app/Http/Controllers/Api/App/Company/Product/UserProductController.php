@@ -91,12 +91,12 @@ class UserProductController extends Controller
                 $tracking_code = Str::random(10);
                 $company_id->users()->updateExistingPivot($user, array('coin_amount' => $user_balance));
                 $product->update(array('amount' => $product_id->amount - 1));
-                $company_id->companyUserProductTransaction()->create([
+               $trans = $company_id->companyUserProductTransaction()->create([
                     'user_id' => auth()->id(),
                     'product_id' => $product->id,
                     'tracking_code' => $tracking_code
                 ]);
-                $userUpdate = $company_id->users()->where('user_id', auth()->id())->firstOrFail();
+             //   $userUpdate = $company_id->users()->where('user_id', auth()->id())->firstOrFail();
            //     $user->load(['companies' => function($query) use ($user){
                //     $query->whereIn('user_id', [$user->id]);
                // }]);
@@ -104,7 +104,7 @@ class UserProductController extends Controller
                  //   $query->whereIn('user_id', [$user->id]);
                // }]);
                 DB::commit();
-                return $this->success([AddProductResource::make($userUpdate)], trans('messages.company.market.success.buy'));
+                return $this->success([AddProductResource::make($trans)], trans('messages.company.market.success.buy'));
             }
             return $this->error([trans('messages.company.market.invalid.amount')], trans('messages.company.market.invalid.amount'), 500);
         } else {

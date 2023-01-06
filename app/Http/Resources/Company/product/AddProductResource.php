@@ -17,8 +17,8 @@ class AddProductResource extends JsonResource
         return [
       //      'transaction_detail' => UserProductTransactionResource::collection($this->companyUserProductTransactions),
            // 'user_coin_detail' => CompanyUserDetailResource::collection($this->companies)
-            'coin_amount' => $this->pivot->coin_amount,
-            'buy_detail' => $this->companyUserProductTransactions,
+          //  'coin_amount' => $this->pivot->coin_amount,
+            'tracking_code' => $this->tracking_code,
         ];
     }
 }
