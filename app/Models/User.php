@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public function defaultCompany(): HasOne
     {
-        return $this->hasOne(CompanyUser::class, 'company_id');
+        return $this->hasOne(CompanyUser::class, 'company_id', 'default_company');
     }
 
     public function groups(): BelongsToMany

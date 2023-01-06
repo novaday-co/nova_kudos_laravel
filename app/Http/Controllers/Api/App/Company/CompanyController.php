@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Company\Setting\CompanySettingRequest;
 use App\Http\Requests\Admin\Company\UpdateCompanyRequest;
 use App\Http\Requests\SuperAdmin\Company\CompanyRequest;
+use App\Http\Requests\User\Company\ChangeCompanyRequest;
 use App\Http\Resources\Admin\GroupResource;
 use App\Http\Resources\Company\Setting\CompanySettingResource;
 use App\Http\Resources\SuperAdmin\CompanyResource;
 use App\Http\Resources\SuperAdmin\OwnerCompanyResource;
+use App\Http\Resources\User\AccountInfo\CompanyInfoResource;
 use App\Http\Resources\UserResource;
 use App\Models\Company;
 use App\Models\OwnerCompany;
@@ -301,7 +303,75 @@ class CompanyController extends Controller
         }
     }
 
-      public function addOwner(Company $company, User $user)
+    /**
+     * @OA\Get  (
+     *      path="/users/companies/{company_id}/change-default-company",
+     *      operationId="change default company",
+     *      tags={"User"},
+     *      summary="change default company",
+     *      description="change default company",
+     *      security={ {"sanctum": {} }},
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *    @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=2,
+     *     @OA\Schema(
+     *      type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="/users/companies/{company_id}/change-default-company")
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="validation error",
+     *      ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="error",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
+    public function changeDefaultCompany(Company $company_id)
+    {
+        try {
+            $user = auth()->user();
+            $user->companies()->where('company_id', $company_id->id)->firstOrFail();
+            $user->updateOrFail(array('default_company' => $company_id->id));
+            return new CompanyInfoResource($user);
+        } catch (\Exception $exception)
+        {
+            return $this->error([trans('messages.company.invalid.request')], trans('messages.company.invalid.request'), 500);
+        }
+    }
+
+
+    public function addOwner(Company $company, User $user)
       {
          try {
               $owner = OwnerCompany::query()->firstOrCreate([
