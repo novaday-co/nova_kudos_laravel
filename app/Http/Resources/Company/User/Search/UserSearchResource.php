@@ -15,7 +15,16 @@ class UserSearchResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'user_detail' => CompanyUserSearchResource::collection($this->companies),
+            // 'user_detail' => CompanyUserSearchResource::collection($this->companies),
+            'first_name' => $this->whenPivotLoaded('company_user', function (){
+                return $this->pivot->first_name;
+            }),
+            'last_name' => $this->whenPivotLoaded('company_user', function (){
+                return $this->pivot->last_name;
+            }),
+            'avatar' => $this->whenPivotLoaded('company_user', function (){
+                return asset('storage' . $this->pivot->avatar);
+            }),
         ];
     }
 }

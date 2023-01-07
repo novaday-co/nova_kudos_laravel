@@ -172,9 +172,9 @@ class UserGiftCardController extends Controller
             {
                 $user = $company_id->users()->where('first_name', 'LIKE', "%{$request->search}%")
                     ->orWhere('last_name', 'LIKE', "%{$request->search}%")->firstOrFail();
-                $user->load(['companies' => function($query) use ($user) {
-                    $query->whereIn('user_id', [$user->id]);
-                }]);
+              //  $user->load(['companies' => function($query) use ($user) {
+              //      $query->whereIn('user_id', [$user->id]);
+              //  }]);
                 return UserSearchResource::make($user);
             } if ($request->has('search') == '') {
                 $user = $company_id->users()->limit(5)->orderBy('created_at', 'desc')->get();
