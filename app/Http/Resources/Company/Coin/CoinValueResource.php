@@ -16,6 +16,7 @@ class CoinValueResource extends JsonResource
     {
         return [
             'coin_value' => $this->coin_value,
+            'system_value' => $this->system_value,
         ];
     }
 }
