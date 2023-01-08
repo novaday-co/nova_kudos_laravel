@@ -13,6 +13,69 @@ use App\Models\Company;
 class CoinController extends Controller
 {
     /**
+     * @OA\Get (
+     *      path="/companies/{company_id}/coin/system",
+     *      operationId="get company coin and value system",
+     *      tags={"Company"},
+     *      summary="get company coin and value system",
+     *      description="get company coin and value system",
+     *      security={ {"sanctum": {} }},
+     *      @OA\Parameter(
+     *          name="Accept",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Content-Type",
+     *          in="header",
+     *          required=true,
+     *          example="application/json",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *         @OA\Parameter(
+     *          name="company_id",
+     *          in="path",
+     *          required=true,
+     *          example=1,
+     *         @OA\Schema(
+     *           type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="/companies/{company_id}/coin/system")
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="validation error",
+     *      ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="error",
+     *       ),
+     *     @OA\Response(
+     *          response=500,
+     *          description="server error",
+     *      ),
+     * )
+     */
+    public function getValueOfSystem(Company $company_id)
+    {
+        try {
+            return CompanyValueResource::make($company_id->coin);
+        } catch (\Exception $exception)
+        {
+            return $this->error(['error:' =>$exception->getMessage()], trans('messages.company.company_system_value'), 422);
+        }
+    }
+    /**
      * @OA\Post(
      *      path="/companies/{company_id}/set/coin",
      *      operationId="update coin value",
