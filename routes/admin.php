@@ -50,7 +50,7 @@ use Illuminate\Support\Facades\Route;
          Route::get('market/products', [ProductController::class, 'index'])->name('product.index');
          Route::post('market/products', [ProductController::class, 'store'])->name('product.store');
          Route::post('market/products/{product}', [ProductController::class, 'update'])->name('product.update');
-         Route::delete('market/products/{product}', [ProductController::class, 'update'])->name('product.destroy');
+         Route::delete('market/products/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
 
          Route::get('giftCards', [GiftCardController::class, 'index'])->name('giftCard.index');
          Route::post('giftCards', [GiftCardController::class, 'store'])->name('giftCard.store');

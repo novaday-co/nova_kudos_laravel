@@ -106,7 +106,7 @@ class AdminBalanceController extends Controller
             }
             if ($request->has('query_count'))
             {
-                $transactions= $company_id->companyUserTransactions()->latest()->paginate((int) $request->query_count);
+                $transactions= $company_id->companyUserTransactions()->latest()->paginate((int) $request->get('query_count', 15));
                 return TransactionUserResource::collection($transactions);
             }
             $transactions = $company_id->companyUserTransactions()->latest()->paginate(10);

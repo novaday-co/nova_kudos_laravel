@@ -72,7 +72,7 @@ class CoinController extends Controller
             return CompanyValueResource::make($company_id->coin);
         } catch (\Exception $exception)
         {
-            return $this->error(['error:' =>$exception->getMessage()], trans('messages.company.company_system_value'), 422);
+            return $this->error(['coin_value' => trans('messages.company.company_system_value')], trans('messages.company.company_system_value'), 422);
         }
     }
     /**
@@ -175,7 +175,7 @@ class CoinController extends Controller
             return CoinValueResource::make($values);
         } catch (\Exception $exception)
         {
-            return $this->error([$exception->getMessage()], trans('messages.company.coin_value'), 422);
+            return $this->error(['coin_value' => trans('messages.company.coin_value')], trans('messages.company.coin_value'), 422);
         }
     }
 }
