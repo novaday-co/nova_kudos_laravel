@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Company\Product\ProductRequest;
 use App\Http\Requests\Admin\Company\Product\UpdateProductRequest;
 use App\Http\Resources\Admin\ProductResource;
+use App\Http\Resources\Company\Balance\TransactionUserResource;
 use App\Models\Company;
 use App\Models\Product;
+use Illuminate\Http\Request;
+
 
 class ProductController extends Controller
 {
@@ -47,6 +50,15 @@ class ProductController extends Controller
      *              type="string"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *          name="query_count",
+     *          in="query",
+     *          required=false,
+     *          example=5,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="success",
@@ -66,8 +78,13 @@ class ProductController extends Controller
      *      ),
      * )
      */
-    public function index(Company $company_id)
+    public function index(Request $request, Company $company_id)
     {
+        if ($request->has('query_count'))
+        {
+            $products = $company_id->products()->latest()->paginate((int) $request->get('query_count', 10));
+            return ProductResource::collection($products);
+        }
         $products = $company_id->products()->latest()->paginate(10);
         return ProductResource::collection($products);
     }
@@ -145,11 +162,9 @@ class ProductController extends Controller
         try
         {
             $attrs = $request->validated();
-            if ($request->hasFile('avatar'))
-            {
-                $avatar = $this->uploadImage($request->file('avatar'),'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'market');
-                $attrs['avatar'] = $avatar;
-            }
+            $avatar = $this->uploadImage($request, 'images' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . 'company'
+                . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'market');
+            $attrs['avatar'] = $avatar;
             $coin_value = $company_id->coin->coin_value;
             $coin = $attrs['currency'] / $coin_value;
             $attrs['coin'] = round($coin);
@@ -242,11 +257,9 @@ class ProductController extends Controller
 //        try
 //        {
             $attrs = $request->validated();
-            if ($request->hasFile('avatar'))
-            {
-                $avatar = $this->uploadImage($request->file('avatar'), 'companies' . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'market');
-                $attrs['avatar'] = $avatar;
-            }
+            $avatar = $this->uploadImage($request, 'images' . DIRECTORY_SEPARATOR . 'companies' . DIRECTORY_SEPARATOR . 'company'
+            . DIRECTORY_SEPARATOR . $company_id->id . DIRECTORY_SEPARATOR . 'market');
+            $attrs['avatar'] = $avatar;
             $coin_value = $company_id->coin->coin_value;
             if ($attrs['currency'])
             {
@@ -326,16 +339,15 @@ class ProductController extends Controller
      *      ),
      * )
      */
-    public function destroy(Product $product, Company $company_id)
+    public function destroy(Company $company_id, Product $product)
     {
         try
         {
-            $product->company()->where('id', $company_id)->get();
-            $product->delete();
+            $company_id->products()->where('id', $product->id)->delete();
             return $this->success([trans('messages.company.market.destroy')], trans('messages.company.market.destroy'));
         } catch (\Exception $e)
         {
-            return $this->error([$e->getMessage()], trans('messages.company.market.invalid.request'), 422);
+            return $this->error([trans('messages.company.market.invalid.request')], trans('messages.company.market.invalid.request'), 422);
         }
     }
 
