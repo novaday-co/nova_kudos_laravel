@@ -15,6 +15,7 @@ class CompanyInfoResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'mobile' => $this->mobile,
             'default_company' => DefaultCompanyUserResource::make($this->defaultCompany)
         ];
     }
