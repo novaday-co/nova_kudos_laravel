@@ -17,10 +17,18 @@ class GiftCardResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'avatar' => asset('storage' . $this->avatar),
+            'avatar' => $this->checkAvatar($this->avatar),
             'coin' => $this->coin,
             'company_name' => $this->company->name,
             'expiration_date' => $this->expiration_date,
         ];
+    }
+
+    private function checkAvatar($avatar = null)
+    {
+        if (!is_null($avatar)) {
+            return asset('storage' . $avatar);
+        }
+        return null;
     }
 }

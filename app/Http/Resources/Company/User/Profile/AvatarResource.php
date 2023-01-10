@@ -20,11 +20,19 @@ class AvatarResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'job_position' => $this->job_position,
-            'avatar' => $this->avatar,
+            'avatar' => $this->checkAvatar($this->avatar),
             'coin_amount' => $this->coin_amount,
             'currency_amount' => $this->currency_amount,
             'notification_unread' =>$this->notification_unread,
             'role' => $this->role_id
         ];
+    }
+
+    private function checkAvatar($avatar = null)
+    {
+        if (!is_null($avatar)) {
+            return asset('storage' . $avatar);
+        }
+        return null;
     }
 }

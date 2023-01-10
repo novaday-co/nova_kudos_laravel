@@ -15,8 +15,25 @@ class CompanyInfoResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'company_id' => $this->defaultCompany->company->id,
+            'company_name' => $this->defaultCompany->company->name,
             'mobile' => $this->mobile,
-            'default_company' => DefaultCompanyUserResource::make($this->defaultCompany)
+            'first_name' => $this->defaultCompany?->first_name,
+            'last_name' => $this->defaultCompany->last_name,
+            'avatar' => $this->checkAvatar($this->defaultCompany->avatar),
+            'job_position' => $this->defaultCompany?->job_position,
+            'coin_amount' => $this->defaultCompany?->coin_amount,
+            'currency_amount' => $this->defaultCompany?->currency_amount,
+
+            //'default_company' => DefaultCompanyUserResource::make($this->defaultCompany)
         ];
+    }
+
+    private function checkAvatar($avatar = null)
+    {
+        if (!is_null($avatar)) {
+            return asset('storage' . $avatar);
+        }
+        return null;
     }
 }

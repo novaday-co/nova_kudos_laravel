@@ -17,15 +17,23 @@ class ProductResource extends JsonResource
         return [
             'id' => $this->id,
             'company_name' => $this->company->name,
-            'company_avatar' => asset('storage' . $this->company->avatar),
+            'company_avatar' => $this->checkAvatar($this->company->avatar),
             'product_name' => $this->name,
             'product_currency' => $this->currency,
             'product_coin' => $this->coin,
             'product_amount' => $this->amount,
-            'product_avatar' => asset('storage' . $this->avatar),
+            'product_avatar' => $this->checkAvatar($this->avatar),
             'product_expiration_date' => $this->expiration_date,
             'product_created_at' => $this->created_at,
             'product_updated_at' => $this->updated_at,
         ];
+    }
+
+    private function checkAvatar($avatar = null)
+    {
+        if (!is_null($avatar)) {
+            return asset('storage' . $avatar);
+        }
+        return null;
     }
 }

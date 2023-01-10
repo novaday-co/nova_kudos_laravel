@@ -21,11 +21,19 @@ class DefaultCompanyUserResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'job_position' => $this->job_position,
-            'avatar' => asset('storage' . $this->avatar),
+            'avatar' => $this->checkAvatar($this->avatar),
             'coin_amount' => $this->coin_amount,
             'currency_amount' => $this->currency_amount,
            // 'notification_unread' => $this->notification_unread,
           //  'profile_complete' => boolType($this->profile_complete),
         ];
+    }
+
+    private function checkAvatar($avatar = null)
+    {
+        if (!is_null($avatar)) {
+            return asset('storage' . $avatar);
+        }
+        return null;
     }
 }

@@ -17,8 +17,16 @@ class MedalResource extends JsonResource
         return [
             'id' => $this->id,
             'medal_name' => $this->name,
-            'medal_avatar' => asset('storage' . $this->avatar),
+            'medal_avatar' => $this->checkAvatar($this->avatar),
             'medal_coin' => $this->coin,
         ];
+    }
+
+    private function checkAvatar($avatar = null)
+    {
+        if (!is_null($avatar)) {
+            return asset('storage' . $avatar);
+        }
+        return null;
     }
 }
