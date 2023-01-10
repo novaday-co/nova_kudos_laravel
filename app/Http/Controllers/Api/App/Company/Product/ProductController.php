@@ -24,15 +24,6 @@ class ProductController extends Controller
      *      description="get products of market",
      *      security={ {"sanctum": {} }},
      *      @OA\Parameter(
-     *      name="company_id",
-     *      in="path",
-     *      required=true,
-     *      example=1,
-     *     @OA\Schema(
-     *      type="integer"
-     *          )
-     *      ),
-     *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
      *          required=true,
@@ -48,6 +39,15 @@ class ProductController extends Controller
      *          example="application/json",
      *          @OA\Schema(
      *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *      name="company_id",
+     *      in="path",
+     *      required=true,
+     *      example=1,
+     *     @OA\Schema(
+     *      type="integer"
      *          )
      *      ),
      *      @OA\Parameter(
@@ -97,15 +97,6 @@ class ProductController extends Controller
      *      summary="store new product",
      *      description="store new product",
      *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *          name="company_id",
-     *          in="path",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -122,6 +113,15 @@ class ProductController extends Controller
      *          example="application/json",
      *          @OA\Schema(
      *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="company_id",
+     *          in="path",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer"
      *          )
      *      ),
      *     @OA\RequestBody(
@@ -184,24 +184,6 @@ class ProductController extends Controller
      *      summary="update product",
      *      description="update product",
      *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *          name="company_id",
-     *          in="path",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *     @OA\Parameter(
-     *          name="product",
-     *          in="path",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -218,6 +200,24 @@ class ProductController extends Controller
      *          example="application/json",
      *          @OA\Schema(
      *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="company_id",
+     *          in="path",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="product",
+     *          in="path",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer"
      *          )
      *      ),
      *      @OA\RequestBody(
@@ -284,24 +284,6 @@ class ProductController extends Controller
      *      summary="delete product",
      *      description="delete product",
      *      security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *          name="company_id",
-     *          in="path",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *     @OA\Parameter(
-     *          name="product",
-     *          in="path",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
      *      @OA\Parameter(
      *          name="Accept",
      *          in="header",
@@ -318,6 +300,24 @@ class ProductController extends Controller
      *          example="application/json",
      *          @OA\Schema(
      *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="company_id",
+     *          in="path",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="product",
+     *          in="path",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer"
      *          )
      *      ),
      *      @OA\Response(

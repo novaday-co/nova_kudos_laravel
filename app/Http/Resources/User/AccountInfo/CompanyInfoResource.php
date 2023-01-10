@@ -17,6 +17,7 @@ class CompanyInfoResource extends JsonResource
         return [
             'company_id' => $this->defaultCompany->company->id,
             'company_name' => $this->defaultCompany->company->name,
+            'company_avatar' => $this->checkAvatar($this->defaultCompany->company->avatar),
             'mobile' => $this->mobile,
             'first_name' => $this->defaultCompany?->first_name,
             'last_name' => $this->defaultCompany->last_name,

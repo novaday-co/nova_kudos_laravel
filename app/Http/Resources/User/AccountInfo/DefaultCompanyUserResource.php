@@ -17,7 +17,7 @@ class DefaultCompanyUserResource extends JsonResource
         return [
             'company_id' => $this->company->id,
             'company_name' => $this->company->name,
-            'company_avatar' => asset('storage' . $this->company->avatar),
+            'company_avatar' => $this->checkAvatar($this->company->avatar),
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'job_position' => $this->job_position,
