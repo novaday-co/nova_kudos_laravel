@@ -184,6 +184,7 @@ class BalanceController extends Controller
             $userId = auth()->user();
             $company_user = $userId->companies()->where('company_id', $userId->default_company)->firstOrFail();
             $balance = $company_user->pivot->currency_amount;
+            $this->checkMax($company_user->max_withdrawal, $attrs['amount']);
             if ($company_user->withdrawal_permission !== 'enable')
             {
                 return $this->error([trans('messages.company.setting.permission.invalid')], trans('messages.company.setting.permission.invalid'), 500);
@@ -212,6 +213,19 @@ class BalanceController extends Controller
         } catch (\Exception $exception)
         {
             return $this->error([$exception->getMessage()], trans('messages.currency.withdrawal'), 422);
+        }
+    }
+
+    private function checkMax($max, $request)
+    {
+        try {
+            if ($max >= $request)
+            {
+                return true;
+            }
+        } catch (\Exception $exception)
+        {
+            return $this->error(['max_withdrawal' => trans('messages.company.max.invalid')], trans('messages.company.max.invalid'), 500);
         }
     }
 }
