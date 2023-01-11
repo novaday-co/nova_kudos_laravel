@@ -96,7 +96,7 @@ class UserProductController extends Controller
                  //   $query->whereIn('user_id', [$user->id]);
                // }]);
                 DB::commit();
-                return $this->success([AddProductResource::make($trans)], trans('messages.company.market.success.buy'));
+                return new AddProductResource($trans);
             }
             return $this->error([trans('messages.company.market.invalid.amount')], trans('messages.company.market.invalid.amount'), 500);
         } else {
