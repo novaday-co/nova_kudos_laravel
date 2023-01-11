@@ -88,20 +88,13 @@ class UserProductController extends Controller
                     'product_id' => $product->id,
                     'tracking_code' => $tracking_code
                 ]);
-             //   $userUpdate = $company_id->users()->where('user_id', auth()->id())->firstOrFail();
-           //     $user->load(['companies' => function($query) use ($user){
-               //     $query->whereIn('user_id', [$user->id]);
-               // }]);
-               // $user->load(['companyUserProductTransactions' => function($query) use ($user){
-                 //   $query->whereIn('user_id', [$user->id]);
-               // }]);
                 DB::commit();
                 return new AddProductResource($trans);
             }
-            return $this->error([trans('messages.company.market.invalid.amount')], trans('messages.company.market.invalid.amount'), 500);
+            return $this->error(['product_amount' => trans('messages.company.market.invalid.amount')], trans('messages.company.market.invalid.amount'), 500);
         } else {
             DB::rollBack();
-            return $this->error([trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 500);
+            return $this->error(['coin_amount' => trans('messages.currency.invalid.balance')], trans('messages.currency.invalid.balance'), 500);
         }
     }
 }
