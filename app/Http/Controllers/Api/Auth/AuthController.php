@@ -332,7 +332,7 @@ class AuthController extends Controller
             return $this->success([], trans('messages.logout'));
         } catch (\Exception $exception)
         {
-            return $this->error([trans('auth.invalid.logout')], trans('auth.invalid.logout'), 422);
+            return $this->error(['logout' => trans('auth.invalid.logout')], trans('auth.invalid.logout'), 422);
         }
     }
 }

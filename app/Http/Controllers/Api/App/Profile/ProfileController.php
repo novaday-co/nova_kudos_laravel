@@ -97,7 +97,7 @@ class ProfileController extends Controller
             return CompanyUserResource::make($user_company);
         } catch (\Exception $e)
         {
-            return $this->error([$e->getMessage()], trans('messages.company.profile.invalid.avatar'), 422);
+            return $this->error(['update_avatar' => trans('messages.company.profile.invalid.avatar')], trans('messages.company.profile.invalid.avatar'), 422);
         }
     }
 
@@ -186,11 +186,11 @@ class ProfileController extends Controller
                 $messageService = new MessageService($smsService);
                 $messageService->send();
             } else
-                return $this->error([trans('messages.profile.duplicate.mobile')], trans('messages.profile.duplicate.mobile'), 422);
+                return $this->error(['mobile_duplicate' => trans('messages.profile.duplicate.mobile')], trans('messages.profile.duplicate.mobile'), 422);
             return $this->success(['otp_code' => $otpCode]);
         } catch (\Exception $e)
         {
-            return $this->error([$e->getMessage()], trans('messages.profile.duplicate.mobile'), 422);
+            return $this->error(['update_mobile' => trans('messages.profile.duplicate.mobile')], trans('messages.profile.duplicate.mobile'), 422);
         }
     }
     /**
@@ -273,7 +273,7 @@ class ProfileController extends Controller
             return UserResource::make($user);
         } catch (\Exception $e)
         {
-            return $this->error([$e->getMessage()], trans('messages.company.profile.invalid.verify'), 422);
+            return $this->error(['verify_mobile' => trans('messages.company.profile.invalid.verify')], trans('messages.company.profile.invalid.verify'), 422);
         }
     }
 }
