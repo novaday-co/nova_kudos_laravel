@@ -19,6 +19,7 @@ class CompanySettingResource extends JsonResource
             'company_name' => $this->name,
             'withdrawal permission' => $this->withdrawal_permission,
             'minimum withdrawal' => $this->min_withdrawal,
+            'maximum withdrawal' => $this->max_withdrawal,
         ];
     }
 }
