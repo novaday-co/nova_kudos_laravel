@@ -262,9 +262,10 @@ class CompanyController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  @OA\Property(property="withdrawal_permission", type="text", format="text", example="enable"),
+     *                  @OA\Property(property="withdrawal_permission", description="set status for withdrawal currency", type="select", format="select", enum={"disable","enable"}),
      *                   required={"withdrawal_permission", "min_withdrawal"},
      *                  @OA\Property(property="min_withdrawal", type="text", format="text", example=200000),
+     *                  @OA\Property(property="max_withdrawal", type="text", format="text", example=500000),
      *               ),
      *           ),
      *       ),
@@ -291,15 +292,11 @@ class CompanyController extends Controller
     public function setSetting(CompanySettingRequest $request, Company $company_id)
     {
         try {
-          $attrs = $request->validated();
-          $company_id->updateOrFail([
-              'withdrawal_permission' => $attrs['withdrawal_permission'],
-              'min_withdrawal' => $attrs['min_withdrawal'],
-          ]);
+          $company_id->updateOrFail($request->validated());
           return CompanySettingResource::make($company_id);
         } catch (\Exception $exception)
         {
-            return $this->error([trans('messages.company.setting.invalid.request')], trans('messages.company.setting.invalid.request'), 500);
+            return $this->error(['company_setting' => trans('messages.company.setting.invalid.request')], trans('messages.company.setting.invalid.request'), 500);
         }
     }
 

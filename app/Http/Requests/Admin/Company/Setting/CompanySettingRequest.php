@@ -25,7 +25,8 @@ class CompanySettingRequest extends FormRequest
     {
         return [
             'withdrawal_permission' => ['required', 'in:enable,disable'],
-            'min_withdrawal' => ['required', 'numeric', 'integer']
+            'min_withdrawal' => ['required', 'numeric', 'integer'],
+            'max_withdrawal' => ['required', 'numeric', 'integer']
         ];
     }
 }
